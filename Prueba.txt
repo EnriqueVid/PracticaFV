@@ -2,8 +2,5 @@ Esto es una prueba.
 Caca de vaca
 Prueba de pull
 Prueba de llup
-<<<<<<< HEAD
 Prueba de lulp
-=======
 Prueba de ullp
->>>>>>> 0e901707c27161296379a6009d1e4fda750e3425
