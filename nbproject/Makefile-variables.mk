@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-Linux
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-Linux
-CND_ARTIFACT_NAME_Debug=enemigos
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/enemigos
+CND_ARTIFACT_NAME_Debug=practicafv
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-Linux/practicafv
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
-CND_PACKAGE_NAME_Debug=enemigos.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/enemigos.tar
+CND_PACKAGE_NAME_Debug=practicafv.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/practicafv.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-Linux
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
-CND_ARTIFACT_NAME_Release=enemigos
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/enemigos
+CND_ARTIFACT_NAME_Release=practicafv
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/practicafv
 CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
-CND_PACKAGE_NAME_Release=enemigos.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/enemigos.tar
+CND_PACKAGE_NAME_Release=practicafv.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/practicafv.tar
 #
 # include compiler specific variables
 #

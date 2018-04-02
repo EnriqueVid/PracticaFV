@@ -4,28 +4,15 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Collision.h</itemPath>
-      <itemPath>Enemigo.h</itemPath>
-      <itemPath>Estado.h</itemPath>
-      <itemPath>Jugador.h</itemPath>
-      <itemPath>Mapa.h</itemPath>
-      <itemPath>tinyxml2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>../../Escritorio/FV/Practicas/Plantilla/resources/sprites.png</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Collision.cpp</itemPath>
-      <itemPath>Enemigo.cpp</itemPath>
-      <itemPath>Estado.cpp</itemPath>
-      <itemPath>Jugador.cpp</itemPath>
-      <itemPath>Mapa.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
-      <itemPath>tinyxml2.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -64,36 +51,7 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="../../Escritorio/FV/Practicas/Plantilla/resources/sprites.png"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="Collision.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Collision.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Enemigo.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Enemigo.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Estado.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Estado.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Jugador.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Jugador.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Mapa.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Mapa.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tinyxml2.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tinyxml2.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -116,36 +74,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="../../Escritorio/FV/Practicas/Plantilla/resources/sprites.png"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="Collision.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Collision.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Enemigo.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Enemigo.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Estado.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Estado.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Jugador.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Jugador.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Mapa.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Mapa.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tinyxml2.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tinyxml2.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
