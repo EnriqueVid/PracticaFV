@@ -4,12 +4,11 @@
 #include <cmath>
 
 using namespace std;
-using namespace sf;
 
 
 int main() 
 {
-    RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 800),"Color of Fate", sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(800, 800),"Color of Fate", sf::Style::Close | sf::Style::Titlebar);
     
     while(window->isOpen())
     {
