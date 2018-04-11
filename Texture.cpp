@@ -13,18 +13,48 @@
 
 #include "Texture.h"
 
+Texture::Texture()
+{
+    _path="";
+}
 Texture::Texture(std::string path) 
 {
-    _path = path;
-    if(!_texture.loadFromFile(path))
-    {
-        cout<<"Error al cargar la textura en la ruta: "<< _path <<endl;
-    }
+    textureLoadFromFile(path);
 }
 
 Texture::Texture(const Texture& orig) {
 }
 
+
+
+void Texture::textureLoadFromFile(std::string path)
+{
+    path = path;
+    if(!_texture.loadFromFile(path))
+    {
+        cout<<"Error al cargar la textura en la ruta: "<< _path <<endl;
+    }
+}
+    
+sf::Vector2u Texture::getTextureSize()
+{
+    return(_texture.getSize());
+}  
+    
+sf::Texture Texture::getTextureTexture()
+{
+    return _texture;
+}
+
+std::string Texture::getTexturePath()
+{
+    return _path;
+}
+
+
+
 Texture::~Texture() {
 }
+
+
 

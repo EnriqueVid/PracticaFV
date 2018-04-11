@@ -21,13 +21,21 @@ using namespace std;
 
 class Texture {
 public:
+    Texture();
     Texture(std::string path);
     Texture(const Texture& orig);
     virtual ~Texture();
     
+    void textureLoadFromFile(std::string path);
+    sf::Vector2u getTextureSize();    
+    sf::Texture getTextureTexture();
+    std::string getTexturePath();
+    
+    
 private:
     sf::Texture _texture;
     std::string _path;
+    
 
 };
 
