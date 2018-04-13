@@ -32,7 +32,7 @@ void Texture::textureLoadFromFile(std::string path)
     path = path;
     if(!_texture.loadFromFile(path))
     {
-        cout<<"Error al cargar la textura en la ruta: "<< _path <<endl;
+        std::cout<<"Error al cargar la textura en la ruta: "<< _path <<std::endl;
     }
 }
     

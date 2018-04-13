@@ -60,9 +60,9 @@ Sprite::Sprite(const Sprite& orig)
 
 }
 
-virtual ~Sprite()
+Sprite::~Sprite()
 {
-
+    delete _box;
 }
     
 bool Sprite::spriteIntersectsBounds(Sprite* spr)
@@ -145,5 +145,7 @@ float Sprite::getSpriteRotation()
 
 }
 
-
-
+sf::Sprite Sprite::getSpriteSprite()
+{
+    return _sprite;
+}

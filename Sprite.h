@@ -45,6 +45,7 @@ public:
     sf::Vector2f getSpriteOrigin();
     sf::Vector2f getSpriteScale();
     float getSpriteRotation();
+    sf::Sprite getSpriteSprite();
     
     
     

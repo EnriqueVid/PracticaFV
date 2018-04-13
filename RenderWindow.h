@@ -13,27 +13,33 @@
 
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
-#include <SFML/Graphics.hpp>
+#include "View.h"
+#include "Sprite.h"
 
-class RenderWindow {
+class RenderWindow 
+{
 public:
-    RenderWindow(int x, int y, std::string nombre);
-    void clear();
-    void draw(Sprite* sprite);
-    void display();
-    void close();
-    void isOpen();
-    void setFramerateLimit(int fps);
-    void setView(View* view);
-    View* getView();
-    sf::Vector2i mapCoordsToPixel(sf::Vector2f position, View* view);
-    sf::Vector2i mapPixelToCoords(sf::Vector2f position, View* view);
-    
-    
+    RenderWindow(int width, int height, std::string title);
     RenderWindow(const RenderWindow& orig);
+    
+    void windowClear();
+    void windowDraw(Sprite* sprite);
+    void windowDisplay();
+    void windowClose();
+    bool windowIsOpen();
+    sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position, View* view);
+    sf::Vector2f windowMapPixelToCoords(sf::Vector2i position, View* view);
+    
+    void setWindowFramerateLimit(int fps);
+    void setWindowView(View* view);
+    
+    View* getWindowView();
+    sf::RenderWindow* getWindowWindow();
+    
     virtual ~RenderWindow();
 private:
-    sf::RenderWindow* window;
+    sf::RenderWindow* _window;
+    View* _view;
 };
 
 #endif /* RENDERWINDOW_H */
