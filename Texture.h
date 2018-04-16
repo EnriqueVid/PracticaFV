@@ -16,6 +16,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <string.h>
+#include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
