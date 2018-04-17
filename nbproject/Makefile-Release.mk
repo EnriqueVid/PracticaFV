@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Sprite.o \
 	${OBJECTDIR}/Texture.o \
@@ -65,6 +66,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Event.o: Event.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Event.o Event.cpp
 
 ${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
 	${MKDIR} -p ${OBJECTDIR}

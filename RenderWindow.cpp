@@ -12,11 +12,13 @@
  */
 
 #include "RenderWindow.h"
+#include "Event.h"
 
 RenderWindow::RenderWindow(int width, int height, std::string title)
 {
     _window = new sf::RenderWindow(sf::VideoMode(width, height), title);
-    _view->setViewView(_window->getView());
+    //_view = new View();
+    //_view->setViewView(_window->getView());
 }
 
 RenderWindow::RenderWindow(const RenderWindow& orig) 
@@ -50,6 +52,11 @@ void RenderWindow::windowDraw(Sprite* sprite)
 bool RenderWindow::windowIsOpen()
 {
     return _window->isOpen();
+}
+
+bool RenderWindow::windowPollEvent(Event* ev)
+{
+    return _window->pollEvent(*ev->getEventEvent());
 }
 
 sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position, View* view)

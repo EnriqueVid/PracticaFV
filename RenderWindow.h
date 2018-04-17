@@ -15,6 +15,7 @@
 #define RENDERWINDOW_H
 #include "View.h"
 #include "Sprite.h"
+#include "Event.h"
 
 class RenderWindow 
 {
@@ -27,6 +28,7 @@ public:
     void windowDisplay();
     void windowClose();
     bool windowIsOpen();
+    bool windowPollEvent(Event* ev);
     sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position, View* view);
     sf::Vector2f windowMapPixelToCoords(sf::Vector2i position, View* view);
     
