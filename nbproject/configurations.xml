@@ -4,10 +4,18 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+<<<<<<< HEAD
       <itemPath>Event.h</itemPath>
       <itemPath>Input.h</itemPath>
+=======
+      <itemPath>Game.h</itemPath>
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
       <itemPath>RenderWindow.h</itemPath>
       <itemPath>Sprite.h</itemPath>
+      <itemPath>State.h</itemPath>
+      <itemPath>StateGameLoop.h</itemPath>
+      <itemPath>StateGameOver.h</itemPath>
+      <itemPath>StateStart.h</itemPath>
       <itemPath>Texture.h</itemPath>
       <itemPath>View.h</itemPath>
     </logicalFolder>
@@ -18,10 +26,18 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+<<<<<<< HEAD
       <itemPath>Event.cpp</itemPath>
       <itemPath>Input.cpp</itemPath>
+=======
+      <itemPath>Game.cpp</itemPath>
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
       <itemPath>RenderWindow.cpp</itemPath>
       <itemPath>Sprite.cpp</itemPath>
+      <itemPath>State.cpp</itemPath>
+      <itemPath>StateGameLoop.cpp</itemPath>
+      <itemPath>StateGameOver.cpp</itemPath>
+      <itemPath>StateStart.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
       <itemPath>View.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -63,6 +79,7 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+<<<<<<< HEAD
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
@@ -70,6 +87,11 @@
       <item path="Input.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Input.h" ex="false" tool="3" flavor2="0">
+=======
+      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -78,6 +100,22 @@
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="State.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="State.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -110,6 +148,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+<<<<<<< HEAD
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
@@ -117,6 +156,11 @@
       <item path="Input.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Input.h" ex="false" tool="3" flavor2="0">
+=======
+      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -125,6 +169,22 @@
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="State.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="State.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
