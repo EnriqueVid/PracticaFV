@@ -27,9 +27,6 @@ int main()
     quad[2].color = sf::Color::Green;
     quad[3].color = sf::Color::Yellow;
     
-    
-
-    
     while(window->isOpen())
     {
         sf::Event ev;
