@@ -19,12 +19,41 @@
 
 class Sprite {
 public:
-    Sprite(Texture* texture);
+    Sprite();
+    Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position);
+    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position);
+    Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
+    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
     Sprite(const Sprite& orig);
     virtual ~Sprite();
     
+    bool spriteIntersectsBounds(Sprite* spr);
+    bool spriteIntersectsPixel(Sprite* spr);
+    void spriteMove(sf::Vector2f move);
+    void spriteRotate(float rot);
+    void spriteScale(sf::Vector2f scale);
+    
+    void setSpritePosition(sf::Vector2f pos);
+    void setSpriteOrigin(sf::Vector2f orig);
+    void setSpriteScale(sf::Vector2f scale);
+    void setSpriteRotation(float rot);
+    void setSpriteColor(int r, int g, int b, int a);
+    void setSpriteTexture(Texture* texture);
+    void setSpriteTextureRect(sf::IntRect box);
+    
+    sf::Vector2f getSpritePosition();
+    sf::Vector2f getSpriteOrigin();
+    sf::Vector2f getSpriteScale();
+    float getSpriteRotation();
+    sf::Sprite getSpriteSprite();
+    
+    
+    
+    
 private:
     sf::Sprite _sprite;
+    sf::IntRect* _box;
+    sf::Clock _clock;
     
 };
 
