@@ -35,10 +35,18 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+<<<<<<< HEAD
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Input.o \
+=======
+	${OBJECTDIR}/Game.o \
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Sprite.o \
+	${OBJECTDIR}/State.o \
+	${OBJECTDIR}/StateGameLoop.o \
+	${OBJECTDIR}/StateGameOver.o \
+	${OBJECTDIR}/StateStart.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
 	${OBJECTDIR}/main.o
@@ -68,6 +76,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+<<<<<<< HEAD
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -77,6 +86,12 @@ ${OBJECTDIR}/Input.o: Input.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Input.o Input.cpp
+=======
+${OBJECTDIR}/Game.o: Game.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+>>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
 
 ${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -87,6 +102,26 @@ ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sprite.o Sprite.cpp
+
+${OBJECTDIR}/State.o: State.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+
+${OBJECTDIR}/StateGameLoop.o: StateGameLoop.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameLoop.o StateGameLoop.cpp
+
+${OBJECTDIR}/StateGameOver.o: StateGameOver.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameOver.o StateGameOver.cpp
+
+${OBJECTDIR}/StateStart.o: StateStart.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateStart.o StateStart.cpp
 
 ${OBJECTDIR}/Texture.o: Texture.cpp
 	${MKDIR} -p ${OBJECTDIR}
