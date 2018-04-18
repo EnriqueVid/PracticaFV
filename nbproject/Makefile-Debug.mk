@@ -35,8 +35,15 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Sprite.o \
+	${OBJECTDIR}/State.o \
+	${OBJECTDIR}/StateGameLoop.o \
+	${OBJECTDIR}/StateGameOver.o \
+	${OBJECTDIR}/StateStart.o \
 	${OBJECTDIR}/Texture.o \
+	${OBJECTDIR}/View.o \
 	${OBJECTDIR}/main.o
 
 
@@ -70,15 +77,50 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Game.o: Game.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/RenderWindow.o RenderWindow.cpp
+
 ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sprite.o Sprite.cpp
 
+${OBJECTDIR}/State.o: State.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+
+${OBJECTDIR}/StateGameLoop.o: StateGameLoop.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameLoop.o StateGameLoop.cpp
+
+${OBJECTDIR}/StateGameOver.o: StateGameOver.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameOver.o StateGameOver.cpp
+
+${OBJECTDIR}/StateStart.o: StateStart.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateStart.o StateStart.cpp
+
 ${OBJECTDIR}/Texture.o: Texture.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Texture.o Texture.cpp
+
+${OBJECTDIR}/View.o: View.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/View.o View.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

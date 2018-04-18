@@ -4,8 +4,15 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Game.h</itemPath>
+      <itemPath>RenderWindow.h</itemPath>
       <itemPath>Sprite.h</itemPath>
+      <itemPath>State.h</itemPath>
+      <itemPath>StateGameLoop.h</itemPath>
+      <itemPath>StateGameOver.h</itemPath>
+      <itemPath>StateStart.h</itemPath>
       <itemPath>Texture.h</itemPath>
+      <itemPath>View.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -14,8 +21,15 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Game.cpp</itemPath>
+      <itemPath>RenderWindow.cpp</itemPath>
       <itemPath>Sprite.cpp</itemPath>
+      <itemPath>State.cpp</itemPath>
+      <itemPath>StateGameLoop.cpp</itemPath>
+      <itemPath>StateGameOver.cpp</itemPath>
+      <itemPath>StateStart.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
+      <itemPath>View.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -55,13 +69,41 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="State.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="State.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="View.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="View.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -86,13 +128,41 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="State.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="State.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="View.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="View.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
