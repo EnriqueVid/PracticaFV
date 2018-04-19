@@ -4,13 +4,13 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-<<<<<<< HEAD
       <itemPath>Event.h</itemPath>
-      <itemPath>Input.h</itemPath>
-=======
       <itemPath>Game.h</itemPath>
->>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
+      <itemPath>Image.h</itemPath>
+      <itemPath>Input.h</itemPath>
+      <itemPath>Object.h</itemPath>
       <itemPath>RenderWindow.h</itemPath>
+      <itemPath>Situation.h</itemPath>
       <itemPath>Sprite.h</itemPath>
       <itemPath>State.h</itemPath>
       <itemPath>StateGameLoop.h</itemPath>
@@ -26,13 +26,13 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-<<<<<<< HEAD
       <itemPath>Event.cpp</itemPath>
-      <itemPath>Input.cpp</itemPath>
-=======
       <itemPath>Game.cpp</itemPath>
->>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
+      <itemPath>Image.cpp</itemPath>
+      <itemPath>Input.cpp</itemPath>
+      <itemPath>Object.cpp</itemPath>
       <itemPath>RenderWindow.cpp</itemPath>
+      <itemPath>Situation.cpp</itemPath>
       <itemPath>Sprite.cpp</itemPath>
       <itemPath>State.cpp</itemPath>
       <itemPath>StateGameLoop.cpp</itemPath>
@@ -79,23 +79,33 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-<<<<<<< HEAD
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Input.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Input.h" ex="false" tool="3" flavor2="0">
-=======
       <item path="Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Game.h" ex="false" tool="3" flavor2="0">
->>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
+      </item>
+      <item path="Image.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Image.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Object.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Situation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -148,23 +158,33 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-<<<<<<< HEAD
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Input.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Input.h" ex="false" tool="3" flavor2="0">
-=======
       <item path="Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Game.h" ex="false" tool="3" flavor2="0">
->>>>>>> 77a809c0804c8a242bb54449339a5608143e9859
+      </item>
+      <item path="Image.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Image.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Input.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Input.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Object.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Object.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Situation.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
