@@ -35,11 +35,22 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Box.o \
 	${OBJECTDIR}/Clock.o \
+	${OBJECTDIR}/Door.o \
 	${OBJECTDIR}/Event.o \
+	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
+	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/RenderWindow.o \
+	${OBJECTDIR}/Situation.o \
 	${OBJECTDIR}/Sprite.o \
+	${OBJECTDIR}/State.o \
+	${OBJECTDIR}/StateGameLoop.o \
+	${OBJECTDIR}/StateGameOver.o \
+	${OBJECTDIR}/StateStart.o \
+	${OBJECTDIR}/Switch.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
 	${OBJECTDIR}/main.o
@@ -69,30 +80,85 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Box.o: Box.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Box.o Box.cpp
+
 ${OBJECTDIR}/Clock.o: Clock.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Clock.o Clock.cpp
+
+${OBJECTDIR}/Door.o: Door.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Door.o Door.cpp
 
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Event.o Event.cpp
 
+${OBJECTDIR}/Game.o: Game.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/Image.o: Image.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Image.o Image.cpp
+
 ${OBJECTDIR}/Input.o: Input.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Input.o Input.cpp
+
+${OBJECTDIR}/Object.o: Object.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
 
 ${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/RenderWindow.o RenderWindow.cpp
 
+${OBJECTDIR}/Situation.o: Situation.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Situation.o Situation.cpp
+
 ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sprite.o Sprite.cpp
+
+${OBJECTDIR}/State.o: State.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/State.o State.cpp
+
+${OBJECTDIR}/StateGameLoop.o: StateGameLoop.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameLoop.o StateGameLoop.cpp
+
+${OBJECTDIR}/StateGameOver.o: StateGameOver.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateGameOver.o StateGameOver.cpp
+
+${OBJECTDIR}/StateStart.o: StateStart.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateStart.o StateStart.cpp
+
+${OBJECTDIR}/Switch.o: Switch.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Switch.o Switch.cpp
 
 ${OBJECTDIR}/Texture.o: Texture.cpp
 	${MKDIR} -p ${OBJECTDIR}
