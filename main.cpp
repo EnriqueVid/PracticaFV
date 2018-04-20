@@ -5,19 +5,18 @@
 #include "RenderWindow.h"
 #include "Event.h"
 #include "Input.h"
+#include "Clock.h"
 
 #define UPS 1.0f/15.0f
 
 using namespace std;
-
-sf::Clock* clc;
 
 int main() 
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
     Event* ev = new Event();
     Input* in = Input::Instance();
-    clc = new sf::Clock();
+    Clock* clc = new Clock();
     
     while(window->windowIsOpen())
     {
@@ -31,7 +30,7 @@ int main()
         
         in->inputInput();
         
-        if(clc->getElapsedTime().asSeconds() >= 1)
+        if(clc->getClockAsSeconds() >= 1)
         {
             if(in->inputCheck(0)) cout<<"UP"<<endl;
             if(in->inputCheck(1)) cout<<"DOWN"<<endl;
@@ -39,7 +38,7 @@ int main()
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
             
-            clc->restart();
+            clc->clockRestart();
         }
         
         
