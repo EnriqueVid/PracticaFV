@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Box.o \
+	${OBJECTDIR}/Door.o \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/Image.o \
@@ -47,6 +49,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/StateGameLoop.o \
 	${OBJECTDIR}/StateGameOver.o \
 	${OBJECTDIR}/StateStart.o \
+	${OBJECTDIR}/Switch.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
 	${OBJECTDIR}/main.o
@@ -81,6 +84,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Box.o: Box.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Box.o Box.cpp
+
+${OBJECTDIR}/Door.o: Door.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Door.o Door.cpp
 
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -141,6 +154,11 @@ ${OBJECTDIR}/StateStart.o: StateStart.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StateStart.o StateStart.cpp
+
+${OBJECTDIR}/Switch.o: Switch.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Switch.o Switch.cpp
 
 ${OBJECTDIR}/Texture.o: Texture.cpp
 	${MKDIR} -p ${OBJECTDIR}

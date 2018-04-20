@@ -21,11 +21,10 @@ class Object {
 public:
     Object();
     Object(const Object& orig);
-    Object(int objectType, bool canBeMoved, float initialPosX, float initialPosY, float initialAngle, Texture *texture);
+    Object(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture);
 
     void interact();
-
-
+    
     void newSituation(float, float, float);
     void setActualSituation(float, float, float);
     void setPreviousSituation(float, float, float);
@@ -36,9 +35,11 @@ public:
     Situation* getActualSituation();
     Situation* getPreviousSituation();
     
+    void update();
+    
     virtual ~Object();
-
-private:
+    
+protected:
     Sprite* _sprite;
     Situation* _actualSituation;
     Situation* _previousSituation;

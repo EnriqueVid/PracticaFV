@@ -21,6 +21,7 @@ Situation::Situation()
 }
 Situation::Situation(const Situation& orig) 
 {
+    
 }
 
 Situation::Situation(float x, float y, float g)

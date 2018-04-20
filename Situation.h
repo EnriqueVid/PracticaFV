@@ -20,7 +20,7 @@
 class Situation {
 public:
     Situation();
-    Situation(float, float, float);
+    Situation(float x, float y, float g);
     Situation(const Situation& orig);
     
     sf::Vector2f getPosition();
@@ -29,9 +29,9 @@ public:
     
     float getAngle();
     
-    void setPosition(float, float);
+    void setPosition(float x, float y);
     
-    void setAngle(float);
+    void setAngle(float g);
 
     virtual ~Situation();
     
