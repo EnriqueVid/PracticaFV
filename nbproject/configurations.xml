@@ -4,21 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Box.h</itemPath>
-      <itemPath>Door.h</itemPath>
+      <itemPath>Clock.h</itemPath>
       <itemPath>Event.h</itemPath>
-      <itemPath>Game.h</itemPath>
-      <itemPath>Image.h</itemPath>
       <itemPath>Input.h</itemPath>
-      <itemPath>Object.h</itemPath>
       <itemPath>RenderWindow.h</itemPath>
-      <itemPath>Situation.h</itemPath>
       <itemPath>Sprite.h</itemPath>
-      <itemPath>State.h</itemPath>
-      <itemPath>StateGameLoop.h</itemPath>
-      <itemPath>StateGameOver.h</itemPath>
-      <itemPath>StateStart.h</itemPath>
-      <itemPath>Switch.h</itemPath>
       <itemPath>Texture.h</itemPath>
       <itemPath>View.h</itemPath>
     </logicalFolder>
@@ -29,21 +19,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Box.cpp</itemPath>
-      <itemPath>Door.cpp</itemPath>
+      <itemPath>Clock.cpp</itemPath>
       <itemPath>Event.cpp</itemPath>
-      <itemPath>Game.cpp</itemPath>
-      <itemPath>Image.cpp</itemPath>
       <itemPath>Input.cpp</itemPath>
-      <itemPath>Object.cpp</itemPath>
       <itemPath>RenderWindow.cpp</itemPath>
-      <itemPath>Situation.cpp</itemPath>
       <itemPath>Sprite.cpp</itemPath>
-      <itemPath>State.cpp</itemPath>
-      <itemPath>StateGameLoop.cpp</itemPath>
-      <itemPath>StateGameOver.cpp</itemPath>
-      <itemPath>StateStart.cpp</itemPath>
-      <itemPath>Switch.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
       <itemPath>View.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -85,65 +65,25 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="Box.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Clock.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Box.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Door.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Door.h" ex="false" tool="3" flavor2="0">
+      <item path="Clock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Game.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Image.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Image.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Input.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Input.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Object.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Object.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Situation.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="State.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="State.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Switch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Switch.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -176,65 +116,25 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Box.cpp" ex="false" tool="1" flavor2="0">
+      <item path="Clock.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Box.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Door.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Door.h" ex="false" tool="3" flavor2="0">
+      <item path="Clock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Game.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Game.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Image.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Image.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Input.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Input.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Object.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Object.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="RenderWindow.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RenderWindow.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Situation.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="State.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="State.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateGameLoop.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateGameLoop.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateGameOver.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateGameOver.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="StateStart.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="StateStart.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Switch.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Switch.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
