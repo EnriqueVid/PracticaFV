@@ -16,10 +16,11 @@
 Texture::Texture()
 {
     _path="";
-    _texture = NULL;
+    _texture = new sf::Texture();
 }
 Texture::Texture(std::string path) 
 {
+    _texture = new sf::Texture();
     textureLoadFromFile(path);
 }
 
@@ -28,8 +29,8 @@ Texture::Texture(const Texture& orig) {
 
 void Texture::textureLoadFromFile(std::string path)
 {
-    path = path;
-    if(!_texture->loadFromFile(path))
+    _path = path;
+    if(!_texture->loadFromFile(_path))
     {
         std::cout<<"Error al cargar la textura en la ruta: "<< _path <<std::endl;
     }
@@ -53,6 +54,7 @@ std::string Texture::getTexturePath()
 
 Texture::~Texture() {
     delete _texture;
+    _texture = NULL;
 }
 
 
