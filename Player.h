@@ -13,12 +13,15 @@
 
 #ifndef PLAYER_H
 #define PLAYER_H
+#define PI 3.14159265359
+
 #include "Sprite.h"
 #include "Situation.h"
 #include <SFML/Graphics.hpp>
 #include <math.h>
 #include "Clock.h"
 #include "RenderWindow.h"
+
 
 class Player {
 public:
@@ -30,6 +33,8 @@ public:
     void interpolate(float actualTime);
     void keyReleased();
     void superSpeed();
+    float degreesToRadians(float degree);
+    void move();
     
     void setColor(sf::Color color);
     void setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
@@ -73,6 +78,7 @@ private:
     sf::Vector2i _direction;
     
     bool _hability;
+    Clock* _clock;
 };
 
 #endif /* PLAYER_H */

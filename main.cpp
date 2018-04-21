@@ -38,7 +38,7 @@ int main()
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     
-    player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(16,16), sf::Vector2f(1,1));
+    player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
     
     Game* lvl = new Game(StateGameLoop::Instance());
     
@@ -60,7 +60,7 @@ int main()
                                 0);  
 
     sf::VertexArray quad(sf::Quads,4);
-    
+
     quad[0].position = sf::Vector2f(100,60);
     quad[1].position = sf::Vector2f(400,60);
     quad[2].position = sf::Vector2f(400,200);
@@ -87,14 +87,15 @@ int main()
         
         player->input();
         
-        if(clc->getClockAsSeconds() >= 1)
+        if(clc->getClockAsSeconds() >= UPS)
         {
+            /*
             if(in->inputCheck(0)) cout<<"UP"<<endl;
             if(in->inputCheck(1)) cout<<"DOWN"<<endl;
             if(in->inputCheck(2)) cout<<"LEFT"<<endl;
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
-            
+            */
             player->update();
             
             clc->clockRestart();
@@ -179,7 +180,7 @@ int main()
         window->windowClear();
         //window->windowDraw(quad);
         
-        player->render(window, clc, 1.0f);
+        player->render(window, clc, UPS);
         window->windowDisplay();
         
         door1->update();
