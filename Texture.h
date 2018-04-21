@@ -32,6 +32,11 @@ public:
     sf::Vector2u getTextureSize();
     sf::Texture* getTextureTexture();
     std::string getTexturePath();
+    
+    bool loadFromImage(const sf::Image& image, const sf::IntRect& area);    
+    sf::Image copyToImage();
+    
+    
 
 
 private:

@@ -26,6 +26,8 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
     //hace falta modificar esto de forma acorde.
     _actualSituation = new Situation(initialPosX,initialPosY,initialAngle);
     _previousSituation = new Situation(initialPosX,initialPosY,initialAngle);
+    _ignoreCollisions=false;
+    _erase=false;
 }
 //estos metodo se heredara y hara algo distinto para cada uno de los hijos
 void Object::interact()
@@ -69,7 +71,12 @@ Situation* Object::getPreviousSituation()
 {
     return _previousSituation;
 }
-
+bool Object::getIgnoreCollisions(){
+    return _ignoreCollisions;
+}
+bool Object::getErase(){
+    return _erase;
+}
 Object::Object(const Object& orig) 
 {
     
@@ -78,12 +85,14 @@ Object::Object(const Object& orig)
 //Ojo: Este metodo tambien se sobreescribe en los hijos. Puede haber problemas de gestion de memoria si no se tiene cuidado.
 Object::~Object() 
 {
+    std::cout <<"Llamando al destructor de Object" << std::endl;
+    /*
     delete _actualSituation;
-    delete _previousSituation;
-    delete _sprite;
-    
     _actualSituation=NULL;
+    delete _previousSituation;
     _previousSituation=NULL;
-    _sprite=NULL;
+    delete _sprite;
+    _sprite=NULL;*/
+    
 }
 

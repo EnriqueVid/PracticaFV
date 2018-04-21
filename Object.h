@@ -35,16 +35,22 @@ public:
     Situation* getActualSituation();
     Situation* getPreviousSituation();
     
+    bool getIgnoreCollisions();
+    bool getErase();
+    
     void update();
     
     virtual ~Object();
     
 protected:
     Sprite* _sprite;
-    Situation* _actualSituation;
-    Situation* _previousSituation;
-    bool _canBeMoved;
-    int _objectType;
+    Situation* _actualSituation; //Posicion y angulos actuales (interpolacion).
+    Situation* _previousSituation; //Posicion y angulo anteriores (interpolacion).
+    bool _canBeMoved; //Nos indica si el objeto se podra mover o no.
+    int _objectType; //Nos indica el tipo de objeto del que se trata.
+    bool _ignoreCollisions; //Indica si le afectaran o no las colisiones.
+    
+    bool _erase; //Boolean usado para indicar al mundo si debe borrar este objeto.
 };
 
 #endif /* OBJECT_H */

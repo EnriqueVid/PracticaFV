@@ -18,15 +18,15 @@
 
 #define UPS 1.0f/15.0f
 
-
 using namespace std;
 
-int main() 
+int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
+
     
     Player* player = Player::Instance();
     std::cout<<"Jugador creado correctamente"<<endl;
@@ -37,9 +37,8 @@ int main()
     
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
-    
     player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
-    
+
     Game* lvl = new Game(StateGameLoop::Instance());
     
     Clock* clock = new Clock();
@@ -47,32 +46,22 @@ int main()
     Texture* texture = new Texture();
     
     int iteracion=0;
-        
+    
     Object* objeto = new Object(0, 3.0, 3.0, 37.0, false, texture);
     
     Door* door1 = new Door(1, 0.0, 0.0, 0.0, false, texture,
                             1, 4.5);
     Door* door2 = new Door(1, 0.0, 0.0, 0.0, false, texture,
-                            1, 2.5);    
+                            1, 2.5);
     Switch* button1 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
                                 1);
-    Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
-                                0);  
-
-    sf::VertexArray quad(sf::Quads,4);
-
-    quad[0].position = sf::Vector2f(100,60);
-    quad[1].position = sf::Vector2f(400,60);
-    quad[2].position = sf::Vector2f(400,200);
-    quad[3].position = sf::Vector2f(100,100);
+    Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, texture, 0);
     
-    quad[0].color = sf::Color::Blue;
-    quad[1].color = sf::Color::Red;
-    quad[2].color = sf::Color::Green;
-    quad[3].color = sf::Color::Yellow;
+    Box* box = new Box(1, 0.0, 0.0, 0.0, false, texture,
+                        1, 2, 3.0);
     
-     
-
+    Sprite* meh = new Sprite(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
+    
     while(window->windowIsOpen())
     {
         while(window->windowPollEvent(ev))
@@ -98,13 +87,17 @@ int main()
             */
             player->update();
             
+            if(player->getPlayer()->spriteIntersectsPixel(meh->getSpriteSprite(), 0))
+            {
+                cout<<"Intersecto jajajaja saludos"<<endl;
+            }
+            
             clc->clockRestart();
         }
-
         //lvl->testState();
-        
         if(clock->getClockAsSeconds()>1.0&&iteracion==0){
             iteracion = iteracion + 1;
+            objeto->newSituation(9.0,9.0,9.0);
             std::cout << "Situacion actual: "<<objeto->getActualSituation()->getPosition().x<< " , " <<
                    objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
             std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
@@ -128,7 +121,6 @@ int main()
                    objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
             std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
                     objeto->getPreviousSituation()->getPosition().y << "Angle: " << objeto->getPreviousSituation()->getAngle()<<endl;            
-            
         }
         
         if(clock->getClockAsSeconds()>4.0&&iteracion==3){
@@ -176,16 +168,76 @@ int main()
                         std::cout <<"==========================================" << endl;
                         //button1->getDoor()->close();
                         door1->interact();
-        }        
+        }
+        if(clock->getClockAsSeconds()>11.0&&iteracion==10){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        std::cout << box->getSpeed() <<std::endl;
+                        std::cout << box->getVt() <<std::endl;
+                        std::cout << box->getBreakAnimation() <<std::endl;
+        }
+        if(clock->getClockAsSeconds()>13.0&&iteracion==11){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        box->impact();
+                        std::cout << box->getVt() <<std::endl;
+        }
+        if(clock->getClockAsSeconds()>15.0&&iteracion==12){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        box->impact();
+                        std::cout << box->getVt() <<std::endl;
+        }
+        if(clock->getClockAsSeconds()>17.0&&iteracion==13){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        box->impact();
+                        std::cout << box->getVt() <<std::endl;
+        }
+        if(clock->getClockAsSeconds()>19.0&&iteracion==14){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        box->breakBox();
+                        std::cout << box->getBreakAnimation() <<std::endl;
+                        std::cout << box->getBreakAnimationFrame() <<std::endl;
+        }
+        if(box!=NULL){
+            if(clock->getClockAsSeconds()>20.0&&box->getErase()&&iteracion==15){
+                iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+
+                        delete box;
+                        box=NULL;
+                        
+                        delete button1;
+                        button1=NULL;
+                        
+                        delete button2;
+                        button2=NULL;
+
+                        delete door1;
+                        door1=NULL;
+                        
+                        delete door2;
+                        door2=NULL;
+                        
+                        delete objeto;
+                        objeto=NULL;
+            }
+        }
+        
         window->windowClear();
         //window->windowDraw(quad);
+        window->windowDraw(meh);
         
         player->render(window, clc, UPS);
         window->windowDisplay();
         
-        door1->update();
-        door2->update();
-        
+        if(door1!=NULL){
+            door1->update();
+        }
+        if(door2!=NULL) door2->update();
+        if(box!=NULL) box->update();
     }
     return 0;
 }

@@ -119,6 +119,7 @@ void Player::input()
     if(input->inputCheck(12))
     {
         _hability = true;
+        std::cout<<"Sí"<<endl;
     }
     
     

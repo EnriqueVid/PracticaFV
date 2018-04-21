@@ -48,8 +48,15 @@ sf::Image* Image::getImageImage(){
     return _image;
 }
 
+sf::Color Image::getImagePixel(unsigned int x, unsigned int y)
+{
+    return _image->getPixel(x,y);
+}
+
+
 Image::~Image() 
 {
     delete _image;
+    _image=NULL;
 }
 
