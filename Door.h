@@ -36,7 +36,7 @@ public:
     bool getOpen();
     int getDoorType();
     float getMaxTimeOpen();
-    //Clock getClock();
+    Clock* getClock();
     bool getOpenDoorAnimation();
     bool getCloseDoorAnimation();
     

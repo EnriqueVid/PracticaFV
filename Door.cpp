@@ -117,7 +117,9 @@ bool Door::getCloseDoorAnimation(){
     return _closeAnimation;
 }
 
-//Clock* getClock()
+Clock* Door::getClock(){
+    return _clock;
+}
 
 Door::~Door() 
 {

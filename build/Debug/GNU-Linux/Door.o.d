@@ -1,5 +1,5 @@
 build/Debug/GNU-Linux/Door.o: Door.cpp Door.h Object.h Sprite.h Texture.h \
- Situation.h Clock.h
+ Clock.h Situation.h
 
 Door.h:
 
@@ -9,6 +9,6 @@ Sprite.h:
 
 Texture.h:
 
-Situation.h:
-
 Clock.h:
+
+Situation.h:

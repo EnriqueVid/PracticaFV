@@ -24,6 +24,7 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
 }
 
 Box::Box(const Box& orig) {
+    
 }
 
 Box::~Box() {
@@ -35,4 +36,3 @@ Box::~Box() {
     _previousSituation=NULL;
     _sprite=NULL;
 }
-

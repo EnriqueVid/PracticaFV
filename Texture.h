@@ -30,12 +30,12 @@ public:
     
     void textureLoadFromFile(std::string path);
     sf::Vector2u getTextureSize();    
-    sf::Texture getTextureTexture();
+    sf::Texture* getTextureTexture();
     std::string getTexturePath();
     
     
 private:
-    sf::Texture _texture;
+    sf::Texture* _texture;
     std::string _path;
     
 

@@ -46,7 +46,6 @@ int main()
     Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
                                 0);  
 
-
     sf::VertexArray quad(sf::Quads,4);
     
     quad[0].position = sf::Vector2f(100,60);
@@ -81,7 +80,7 @@ int main()
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
             
-            //clc->clockRestart();
+            clc->clockRestart();
         }
 
         //lvl->testState();
@@ -157,19 +156,16 @@ int main()
         if(clock->getClockAsSeconds()>10.0&&iteracion==9){
             iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
-                        button1->getDoor()->close();
+                        //button1->getDoor()->close();
                         door1->interact();
         }        
-        
-        
-        
-
         window->windowClear();
         //window->windowDraw(quad);
         window->windowDisplay();
-     
+        
+        door1->update();
+        door2->update();
+        
     }
-    
-    
     return 0;
 }
