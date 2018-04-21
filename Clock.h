@@ -14,6 +14,7 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Clock {
 public:

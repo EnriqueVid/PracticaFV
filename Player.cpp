@@ -37,7 +37,7 @@ Player::Player()
      _speed=20;
      _color=sf::Color::White;
      _hability=false;
-     _previusSituation=new Situation();
+     _previousSituation=new Situation();
      _actualSituation=new Situation();
 }
 
@@ -56,8 +56,8 @@ Player::~Player()
     delete _actualSituation;
     _actualSituation = NULL;
     
-    delete _previusSituation;
-    _previusSituation = NULL;
+    delete _previousSituation;
+    _previousSituation = NULL;
 }
 
 void Player::input()

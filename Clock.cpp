@@ -17,13 +17,15 @@
 
 Clock::Clock() 
 {
-    _clock = new sf::Clock;
+    _clock = new sf::Clock();
 }
 
 Clock::Clock(const Clock& orig) {
 }
 
 Clock::~Clock() {
+    delete _clock;
+    _clock = NULL;
 }
 
 void Clock::clockRestart()

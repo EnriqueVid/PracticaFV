@@ -9,10 +9,13 @@
 #include "Game.h"
 #include "State.h"
 #include "StateGameLoop.h"
+#include "Object.h"
+#include "Box.h"
+#include "Switch.h"
+#include "Door.h"
 
 #define UPS 1.0f/15.0f
 
-sf::Clock* clc;
 
 using namespace std;
 
@@ -22,10 +25,28 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
+
     
-    while(window->windowIsOpen()){
     Game* lvl = new Game(StateGameLoop::Instance());
-            
+    
+    Clock* clock = new Clock();
+    
+    Texture* texture = new Texture();
+    
+    int iteracion=0;
+        
+    Object* objeto = new Object(0, 3.0, 3.0, 37.0, false, texture);
+    
+    Door* door1 = new Door(1, 0.0, 0.0, 0.0, false, texture,
+                            1, 4.5);
+    Door* door2 = new Door(1, 0.0, 0.0, 0.0, false, texture,
+                            1, 2.5);    
+    Switch* button1 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
+                                1);
+    Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
+                                0);  
+
+
     sf::VertexArray quad(sf::Quads,4);
     
     quad[0].position = sf::Vector2f(100,60);
@@ -38,6 +59,8 @@ int main()
     quad[2].color = sf::Color::Green;
     quad[3].color = sf::Color::Yellow;
     
+     
+
     while(window->windowIsOpen())
     {
         while(window->windowPollEvent(ev))
@@ -58,10 +81,86 @@ int main()
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
             
-            clc->clockRestart();
+            //clc->clockRestart();
         }
 
-        lvl->testState();
+        //lvl->testState();
+        
+        if(clock->getClockAsSeconds()>1.0&&iteracion==0){
+            iteracion = iteracion + 1;
+            std::cout << "Situacion actual: "<<objeto->getActualSituation()->getPosition().x<< " , " <<
+                   objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
+            std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
+                    objeto->getPreviousSituation()->getPosition().y << "Angle: " << objeto->getPreviousSituation()->getAngle()<<endl;
+        }
+        if(clock->getClockAsSeconds()>2.0&&iteracion==1){
+            iteracion = iteracion + 1;
+            std::cout <<"==========================================" << endl;
+            objeto->newSituation(1.0,2.0,3.0);
+            std::cout << "Situacion actual: "<<objeto->getActualSituation()->getPosition().x<< " , " <<
+                   objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
+            std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
+                    objeto->getPreviousSituation()->getPosition().y << "Angle: " << objeto->getPreviousSituation()->getAngle()<<endl;            
+            
+        }
+        if(clock->getClockAsSeconds()>3.0&&iteracion==2){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+            objeto->setActualSituation(5.0,5.0,5.0);
+            std::cout << "Situacion actual: "<<objeto->getActualSituation()->getPosition().x<< " , " <<
+                   objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
+            std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
+                    objeto->getPreviousSituation()->getPosition().y << "Angle: " << objeto->getPreviousSituation()->getAngle()<<endl;            
+            
+        }
+        
+        if(clock->getClockAsSeconds()>4.0&&iteracion==3){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+            objeto->setPreviousSituation(7.0,7.0,7.0);
+            std::cout << "Situacion actual: "<<objeto->getActualSituation()->getPosition().x<< " , " <<
+                   objeto->getActualSituation()->getPosition().y <<"Angle: " << objeto->getActualSituation()->getAngle()<< endl;
+            std::cout << "Situacion anterior:" << objeto->getPreviousSituation()->getPosition().x << ", " <<
+                    objeto->getPreviousSituation()->getPosition().y << "Angle: " << objeto->getPreviousSituation()->getAngle()<<endl;            
+        }
+        if(clock->getClockAsSeconds()>5.0&&iteracion==4){
+            iteracion = iteracion + 1;          
+                        std::cout <<"==========================================" << endl;
+                        
+            std::cout <<"¿Puede moverse?" <<objeto->getCanBeMoved() <<endl;
+            std::cout << "¿Que tipo de objeto es?" <<objeto->getObjectType() <<endl;
+            std::cout << "¿Hay sprite?" <<objeto->getSprite() <<endl;
+        }
+        if(clock->getClockAsSeconds()>6.0&&iteracion==5){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        button1->activate();
+        }
+        
+        if(clock->getClockAsSeconds()>7.0&&iteracion==6){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        button1->deactivate();
+        }
+         
+        if(clock->getClockAsSeconds()>8.0&&iteracion==7){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        button1->setDoor(door1);
+        }
+        if(clock->getClockAsSeconds()>9.0&&iteracion==8){
+            std::cout <<"Llego aqui"<<endl;
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        if(button1->getDoor()!=NULL) button1->getDoor()->open();
+        }
+        if(clock->getClockAsSeconds()>10.0&&iteracion==9){
+            iteracion = iteracion + 1;
+                        std::cout <<"==========================================" << endl;
+                        button1->getDoor()->close();
+                        door1->interact();
+        }        
+        
         
         
 
@@ -70,7 +169,7 @@ int main()
         window->windowDisplay();
      
     }
-    }
+    
     
     return 0;
 }

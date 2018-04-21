@@ -14,6 +14,7 @@
 #include "Door.h"
 #include "Object.h"
 
+
 Door::Door() 
 {
 }
@@ -25,19 +26,27 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     _open = false;
     _openAnimation =false;
     _closeAnimation = false;
-    
-    //Clock* _clock = new Clock()
+    _clock = new Clock();
 }
-
 
 Door::Door(const Door& orig) 
 {
+    
 }
 
 //Open solo se ejecuta cuando la puerta esta cerrada y se abre.
 void Door::open()
 {
-    //_clock->restart()
+    1+1;
+    
+    if(_clock==NULL){
+        std::cout <<"Clock no esta alojado en la memoria"<<endl;
+    }
+    else{
+        std::cout <<"Clock si esta alojado en la memoria"<<endl;        
+    }
+    
+    _clock->clockRestart();
     _open = true;
     _openAnimation=true; //inicia una animacion para abrirse.
     _closeAnimation=false;
@@ -57,9 +66,9 @@ void Door::close()
 void Door::update()
 {
     if(_open==true){
-        //if _clock->getElapsedTime().asSeconds() > _maxTimeOpen{
+        if (_clock->getClockAsSeconds() > _maxTimeOpen){
         close();
-        //}
+        }
     }
     //Bucle de animaciones de la puerta (abrirse y cerrarse)
     if(_openAnimation){
@@ -75,6 +84,7 @@ void Door::openDoorAnimation()
     //cuando termina la animacion{
     _openAnimation=false;
     //}
+    std::cout <<"Animacion open door" <<endl;
 }
 
 void Door::closeDoorAnimation()
@@ -82,6 +92,7 @@ void Door::closeDoorAnimation()
     //cuando termina la animacion{
     _closeAnimation=false;
     //}
+    std::cout <<"Animacion close door" <<endl;
 }
 
 bool Door::getOpen()
@@ -113,6 +124,12 @@ Door::~Door()
     delete _actualSituation;
     delete _previousSituation;
     delete _sprite;
-    //delete _clock
+    delete _clock;
+    
+    _actualSituation=NULL;
+    _previousSituation=NULL;
+    _sprite=NULL;
+    _clock=NULL;
+    
 }
 
