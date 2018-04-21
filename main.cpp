@@ -13,6 +13,8 @@
 #include "Box.h"
 #include "Switch.h"
 #include "Door.h"
+#include "Player.h"
+#include "Texture.h"
 
 #define UPS 1.0f/15.0f
 
@@ -24,6 +26,18 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
+
+    
+    Player* player = Player::Instance();
+    std::cout<<"Jugador creado correctamente"<<endl;
+    
+    std::string path = "resources/PlayerSheet.png";
+    
+    Texture* playerTexture = new Texture(path);
+    
+    sf::IntRect* square = new sf::IntRect(0,0,32,32);
+    
+    player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(16,16), sf::Vector2f(1,1));
     
     Game* lvl = new Game(StateGameLoop::Instance());
     
@@ -58,6 +72,8 @@ int main()
         
         in->inputInput();
         
+        player->input();
+        
         if(clc->getClockAsSeconds() >= 1)
         {
             if(in->inputCheck(0)) cout<<"UP"<<endl;
@@ -65,6 +81,8 @@ int main()
             if(in->inputCheck(2)) cout<<"LEFT"<<endl;
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
+            
+            player->update();
             
             clc->clockRestart();
         }
@@ -202,6 +220,8 @@ int main()
         
         window->windowClear();
         //window->windowDraw(quad);
+        
+        player->render(window, clc, 1.0f);
         window->windowDisplay();
         
         if(door1!=NULL){
