@@ -27,17 +27,17 @@ public:
     Texture(std::string path);
     Texture(const Texture& orig);
     virtual ~Texture();
-    
+
     void textureLoadFromFile(std::string path);
-    sf::Vector2u getTextureSize();    
-    sf::Texture getTextureTexture();
+    sf::Vector2u getTextureSize();
+    sf::Texture* getTextureTexture();
     std::string getTexturePath();
-    
-    
+
+
 private:
-    sf::Texture _texture;
+    sf::Texture* _texture;
     std::string _path;
-    
+
 
 };
 

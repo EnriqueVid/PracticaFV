@@ -16,6 +16,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Texture.h"
+#include "Clock.h"
 
 class Sprite {
 public:
@@ -47,13 +48,16 @@ public:
     float getSpriteRotation();
     sf::Sprite getSpriteSprite();
     
-    
-    
+    Clock* getClock();
+    sf::IntRect* getBox();
     
 private:
     sf::Sprite _sprite;
     sf::IntRect* _box;
-    sf::Clock _clock;
+    Clock* _clock;
+    
+    bool _animation;
+    int _animationFrame;
     
 };
 

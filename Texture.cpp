@@ -30,7 +30,7 @@ Texture::Texture(const Texture& orig) {
 void Texture::textureLoadFromFile(std::string path)
 {
     path = path;
-    if(!_texture.loadFromFile(path))
+    if(!_texture->loadFromFile(path))
     {
         std::cout<<"Error al cargar la textura en la ruta: "<< _path <<std::endl;
     }
@@ -38,10 +38,10 @@ void Texture::textureLoadFromFile(std::string path)
     
 sf::Vector2u Texture::getTextureSize()
 {
-    return(_texture.getSize());
+    return(_texture->getSize());
 }  
     
-sf::Texture Texture::getTextureTexture()
+sf::Texture* Texture::getTextureTexture()
 {
     return _texture;
 }
@@ -52,8 +52,8 @@ std::string Texture::getTexturePath()
 }
 
 
-
 Texture::~Texture() {
+    delete _texture;
 }
 
 
