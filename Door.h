@@ -14,6 +14,7 @@
 #ifndef DOOR_H
 #define DOOR_H
 #include "Object.h"
+#include "Clock.h"
 
 class Door : public Object {
 public:
@@ -39,16 +40,15 @@ public:
     bool getOpenDoorAnimation();
     bool getCloseDoorAnimation();
     
-    
 private:
+    
     bool _open;
     int _doorType;
     float _maxTimeOpen;
-    //Clock* _clock
+    Clock* _clock;
     
     bool _openAnimation; //false en el constructor
     bool _closeAnimation;
-    
 };
 
 #endif /* DOOR_H */

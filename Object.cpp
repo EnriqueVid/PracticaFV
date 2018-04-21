@@ -81,5 +81,9 @@ Object::~Object()
     delete _actualSituation;
     delete _previousSituation;
     delete _sprite;
+    
+    _actualSituation=NULL;
+    _previousSituation=NULL;
+    _sprite=NULL;
 }
 
