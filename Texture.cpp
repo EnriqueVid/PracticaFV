@@ -51,7 +51,6 @@ std::string Texture::getTexturePath()
 }
 
 
-
 Texture::~Texture() {
     delete _texture;
 }

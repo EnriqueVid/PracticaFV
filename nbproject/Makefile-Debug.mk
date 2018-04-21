@@ -43,6 +43,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Object.o \
+	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Situation.o \
 	${OBJECTDIR}/Sprite.o \
@@ -125,6 +126,11 @@ ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Object.o Object.cpp
+
+${OBJECTDIR}/Player.o: Player.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
 
 ${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
 	${MKDIR} -p ${OBJECTDIR}
