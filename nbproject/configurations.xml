@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Bitmasks.h</itemPath>
       <itemPath>Box.h</itemPath>
       <itemPath>Clock.h</itemPath>
       <itemPath>Door.h</itemPath>
@@ -31,6 +32,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Bitmasks.cpp</itemPath>
       <itemPath>Box.cpp</itemPath>
       <itemPath>Clock.cpp</itemPath>
       <itemPath>Door.cpp</itemPath>
@@ -89,6 +91,10 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Bitmasks.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Bitmasks.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Box.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Box.h" ex="false" tool="3" flavor2="0">
@@ -188,6 +194,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Bitmasks.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Bitmasks.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Box.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Box.h" ex="false" tool="3" flavor2="0">

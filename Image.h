@@ -29,6 +29,8 @@ public:
     sf::Vector2u imageGetSize();
   
     sf::Image* getImageImage();
+    
+    sf::Color getImagePixel(unsigned int x, unsigned int y);
 
 private:
     

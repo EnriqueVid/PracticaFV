@@ -85,7 +85,11 @@ void Input::inputInput()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) _keyboard[11] = true;
     else  _keyboard[11] = false;
     
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) _keyboard[12] = true;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        _keyboard[12] = true;
+        std::cout<<"Me cago en *****"<<std::endl;
+    }
     else  _keyboard[12] = false;
     
     

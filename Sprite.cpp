@@ -27,6 +27,10 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     _animation = false;
     
     _clock = new Clock();
+    
+    _texture = new Texture(*texture);
+    
+    _bitmasks = new Bitmasks();
 }
 
 Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale)
@@ -41,6 +45,9 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     _animation = false;
     
     _clock = new Clock();
+    _texture = new Texture(*texture);
+
+    _bitmasks = new Bitmasks();
 }
 
 
@@ -56,6 +63,9 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     _animation = true;
     
     _clock = new Clock();
+    _texture = new Texture(*texture);
+    
+    _bitmasks = new Bitmasks();
 }
 
 
@@ -72,6 +82,9 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     _animation = true;
     
     _clock = new Clock();
+    _texture = new Texture(*texture);
+    
+    _bitmasks = new Bitmasks();
 }
 
 Sprite::Sprite(const Sprite& orig)
@@ -82,7 +95,13 @@ Sprite::Sprite(const Sprite& orig)
 Sprite::~Sprite()
 {
     delete _box;
+    _box=NULL;
     delete _clock;
+    _clock=NULL;
+    delete _bitmasks;
+    _bitmasks=NULL;
+    
+    _texture=NULL;
 }
     
 bool Sprite::spriteIntersectsBounds(Sprite* spr)
@@ -95,16 +114,37 @@ bool Sprite::spriteIntersectsBounds(Sprite* spr)
     }
 }
 
-bool Sprite::spriteIntersectsPixel(Sprite* spr)
-{
-    //Collision::PixelPerfect(spr);
-    if(spriteIntersectsBounds(spr))
-    {
-        //if Collision::PixelPerfect(spr){
-        return true;
-        //}
-    }
-    return false;
+
+bool Sprite::spriteIntersectsPixel(const sf::Sprite& Object2, sf::Uint8 AlphaLimit) {
+        sf::FloatRect Intersection;
+        if (_sprite.getGlobalBounds().intersects(Object2.getGlobalBounds(), Intersection)) {
+            sf::IntRect O1SubRect = _sprite.getTextureRect();
+            sf::IntRect O2SubRect = Object2.getTextureRect();
+            
+            sf::Uint8* mask1 = _bitmasks->GetMask(_sprite.getTexture());
+            sf::Uint8* mask2 = _bitmasks->GetMask(Object2.getTexture());
+            
+            // Loop through our pixels
+            for (int i = Intersection.left; i < Intersection.left+Intersection.width; i++) {
+                for (int j = Intersection.top; j < Intersection.top+Intersection.height; j++) {
+                    
+                    sf::Vector2f o1v = _sprite.getInverseTransform().transformPoint(i, j);
+                    sf::Vector2f o2v = Object2.getInverseTransform().transformPoint(i, j);
+                    
+                    // Make sure pixels fall within the sprite's subrect
+                    if (o1v.x > 0 && o1v.y > 0 && o2v.x > 0 && o2v.y > 0 &&
+                        o1v.x < O1SubRect.width && o1v.y < O1SubRect.height &&
+                        o2v.x < O2SubRect.width && o2v.y < O2SubRect.height) {
+                        
+                        if (_bitmasks->GetPixel(mask1, _sprite.getTexture(), (int)(o1v.x)+O1SubRect.left, (int)(o1v.y)+O1SubRect.top) > AlphaLimit &&
+                            _bitmasks->GetPixel(mask2, Object2.getTexture(), (int)(o2v.x)+O2SubRect.left, (int)(o2v.y)+O2SubRect.top) > AlphaLimit)
+                            return true;
+                        
+                    }
+                }
+            }
+        }
+        return false;
 }
 
 void Sprite::spriteMove(sf::Vector2f move)
@@ -180,6 +220,31 @@ float Sprite::getSpriteRotation()
 sf::Sprite Sprite::getSpriteSprite()
 {
     return _sprite;
+}
+
+sf::IntRect Sprite::getSpriteTextureRect()
+{
+    //hay que devolver el cuadrado de recorte actual
+    
+    if(_animation==true){
+        //devolver el cuadrado de recorte del frame actual de la caja.
+    }
+    else
+    {
+    return _box[0];
+    }
+}
+
+Texture* Sprite::getSpriteTexture(){
+    return _texture;
+}
+sf::FloatRect Sprite::getGlobalBounds(){
+    return _sprite.getGlobalBounds();
+}
+
+sf::Transform  Sprite::getSpriteInverseTransform(){
+    
+    return _sprite.getInverseTransform();
 }
 
 sf::IntRect* Sprite::getBox(){
