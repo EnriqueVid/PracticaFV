@@ -77,17 +77,18 @@ Switch::Switch(const Switch& orig) {
     
 }
 
-Switch::~Switch() {
-    delete _actualSituation;
-    delete _previousSituation;
-    delete _sprite;
+Switch::~Switch() {  
+    //¡¡CUIDADO!! No eliminamos la puerta desde aqui porque si no, al hacer delete de puerta ocurrirá un 
+    //segmentation fault. Debido a que la puerta la declaramos por separado y luego la asignamos si el
+    //interruptor es un interruptor con puerta.
     
+    //En resumen: Se debe eliminar la puerta por separado debido a que se crea por separado.
+    
+    /*
     delete _door;
-    
-    _actualSituation=NULL;
-    _previousSituation=NULL;
-    _sprite=NULL;
+    */
     _door=NULL;
     
+    //el destructor del padre se encarga de destruir el resto de punteros.
 }
 

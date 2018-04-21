@@ -1,5 +1,5 @@
 build/Debug/GNU-Linux/Switch.o: Switch.cpp Switch.h Door.h Object.h \
- Sprite.h Texture.h Clock.h Situation.h
+ Sprite.h Texture.h Clock.h Bitmasks.h Situation.h
 
 Switch.h:
 
@@ -12,5 +12,7 @@ Sprite.h:
 Texture.h:
 
 Clock.h:
+
+Bitmasks.h:
 
 Situation.h:

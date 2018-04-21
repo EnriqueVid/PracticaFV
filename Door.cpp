@@ -17,6 +17,7 @@
 
 Door::Door() 
 {
+    
 }
 
 Door::Door(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture, int doorType, float maxTimeOpen) : 
@@ -50,7 +51,6 @@ void Door::open()
     _open = true;
     _openAnimation=true; //inicia una animacion para abrirse.
     _closeAnimation=false;
-    
     std::cout <<"LA PUERTA SE ESTA ABRIENDO. OJO."<<endl;
 }
         
@@ -59,7 +59,6 @@ void Door::close()
     _open = false;
     _closeAnimation=true;
     _openAnimation=false;
-    
     std::cout <<"LA PUERTA SE ESTA CERRANDO. OJO."<<endl;
 }
     
@@ -121,17 +120,12 @@ Clock* Door::getClock(){
     return _clock;
 }
 
+//es importante eliminar puerta por separado, debido a que eliminar el boton de una puerta
+//no elimina directamente a la puerta.
 Door::~Door() 
 {
-    delete _actualSituation;
-    delete _previousSituation;
-    delete _sprite;
     delete _clock;
-    
-    _actualSituation=NULL;
-    _previousSituation=NULL;
-    _sprite=NULL;
     _clock=NULL;
-    
+    //el destructor del padre se encarga de destruir el resto de punteros.
 }
 
