@@ -26,7 +26,6 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
-
     
     Player* player = Player::Instance();
     std::cout<<"Jugador creado correctamente"<<endl;
@@ -73,7 +72,6 @@ int main()
         }
         
         in->inputInput();
-        
         player->input();
         
         if(clc->getClockAsSeconds() >= UPS)
@@ -91,7 +89,6 @@ int main()
             {
                 cout<<"Intersecto jajajaja saludos"<<endl;
             }
-            
             clc->clockRestart();
         }
         //lvl->testState();

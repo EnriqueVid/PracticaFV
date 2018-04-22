@@ -74,7 +74,6 @@ private:
     int _speed;
     
     sf::Vector2i _axis;
-    
     sf::Vector2i _direction;
     
     bool _hability;
