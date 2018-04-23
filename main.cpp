@@ -15,6 +15,7 @@
 #include "Door.h"
 #include "Player.h"
 #include "Texture.h"
+#include "LevelFactory.h"
 
 #define UPS 1.0f/15.0f
 
@@ -27,6 +28,8 @@ int main()
     Input* in = Input::Instance();
     Clock* clc = new Clock();
 
+    LevelFactory* lf = LevelFactory::Instance();
+    //lf->setLevelFactoryStates(0);
     
     Player* player = Player::Instance();
     std::cout<<"Jugador creado correctamente"<<endl;
