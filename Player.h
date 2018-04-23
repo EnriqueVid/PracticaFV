@@ -63,7 +63,7 @@ protected:
     virtual ~Player();
 private:
     static Player* _pinstance;
-    Sprite* _player;
+    Sprite* _sprite;
     Situation* _previousSituation;
     Situation* _actualSituation;
     int _maxHealth;

@@ -44,6 +44,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
+	${OBJECTDIR}/LevelFactory.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/PowerUp.o \
@@ -57,7 +58,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Switch.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/tinyxml2.o
 
 
 # C Compiler Flags
@@ -135,6 +137,11 @@ ${OBJECTDIR}/Input.o: Input.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Input.o Input.cpp
 
+${OBJECTDIR}/LevelFactory.o: LevelFactory.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LevelFactory.o LevelFactory.cpp
+
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -204,6 +211,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/tinyxml2.o: tinyxml2.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tinyxml2.o tinyxml2.cpp
 
 # Subprojects
 .build-subprojects:

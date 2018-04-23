@@ -20,7 +20,7 @@ Player* Player::Instance()
 {
     if(_pinstance==0)
     {
-        _pinstance = new Player();
+        _pinstance = new Player;
     }
     return _pinstance;
 }
@@ -33,12 +33,13 @@ Player::Player()
      _health=256;
      _maxStamina=100;
      _stamina=100;
-     _player=new Sprite();
+     _sprite=new Sprite();
      _speed=5;
      _color=sf::Color::White;
      _hability=false;
      _previousSituation=new Situation();
      _actualSituation=new Situation();
+     _clock = NULL;
 }
 
 Player::Player(const Player& orig) 
@@ -48,8 +49,8 @@ Player::Player(const Player& orig)
 
 Player::~Player()
 {
-    delete _player;
-    _player = NULL;
+    delete _sprite;
+    _sprite = NULL;
     
     _pinstance = 0;
     
@@ -183,8 +184,8 @@ void Player::keyReleased()
 
 void Player::update()
 {
-    _player->setSpritePosition(_actualSituation->getPosition());
-    _player->setSpriteRotation(_actualSituation->getAngle());
+    _sprite->setSpritePosition(_actualSituation->getPosition());
+    _sprite->setSpriteRotation(_actualSituation->getAngle());
         
     _previousSituation = new Situation(_actualSituation->getPositionX(), _actualSituation->getPositionY(), _actualSituation->getAngle());
     
@@ -213,13 +214,13 @@ void Player::update()
     
     sf::Vector2f moving(0,0);
     
-    moving.x = abs(_axis.x)*_speed*(cos(degreesToRadians(_player->getSpriteRotation())));
+    moving.x = abs(_axis.x)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
     
-    moving.y = abs(_axis.y)*_speed*(sin(degreesToRadians(_player->getSpriteRotation())));
+    moving.y = abs(_axis.y)*_speed*(sin(degreesToRadians(_sprite->getSpriteRotation())));
     
-    _player->spriteMove(moving);
+    _sprite->spriteMove(moving);
     
-    _actualSituation = new Situation(_player->getSpritePosition().x, _player->getSpritePosition().y, _player->getSpriteRotation());
+    _actualSituation = new Situation(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y, _sprite->getSpriteRotation());
     
     keyReleased();
 }
@@ -228,7 +229,7 @@ void Player::render(RenderWindow* window, Clock* clock, float ups)
 {
     float actualTime = clock->getClockAsSeconds() / ups;
     interpolate(actualTime);
-    window->windowDraw(_player);
+    window->windowDraw(_sprite);
 }
 
 void Player::interpolate(float actualTime)
@@ -243,8 +244,8 @@ void Player::interpolate(float actualTime)
     g = (((actualTime-0)*(_actualSituation->getAngle() - _previousSituation->getAngle()))/(1-0)) + _previousSituation->getAngle();
     
     
-    _player->setSpritePosition(sf::Vector2f(x,y));
-    _player->setSpriteRotation(g);
+    _sprite->setSpritePosition(sf::Vector2f(x,y));
+    _sprite->setSpriteRotation(g);
     
 }
 
@@ -288,15 +289,15 @@ void Player::move()
     if(_axis.x==1&&_axis.y==-1)
     {
         
-        if(_player->getSpriteRotation()<135)
+        if(_sprite->getSpriteRotation()<135)
         {
-            _previousSituation->setAngle(_player->getSpriteRotation()+360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
         }
         
         angle = 315;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(_speed*sin(45),-_speed*sin(45)));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(_speed*sin(45),-_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -308,14 +309,14 @@ void Player::move()
 
         angle = 45;
         
-        if(_player->getSpriteRotation()>225)
+        if(_sprite->getSpriteRotation()>225)
         {
-            _previousSituation->setAngle(_player->getSpriteRotation()-360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
         }
 
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(_speed*sin(45),_speed*sin(45)));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(_speed*sin(45),_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -327,8 +328,8 @@ void Player::move()
         
         angle = 225;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(-_speed*sin(45),-_speed*sin(45)));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),-_speed*sin(45)));
     
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -340,8 +341,8 @@ void Player::move()
         
         angle = 135;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(-_speed*sin(45),_speed*sin(45)));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -371,13 +372,13 @@ void Player::move()
         
         angle = 0;
         
-        if(_player->getSpriteRotation()>180)
+        if(_sprite->getSpriteRotation()>180)
         {
-            _previousSituation->setAngle(_player->getSpriteRotation()-360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
         }
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(_speed,0));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(_speed,0));
         
         _direction.x=_axis.x;
         _direction.y=0;
@@ -396,8 +397,8 @@ void Player::move()
          */
         angle = 180;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(_speed*(cos((angle)/(2*PI))),0));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(_speed*(cos((angle)/(2*PI))),0));
         
         
         _direction.x=_axis.x;
@@ -424,15 +425,15 @@ void Player::move()
         }
          */
         
-        if(_player->getSpriteRotation()<180)
+        if(_sprite->getSpriteRotation()<180)
         {
-            _previousSituation->setAngle(_player->getSpriteRotation()+360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
         }
         
         angle = 270;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(0,-_speed));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(0,-_speed));
         
         
         _direction.x=0;
@@ -454,8 +455,8 @@ void Player::move()
         
         angle = 90;
         
-        _player->setSpriteRotation(angle);
-        //_player->spriteMove(sf::Vector2f(0,_speed));
+        _sprite->setSpriteRotation(angle);
+        //_sprite->spriteMove(sf::Vector2f(0,_speed));
         
         _direction.x=0;
         _direction.y=_axis.y;
@@ -467,6 +468,7 @@ void Player::move()
 void Player::setColor(sf::Color color)
 {
     _color = color;
+    _sprite->setSpriteColor(_color.r,_color.g,_color.b,_color.a);
 }
 
 void Player::setAxis(sf::Vector2i axis)
@@ -488,7 +490,7 @@ void Player::setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, 
 {
     _previousSituation->setPosition(position.x, position.y);
     _actualSituation->setPosition(position.x, position.y);
-    _player = new Sprite(texture, box, origin, position, scale);
+    _sprite = new Sprite(texture, box, origin, position, scale);
 }
 
 void Player::setSpeed(int speed)
@@ -524,7 +526,7 @@ void Player::setPreviousSituation(float x, float y, float g)
 //Getters
 Sprite* Player::getPlayer()
 {
-    return _player;
+    return _sprite;
 }
 
 sf::Color Player::getColor()
