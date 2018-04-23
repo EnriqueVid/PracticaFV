@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/Bitmasks.o \
 	${OBJECTDIR}/Box.o \
+	${OBJECTDIR}/Bullet.o \
 	${OBJECTDIR}/Clock.o \
 	${OBJECTDIR}/Door.o \
 	${OBJECTDIR}/Event.o \
@@ -45,6 +46,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
+	${OBJECTDIR}/PowerUp.o \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Situation.o \
 	${OBJECTDIR}/Sprite.o \
@@ -98,6 +100,11 @@ ${OBJECTDIR}/Box.o: Box.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Box.o Box.cpp
 
+${OBJECTDIR}/Bullet.o: Bullet.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Bullet.o Bullet.cpp
+
 ${OBJECTDIR}/Clock.o: Clock.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -137,6 +144,11 @@ ${OBJECTDIR}/Player.o: Player.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Player.o Player.cpp
+
+${OBJECTDIR}/PowerUp.o: PowerUp.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PowerUp.o PowerUp.cpp
 
 ${OBJECTDIR}/RenderWindow.o: RenderWindow.cpp
 	${MKDIR} -p ${OBJECTDIR}

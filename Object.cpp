@@ -22,7 +22,7 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
     _objectType=objectType;
     _canBeMoved = canBeMoved;
     //formacion del sprite adecuado segun el tipo.
-    _sprite = new Sprite();
+    _sprite = NULL;
     //hace falta modificar esto de forma acorde.
     _actualSituation = new Situation(initialPosX,initialPosY,initialAngle);
     _previousSituation = new Situation(initialPosX,initialPosY,initialAngle);
@@ -32,7 +32,12 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
 //estos metodo se heredara y hara algo distinto para cada uno de los hijos
 void Object::interact()
 {
-    std::cout <<"This should not happen. Calling the father object interact." <<endl;
+    std::cout <<"This should not happen. ERROR: IS Calling the father object interact." <<endl;
+}
+
+void Object::update()
+{
+    std::cout <<"This should not happen. ERROR: IS Calling the father object update." <<endl;    
 }
 Sprite* Object::getSprite()
 {
@@ -77,6 +82,26 @@ bool Object::getIgnoreCollisions(){
 bool Object::getErase(){
     return _erase;
 }
+
+void Object::render(RenderWindow* window, Clock* clock, float ups)
+{
+    float actualTime = clock->getClockAsSeconds() / ups;
+    interpolate(actualTime);
+    window->windowDraw(_sprite);
+}
+
+void Object::interpolate(float actualTime)
+{
+    float x, y, g;
+
+    x = (((actualTime-0)*(_actualSituation->getPosition().x - _previousSituation->getPosition().x))/(1-0)) + _previousSituation->getPosition().x;
+    y = (((actualTime-0)*(_actualSituation->getPosition().y - _previousSituation->getPosition().y))/(1-0)) + _previousSituation->getPosition().y;
+    g = (((actualTime-0)*(_actualSituation->getAngle() - _previousSituation->getAngle()))/(1-0)) + _previousSituation->getAngle();
+    
+    _sprite->setSpritePosition(sf::Vector2f(x,y));
+    _sprite->setSpriteRotation(g);
+}
+
 Object::Object(const Object& orig) 
 {
     
