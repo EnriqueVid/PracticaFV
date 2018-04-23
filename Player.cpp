@@ -116,10 +116,59 @@ void Player::input()
         //cout<<"DOWN AND LEFT"<<endl;
     }
     
+    if(input->inputCheck(4))
+    {
+        _axis.x = 0;
+        _axis.y = -1;
+        //cout<<"UP"<<endl;
+    }
+    if(input->inputCheck(6))
+    {
+        _axis.x = 0;
+        _axis.y = 1;
+        //cout<<"DOWN"<<endl;
+    }
+    if(input->inputCheck(5))
+    {
+        _axis.x = -1;
+        _axis.y = 0;
+        //cout<<"LEFT"<<endl;
+    }
+    if(input->inputCheck(7))
+    {
+        _axis.x = 1;
+        _axis.y = 0;
+        //cout<<"RIGHT"<<endl;
+    }
+    
+    if(input->inputCheck(4) && input->inputCheck(7))
+    {
+        _axis.x = 1;
+        _axis.y = -1;
+        //cout<<"UP AND RIGHT"<<endl;
+    }
+    if(input->inputCheck(6) && input->inputCheck(7))
+    {
+        _axis.x = 1;
+        _axis.y = 1;
+        //cout<<"DOWN AND RIGHT"<<endl;
+    }
+    if(input->inputCheck(4) && input->inputCheck(5))
+    {
+        _axis.x = -1;
+        _axis.y = -1;
+        //cout<<"UP AND LEFT"<<endl;
+    }
+    if(input->inputCheck(6) && input->inputCheck(5))
+    {
+        _axis.x = -1;
+        _axis.y = 1;
+        //cout<<"DOWN AND LEFT"<<endl;
+    }
+    
     if(input->inputCheck(12))
     {
         _hability = true;
-        std::cout<<"Sí"<<endl;
     }
     
     
@@ -148,7 +197,19 @@ void Player::update()
         _axis.y = _direction.y;
     }
     
-    superSpeed();
+    if(_color == sf::Color::Blue)
+    {
+       superSpeed();
+    }
+    if(_color == sf::Color::Red)
+    {
+       //breakBox();
+    }
+    if(_color == sf::Color::Green)
+    {
+       //shoot();
+    }
+    
     
     sf::Vector2f moving(0,0);
     
@@ -440,7 +501,7 @@ void Player::setStamina(float stamina)
     _stamina = stamina;
 }
 
-void Player::newSituacion(float x, float y, float g)
+void Player::newSituation(float x, float y, float g)
 {
     _previousSituation->setPosition(_actualSituation->getPosition().x, _actualSituation->getPosition().y);
     _previousSituation->setAngle(_actualSituation->getAngle());

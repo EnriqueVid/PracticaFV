@@ -28,8 +28,6 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     
     _clock = new Clock();
     
-    _texture = new Texture(*texture);
-    
     _bitmasks = new Bitmasks();
 }
 
@@ -45,7 +43,6 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     _animation = false;
     
     _clock = new Clock();
-    _texture = new Texture(*texture);
 
     _bitmasks = new Bitmasks();
 }
@@ -63,7 +60,6 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     _animation = true;
     
     _clock = new Clock();
-    _texture = new Texture(*texture);
     
     _bitmasks = new Bitmasks();
 }
@@ -82,7 +78,6 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     _animation = true;
     
     _clock = new Clock();
-    _texture = new Texture(*texture);
     
     _bitmasks = new Bitmasks();
 }
@@ -100,8 +95,6 @@ Sprite::~Sprite()
     _clock=NULL;
     delete _bitmasks;
     _bitmasks=NULL;
-    
-    _texture=NULL;
 }
     
 bool Sprite::spriteIntersectsBounds(Sprite* spr)
@@ -235,8 +228,8 @@ sf::IntRect Sprite::getSpriteTextureRect()
     }
 }
 
-Texture* Sprite::getSpriteTexture(){
-    return _texture;
+sf::Texture Sprite::getSpriteTexture(){
+    return *_sprite.getTexture();
 }
 sf::FloatRect Sprite::getGlobalBounds(){
     return _sprite.getGlobalBounds();
