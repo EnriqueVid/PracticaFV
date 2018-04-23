@@ -44,7 +44,7 @@ public:
     void setSpeed(int speed);
     void setAxis(sf::Vector2i axis);
     void setDirection(sf::Vector2i direction);
-    void newSituacion(float x, float y, float g);
+    void newSituation(float x, float y, float g);
     void setPreviousSituation(float x, float y, float g);
     void setActualSituation(float x, float y, float g);
     

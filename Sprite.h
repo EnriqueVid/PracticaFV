@@ -30,7 +30,7 @@ public:
     Sprite(const Sprite& orig);
     virtual ~Sprite();
     
-    bool spriteIntersectsBounds(Sprite* spr);    
+    bool spriteIntersectsBounds(Sprite* spr);
     bool spriteIntersectsPixel(const sf::Sprite& Object2, sf::Uint8 AlphaLimit);
     void spriteMove(sf::Vector2f move);
     void spriteRotate(float rot);
@@ -44,7 +44,7 @@ public:
     void setSpriteTexture(Texture* texture);
     void setSpriteTextureRect(sf::IntRect box);
     
-    Texture* getSpriteTexture();
+    sf::Texture getSpriteTexture();
     sf::Vector2f getSpritePosition();
     sf::Vector2f getSpriteOrigin();
     sf::Vector2f getSpriteScale();
@@ -59,7 +59,6 @@ public:
     
 private:
     sf::Sprite _sprite;
-    Texture* _texture;
     
     sf::IntRect* _box;
     
