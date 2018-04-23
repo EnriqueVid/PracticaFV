@@ -33,6 +33,13 @@ int main()
     LevelFactory* lf = LevelFactory::Instance();
     lf->setLevelFactoryStates(0);
     
+    Sprite**** lftilemap = lf->getLevelFactoryTileMapSprite();
+    int lfwidth = lf->getLevelFactoryWidth();
+    int lfheight = lf->getLevelFactoryHeight();
+    int lfnumlayers = lf->getLevelFactoryNumLayers();
+    
+    //cout<<lfnumlayers<<endl<<lfwidth<<endl<<lfheight<<endl;
+    
     std::cout<<"Checkpoint 2"<<endl;
     
     Player* player = Player::Instance();
@@ -98,7 +105,7 @@ int main()
             */
             player->update();
             
-            //if(player->getPlayer()->spriteIntersectsPixel(meh->getSpriteSprite(), 0))
+            if(player->getPlayer()->spriteIntersectsPixel(meh->getSpriteSprite(), 0))
             {
                 cout<<"Intersecto jajajaja saludos"<<endl;
             }
@@ -106,7 +113,7 @@ int main()
             clc->clockRestart();
         }
         //lvl->testState();
-        /*
+        
         if(clock->getClockAsSeconds()>1.0&&iteracion==0){
             iteracion = iteracion + 1;
             objeto->newSituation(9.0,9.0,9.0);
@@ -237,20 +244,37 @@ int main()
                         objeto=NULL;
             }
         }
-        */
-        window->windowClear();
-        //window->windowDraw(quad);
-        //window->windowDraw(meh);
         
-       // player->render(window, clc, UPS);
+        window->windowClear();
+        
+        
+        
+        for (int l=1; l<lfnumlayers; l++)
+        {
+            for (int y=0; y<lfheight; y++)
+            {
+                for(int x=0; x<lfwidth; x++)
+                {
+                    if(lftilemap[l][y][x] != NULL)
+                        window->windowDraw(lftilemap[l][y][x]);
+                }
+            }
+        }
+        
+        
+        window->windowDraw(meh);
+        
+        player->render(window, clc, UPS);
+        
+        
         window->windowDisplay();
-        /*
+        
         if(door1!=NULL){
             door1->update();
         }
         if(door2!=NULL) door2->update();
         if(box!=NULL) box->update();
-        */
+       
     }
     return 0;
 }

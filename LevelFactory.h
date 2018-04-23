@@ -17,6 +17,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string.h>
+#include <math.h>
 #include "tinyxml2.h"
 #include "Sprite.h"
 #include "Texture.h"
@@ -28,6 +29,10 @@ class LevelFactory {
 public:
     static LevelFactory* Instance();
     void setLevelFactoryStates(int i);
+    Sprite**** getLevelFactoryTileMapSprite();
+    int getLevelFactoryNumLayers();
+    int getLevelFactoryWidth();
+    int getLevelFactoryHeight();
     
 protected:
     LevelFactory();
