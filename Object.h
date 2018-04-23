@@ -16,6 +16,7 @@
 #include "Sprite.h"
 #include "Situation.h"
 #include "Texture.h"
+#include "RenderWindow.h"
 
 class Object {
 public:
@@ -39,6 +40,8 @@ public:
     bool getErase();
     
     void update();
+    void render(RenderWindow* window, Clock* clock, float ups);
+    void interpolate(float actualTime);
     
     virtual ~Object();
     
@@ -49,7 +52,6 @@ protected:
     bool _canBeMoved; //Nos indica si el objeto se podra mover o no.
     int _objectType; //Nos indica el tipo de objeto del que se trata.
     bool _ignoreCollisions; //Indica si le afectaran o no las colisiones.
-    
     bool _erase; //Boolean usado para indicar al mundo si debe borrar este objeto.
 };
 

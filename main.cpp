@@ -27,6 +27,7 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
+
     
     std::cout<<"Checkpoint 1"<<endl;
     
@@ -41,6 +42,7 @@ int main()
     //cout<<lfnumlayers<<endl<<lfwidth<<endl<<lfheight<<endl;
     
     std::cout<<"Checkpoint 2"<<endl;
+
     
     Player* player = Player::Instance();
     std::cout<<"Checkpoint 3"<<endl;
@@ -91,7 +93,6 @@ int main()
         }
         
         in->inputInput();
-        
         player->input();
         
         if(clc->getClockAsSeconds() >= UPS)
@@ -109,7 +110,6 @@ int main()
             {
                 cout<<"Intersecto jajajaja saludos"<<endl;
             }
-            
             clc->clockRestart();
         }
         //lvl->testState();
