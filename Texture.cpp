@@ -22,6 +22,7 @@ Texture::Texture()
 Texture::Texture(std::string path) 
 {
     _texture = new sf::Texture();
+    _path = "";
     textureLoadFromFile(path);
 }
 

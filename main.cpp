@@ -15,6 +15,7 @@
 #include "Door.h"
 #include "Player.h"
 #include "Texture.h"
+#include "LevelFactory.h"
 
 #define UPS 1.0f/15.0f
 
@@ -26,17 +27,38 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
+
+    
+    std::cout<<"Checkpoint 1"<<endl;
+    
+    LevelFactory* lf = LevelFactory::Instance();
+    lf->setLevelFactoryStates(0);
+    
+    Sprite**** lftilemap = lf->getLevelFactoryTileMapSprite();
+    int lfwidth = lf->getLevelFactoryWidth();
+    int lfheight = lf->getLevelFactoryHeight();
+    int lfnumlayers = lf->getLevelFactoryNumLayers();
+    
+    //cout<<lfnumlayers<<endl<<lfwidth<<endl<<lfheight<<endl;
+    
+    std::cout<<"Checkpoint 2"<<endl;
+
     
     Player* player = Player::Instance();
-    std::cout<<"Jugador creado correctamente"<<endl;
+    std::cout<<"Checkpoint 3"<<endl;
     
     std::string path = "resources/PlayerSheet.png";
     
     Texture* playerTexture = new Texture(path);
     
+    std::cout<<"Checkpoint 4"<<endl;
+    
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
+    player->setColor(sf::Color::Blue);
+    
+    std::cout<<"Checkpoint 5"<<endl;
 
     Game* lvl = new Game(StateGameLoop::Instance());
     
@@ -92,6 +114,7 @@ int main()
             clc->clockRestart();
         }
         //lvl->testState();
+        
         if(clock->getClockAsSeconds()>1.0&&iteracion==0){
             iteracion = iteracion + 1;
             objeto->newSituation(9.0,9.0,9.0);
@@ -224,10 +247,27 @@ int main()
         }
         
         window->windowClear();
-        //window->windowDraw(quad);
+        
+        
+        
+        for (int l=1; l<lfnumlayers; l++)
+        {
+            for (int y=0; y<lfheight; y++)
+            {
+                for(int x=0; x<lfwidth; x++)
+                {
+                    if(lftilemap[l][y][x] != NULL)
+                        window->windowDraw(lftilemap[l][y][x]);
+                }
+            }
+        }
+        
+        
         window->windowDraw(meh);
         
         player->render(window, clc, UPS);
+        
+        
         window->windowDisplay();
         
         if(door1!=NULL){
@@ -235,6 +275,7 @@ int main()
         }
         if(door2!=NULL) door2->update();
         if(box!=NULL) box->update();
+       
     }
     return 0;
 }

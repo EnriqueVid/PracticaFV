@@ -23,6 +23,7 @@
 class Sprite {
 public:
     Sprite();
+    Sprite(Texture* texture, sf::IntRect box);
     Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position);
     Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position);
     Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);

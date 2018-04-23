@@ -16,6 +16,21 @@ Sprite::Sprite(){
     
 }
 
+Sprite::Sprite(Texture* texture, sf::IntRect box)
+{
+    _sprite.setTexture(*texture->getTextureTexture());
+    _sprite.setTextureRect(box);
+    _sprite.setPosition(0, 0);
+    _sprite.setOrigin(0, 0);
+    
+    _animationFrame=-1;
+    _animation = false;
+    
+    _clock = new Clock();
+    
+    _bitmasks = new Bitmasks();//<== Booop
+}
+
 Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position)
 {
     _sprite.setTexture(*texture->getTextureTexture());
