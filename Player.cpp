@@ -20,7 +20,7 @@ Player* Player::Instance()
 {
     if(_pinstance==0)
     {
-        _pinstance = new Player();
+        _pinstance = new Player;
     }
     return _pinstance;
 }
@@ -39,6 +39,7 @@ Player::Player()
      _hability=false;
      _previousSituation=new Situation();
      _actualSituation=new Situation();
+     _clock = NULL;
 }
 
 Player::Player(const Player& orig) 

@@ -47,8 +47,8 @@ LevelFactory::~LevelFactory()
 void LevelFactory::setLevelFactoryStates(int i)
 {
     _numMap = i;
-    //levelFactoryMapSelector();
-    //levelFactoryMapCreator();
+    levelFactoryMapSelector();
+    levelFactoryMapCreator();
 }
 
 void LevelFactory::levelFactoryMapSelector()
