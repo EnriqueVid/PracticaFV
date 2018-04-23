@@ -22,12 +22,11 @@ public:
     Door(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture,
             int doorType, float maxTimeOpen);
     Door(const Door& orig);
+    
     virtual ~Door();
     
     void open();
-        
     void close();
-    
     void update();
     
     void openDoorAnimation();
@@ -41,14 +40,15 @@ public:
     bool getCloseDoorAnimation();
     
 private:
-    
+        
     bool _open;
-    int _doorType;
+    int _doorType; //1: horizontal, 2: Vertical
     float _maxTimeOpen;
     Clock* _clock;
     
     bool _openAnimation; //false en el constructor
     bool _closeAnimation;
+    
 };
 
 #endif /* DOOR_H */
