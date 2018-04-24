@@ -16,6 +16,9 @@
 #include "Player.h"
 #include "Texture.h"
 #include "LevelFactory.h"
+#include "Font.h"
+#include "Text.h"
+#include "Message.h"
 
 #define UPS 1.0f/15.0f
 
@@ -24,6 +27,7 @@ using namespace std;
 int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
+    
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
@@ -276,6 +280,7 @@ int main()
         if(door2!=NULL) door2->update();
         if(box!=NULL) box->update();
        
+        
     }
     return 0;
 }
