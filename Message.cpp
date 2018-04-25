@@ -51,15 +51,15 @@ Message::Message(int number,std::string file, Texture* texturebg)
         }
         
         _font = new Font(file);
-        _tbox = texturebg;
         _sbox = new Sprite();        
-        _sbox->setSpriteTexture(_tbox);
-        _sbox->setSpriteOrigin(sf::Vector2f(_tbox->getTextureSize().x/2.f, _tbox->getTextureSize().y/2.f));
-        _sbox->setSpritePosition(sf::Vector2f(Player::Instance()->getPlayer()->getSpritePosition().x, Player::Instance()->getPlayer()->getSpritePosition().y - _tbox->getTextureSize().y));
+        _sbox->setSpriteTexture(texturebg);
+        _sbox->setSpriteOrigin(sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f));
+        _sbox->setSpritePosition(sf::Vector2f(Player::Instance()->getPlayer()->getSpritePosition().x, Player::Instance()->getPlayer()->getSpritePosition().y - texturebg->getTextureSize().y));
         
         _text->setFont(_font);
         _text->setCharacterSize(12);
         _text->setColor(sf::Color::White);
+        _text->setOrigin(_text->getGlobalBounds().width/2.f, _text->getGlobalBounds().height/2.f);
         _text->setPosition(_sbox->getSpritePosition().x, _sbox->getSpritePosition().y);
 
 }
@@ -67,7 +67,9 @@ Message::Message(int number,std::string file, Texture* texturebg)
 Message::~Message()
 {
     delete _text;
+    _text = NULL;
     delete _font;
-    delete _tbox;
+    _font = NULL;   
     delete _sbox;
+    _sbox = NULL;
 }

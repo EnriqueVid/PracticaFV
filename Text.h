@@ -1,7 +1,6 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-
 #include <SFML/Graphics.hpp>
 #include <string.h>
 #include <cstdlib>
@@ -29,10 +28,12 @@ public:
     void setPosition(float x, float y);
     void scale(sf::Vector2f factor);
     void setString(std::string texto);
+    void setOrigin(float x, float y);
+    
     
 private:
     
-    Text* _text;
+    sf::Text _text;
 
 };
 #endif /* TEXT_H */

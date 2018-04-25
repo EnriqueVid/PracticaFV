@@ -28,6 +28,9 @@ int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
     
+    //Texture* texturebox = new Texture("./textures/fondotexto.png");
+    //Message* mes = new Message(0, "./textures/Pixeled.ttf" , texturebox);
+    
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
@@ -271,6 +274,7 @@ int main()
         
         player->render(window, clc, UPS);
         
+        //window->windowDraw(mes);
         
         window->windowDisplay();
         

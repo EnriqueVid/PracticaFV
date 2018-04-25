@@ -22,7 +22,6 @@ private:
     
     Text* _text;
     Font* _font;
-    Texture* _tbox;
     Sprite* _sbox;
 };
 

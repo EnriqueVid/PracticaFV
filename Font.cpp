@@ -15,15 +15,19 @@
 
 Font::Font(std::string file)
 {
-    _font->loadFromFile(file);
+    _font.loadFromFile(file);
 }
 
 void Font::loadFromFile(std::string filename)
 {
-    _font->loadFromFile(filename);
+    _font.loadFromFile(filename);
+}
+
+sf::Font Font::getFont()
+{
+    return _font;
 }
 
 Font::~Font()
 {
-    delete _font;
 }
