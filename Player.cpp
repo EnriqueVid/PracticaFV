@@ -40,6 +40,13 @@ Player::Player()
      _previousSituation=new Situation();
      _actualSituation=new Situation();
      _clock = NULL;
+     _animationNumFrames=-1;
+     _animationTime=-1;
+     _idleAnimationStart=true;
+     _movingAnimationStart=false;
+     _damage=false;
+     _actualAnimation=0;
+     
 }
 
 Player::Player(const Player& orig) 
@@ -59,6 +66,18 @@ Player::~Player()
     
     delete _previousSituation;
     _previousSituation = NULL;
+}
+
+void Player::setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale)
+{
+    _previousSituation->setPosition(position.x, position.y);
+    _actualSituation->setPosition(position.x, position.y);
+    
+    
+    _sprite = new Sprite(texture,getAnimation(0),origin,position,scale,_animationNumFrames,_animationTime);
+    
+   //_sprite = new Sprite(texture, *box, origin, position, scale);
+    
 }
 
 void Player::input()
@@ -167,6 +186,11 @@ void Player::input()
         //cout<<"DOWN AND LEFT"<<endl;
     }
     
+    if(input->inputCheck(8))
+    {    
+        _damage=true; 
+    }
+    
     if(input->inputCheck(12))
     {
         _hability = true;
@@ -180,6 +204,7 @@ void Player::keyReleased()
     _axis.x = 0;
     _axis.y = 0;
     _hability = false;
+    _damage = false;
 }
 
 void Player::update()
@@ -214,15 +239,136 @@ void Player::update()
     
     sf::Vector2f moving(0,0);
     
-    moving.x = abs(_axis.x)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
+    moving.x = abs(_axis.x)*_speed*(sin(degreesToRadians(_sprite->getSpriteRotation())))*-1;
     
-    moving.y = abs(_axis.y)*_speed*(sin(degreesToRadians(_sprite->getSpriteRotation())));
+    moving.y = abs(_axis.y)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
+    
+    cout << "damage: " <<_damage << endl;
     
     _sprite->spriteMove(moving);
     
+    _sprite->updateAnimation();
+    
     _actualSituation = new Situation(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y, _sprite->getSpriteRotation());
     
+    int actualFrame = 0;
+    
+    if(_axis.x==0&&_axis.y==0)
+    {
+        if(_idleAnimationStart){
+            //SI EL PERSONAJE ESTA QUIETO
+            if(!_damage)
+            {
+            sf::IntRect* animationBox = getAnimation(0);
+            _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);  
+            //animationBox se deletea en el propio sprite
+            animationBox=NULL;
+            _actualAnimation=0;
+            }
+            else
+            {
+            sf::IntRect* animationBox = getAnimation(2);
+            _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);                  
+            //animationBox se deletea en el propio sprite
+            animationBox=NULL;
+            _actualAnimation=2;
+            }   
+        }
+        else
+        {
+            if(!_damage&&_actualAnimation!=0)
+            {
+                sf::IntRect* animationBox = getAnimation(0);
+                _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);  
+                //animationBox se deletea en el propio sprite
+                animationBox=NULL;  
+                _actualAnimation=0;
+            }
+            else if(_damage&&_actualAnimation!=2)
+            {
+                sf::IntRect* animationBox = getAnimation(2);
+                _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);                  
+                //animationBox se deletea en el propio sprite
+                animationBox=NULL;
+                _actualAnimation=2;
+            }
+        }
+
+        
+
+        _movingAnimationStart=true;
+        _idleAnimationStart=false;
+    }
+    else
+    {
+        if(_movingAnimationStart)
+        {
+            //SI EL PERSONAJE SE ESTA MOVIENDO
+            if(!_damage)
+            {
+            sf::IntRect* animationBox = getAnimation(1);
+            _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);  
+            //animationBox se deletea en el propio sprite
+            animationBox=NULL;
+            _actualAnimation=1;
+            }
+            else
+            {
+            sf::IntRect* animationBox = getAnimation(3);
+            _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);                  
+            //animationBox se deletea en el propio sprite
+            animationBox=NULL;
+            _actualAnimation=3;
+            }              
+        }
+        else
+        {
+            if(!_damage&&_actualAnimation!=1)
+            {
+                if(_actualAnimation==3)
+                {
+                    actualFrame = _sprite->getAnimationFrame();
+                    sf::IntRect* animationBox = getAnimation(1);
+                    _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);  
+                    //animationBox se deletea en el propio sprite
+                    animationBox=NULL;
+                    _sprite->setAnimationFrame(actualFrame);
+                    _actualAnimation=1;
+                }
+            }
+            else if(_damage&&_actualAnimation!=3)
+            {
+                if(_actualAnimation==1)
+                {
+                    actualFrame = _sprite->getAnimationFrame();
+                    sf::IntRect* animationBox = getAnimation(3);
+                    _sprite->changeAnimation(animationBox,_animationNumFrames,_animationTime);  
+                    //animationBox se deletea en el propio sprite
+                    animationBox=NULL;
+                    _sprite->setAnimationFrame(actualFrame);
+                    _actualAnimation=3;
+                }                
+            }
+        }
+
+
+                
+        if(_clock!=NULL)
+        {
+            _sprite->setAnimationTime(0.01/4);
+            _animationTime=0.001;
+        }
+        else
+        {
+            _sprite->setAnimationTime(0.01);            
+            _animationTime=0.01;
+        }
+        
+        _idleAnimationStart=true;
+        _movingAnimationStart=false;
+    }
     keyReleased();
+    
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
@@ -289,12 +435,8 @@ void Player::move()
     if(_axis.x==1&&_axis.y==-1)
     {
         
-        if(_sprite->getSpriteRotation()<135)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
-        }
         
-        angle = 315;
+        angle = 225;
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(_speed*sin(45),-_speed*sin(45)));
@@ -307,11 +449,11 @@ void Player::move()
     if(_axis.x==1&&_axis.y==1)
     {
 
-        angle = 45;
+        angle = 315;
         
-        if(_sprite->getSpriteRotation()>225)
+        if(_sprite->getSpriteRotation()<135)
         {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
         }
 
         
@@ -326,7 +468,7 @@ void Player::move()
     if(_axis.x==-1&&_axis.y==-1)
     {
         
-        angle = 225;
+        angle = 135;
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),-_speed*sin(45)));
@@ -339,7 +481,12 @@ void Player::move()
     if(_axis.x==-1&&_axis.y==1)
     {
         
-        angle = 135;
+        if(_sprite->getSpriteRotation()>225)
+        {
+            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
+        }
+        
+        angle = 45;
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),_speed*sin(45)));
@@ -370,11 +517,11 @@ void Player::move()
             sprite->setRotation(sprite->getRotation()-90);
         }*/
         
-        angle = 0;
+        angle = 270;
         
-        if(_sprite->getSpriteRotation()>180)
+        if(_sprite->getSpriteRotation()<90)
         {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
+            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
         }
         
         _sprite->setSpriteRotation(angle);
@@ -395,10 +542,15 @@ void Player::move()
             sprite->setRotation(sprite->getRotation()-90);
         }
          */
-        angle = 180;
+        angle = 90;
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(_speed*(cos((angle)/(2*PI))),0));
+        
+        if(_sprite->getSpriteRotation()>270)
+        {
+            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
+        }
         
         
         _direction.x=_axis.x;
@@ -425,12 +577,8 @@ void Player::move()
         }
          */
         
-        if(_sprite->getSpriteRotation()<180)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
-        }
         
-        angle = 270;
+        angle = 180;
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(0,-_speed));
@@ -453,7 +601,12 @@ void Player::move()
         }
          */
         
-        angle = 90;
+        angle = 0;
+        
+        if(_sprite->getSpriteRotation()>180)
+        {
+            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
+        }        
         
         _sprite->setSpriteRotation(angle);
         //_sprite->spriteMove(sf::Vector2f(0,_speed));
@@ -486,12 +639,7 @@ void Player::setDirection(sf::Vector2i direction)
     _direction = direction;
 }
 
-void Player::setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale)
-{
-    _previousSituation->setPosition(position.x, position.y);
-    _actualSituation->setPosition(position.x, position.y);
-    _sprite = new Sprite(texture, box, origin, position, scale);
-}
+
 
 void Player::setSpeed(int speed)
 {
@@ -522,6 +670,70 @@ void Player::setPreviousSituation(float x, float y, float g)
     _previousSituation->setAngle(g);
 } 
 
+//Duda importante: ¿Produce este metodo un memory leak al generar la nueva animacion?
+sf::IntRect* Player::getAnimation(int animationNum)
+{
+    sf::IntRect* animation;
+            int aux=1;            
+    
+    switch (animationNum)
+    {
+        case 0: 
+            //Animacion quieto
+            animation = new sf::IntRect[24];
+            
+            for(int x=0; x<24; x++){
+                if(x==8)aux=0;
+                animation[x] = sf::IntRect((0+32*x*aux), 32, 32, 32);
+            }
+
+            _animationNumFrames=24;
+            _animationTime=0.01;
+            return animation;
+            
+            break;
+            
+        case 1:
+            //Animacion de movimineto
+            animation = new sf::IntRect[8];
+            
+            for(int x=0; x<8; x++)
+            {
+                animation[x] = sf::IntRect((0+32*x), 0, 32, 32);
+            }
+            _animationNumFrames=8;
+            _animationTime=0.01;
+            return animation;
+            break;
+            
+        case 2: 
+             //Animacion quieto sufriendo damage
+            animation = new sf::IntRect[1];
+
+            
+            animation[0] = sf::IntRect(0, 32*3, 32, 32);
+            
+
+            _animationNumFrames=1;
+            _animationTime=0.01;
+            return animation;
+            
+            break;           
+            
+        case 3:
+            //Animacion de movimineto sufriendo damage
+            animation = new sf::IntRect[8];
+            for(int x=0; x<8; x++)
+            {
+                animation[x] = sf::IntRect((0+32*x), 32*2, 32, 32);
+            }
+            _animationNumFrames=8;
+            _animationTime=0.01;
+            return animation;
+            break;   
+    }
+    return animation;
+}
 
 //Getters
 Sprite* Player::getPlayer()

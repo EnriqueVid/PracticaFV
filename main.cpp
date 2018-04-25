@@ -27,7 +27,8 @@ int main()
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
-
+    
+    window->setWindowFramerateLimit(60);
     
     std::cout<<"Checkpoint 1"<<endl;
     
@@ -38,16 +39,14 @@ int main()
     int lfwidth = lf->getLevelFactoryWidth();
     int lfheight = lf->getLevelFactoryHeight();
     int lfnumlayers = lf->getLevelFactoryNumLayers();
-    
-    //cout<<lfnumlayers<<endl<<lfwidth<<endl<<lfheight<<endl;
-    
+        
     std::cout<<"Checkpoint 2"<<endl;
-
     
     Player* player = Player::Instance();
+    
     std::cout<<"Checkpoint 3"<<endl;
     
-    std::string path = "resources/PlayerSheet.png";
+    std::string path = "textures/PlayerTiles.png";
     
     Texture* playerTexture = new Texture(path);
     
@@ -56,7 +55,8 @@ int main()
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
-    player->setColor(sf::Color::Blue);
+    
+    player->setColor(sf::Color::Cyan);
     
     std::cout<<"Checkpoint 5"<<endl;
 
@@ -81,7 +81,7 @@ int main()
     Box* box = new Box(1, 0.0, 0.0, 0.0, false, texture,
                         1, 2, 3.0);
     
-    Sprite* meh = new Sprite(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
+    //Sprite* meh = new Sprite(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
     
     while(window->windowIsOpen())
     {
@@ -98,20 +98,20 @@ int main()
         
         if(clc->getClockAsSeconds() >= UPS)
         {
-            /*
+            
             if(in->inputCheck(0)) cout<<"UP"<<endl;
             if(in->inputCheck(1)) cout<<"DOWN"<<endl;
             if(in->inputCheck(2)) cout<<"LEFT"<<endl;
             if(in->inputCheck(3)) cout<<"RIGHT"<<endl;
             if(in->inputCheck(10)) window->windowClose();
-            */
+            
             player->update();
             
-            if(player->getPlayer()->spriteIntersectsPixel(meh->getSpriteSprite(), 0))
-            {
-                cout<<"Intersecto jajajaja saludos"<<endl;
-            }
-            clc->clockRestart();
+           // if(player->getPlayer()->spriteIntersectsPixel(meh->getSpriteSprite(), 0))
+           // {
+           //     cout<<"Intersecto jajajaja saludos"<<endl;
+           // }
+           clc->clockRestart();
         }
         //lvl->testState();
         
@@ -248,8 +248,6 @@ int main()
         
         window->windowClear();
         
-        
-        
         for (int l=1; l<lfnumlayers; l++)
         {
             for (int y=0; y<lfheight; y++)
@@ -262,11 +260,9 @@ int main()
             }
         }
         
-        
-        window->windowDraw(meh);
+        //window->windowDraw(meh);
         
         player->render(window, clc, UPS);
-        
         
         window->windowDisplay();
         
