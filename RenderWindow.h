@@ -16,6 +16,7 @@
 #include "View.h"
 #include "Sprite.h"
 #include "Event.h"
+#include "Message.h"
 
 class RenderWindow 
 {
@@ -25,6 +26,7 @@ public:
     
     void windowClear();
     void windowDraw(Sprite* sprite);
+    void windowDraw(Message* message);
     void windowDisplay();
     void windowClose();
     bool windowIsOpen();

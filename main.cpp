@@ -28,8 +28,7 @@ int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
     
-    //Texture* texturebox = new Texture("./textures/fondotexto.png");
-    //Message* mes = new Message(0, "./textures/Pixeled.ttf" , texturebox);
+
     
     Event* ev = new Event();
     Input* in = Input::Instance();
@@ -64,6 +63,13 @@ int main()
     
     player->setPlayer(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
     player->setColor(sf::Color::Blue);
+    
+    //PRUEBA MESSAGE
+    
+    Texture* texturebox = new Texture("./textures/fondotexto.png");
+    Font* font = new Font("./textures/Pixeled.ttf");
+    Message* mes = new Message(0, font , texturebox, player->getPlayer()->getGlobalBounds(), player->getPlayer()->getSpritePosition());
+    
     
     std::cout<<"Checkpoint 5"<<endl;
 
@@ -274,7 +280,8 @@ int main()
         
         player->render(window, clc, UPS);
         
-        //window->windowDraw(mes);
+        
+        window->windowDraw(mes);
         
         window->windowDisplay();
         

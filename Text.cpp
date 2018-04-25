@@ -19,6 +19,8 @@ Text::Text(std::string file)
 
 Text::Text()
 {
+    _text.setString("");
+    _font = NULL;
 }
 
 Text::~Text()
@@ -27,6 +29,11 @@ Text::~Text()
 
 void Text::setOrigin(float x, float y){
     _text.setOrigin(x, y);
+}
+
+sf::Text Text::getText()
+{
+    return _text;
 }
 
 
@@ -40,11 +47,6 @@ sf::Color Text::getColor()
     return _text.getColor();
 }
     
-Font Text::getFont()
-{
-    _text.getFont();
-}
-    
 sf::FloatRect Text::getGlobalBounds()
 {
     return _text.getGlobalBounds();
@@ -55,7 +57,7 @@ sf::Vector2f Text::getPosition()
     return _text.getPosition();
 }
     
-sf::String Text::getString()
+std::string Text::getString()
 {
     return _text.getString();
 }
@@ -77,7 +79,8 @@ void Text::setColor(sf::Color color)
     
 void Text::setFont(Font* font)
 {
-    _text.setFont(font->getFont());
+    _font = font;
+    _text.setFont(_font->getFont());
 }
     
 void Text::setPosition(float x, float y)
@@ -95,4 +98,8 @@ void Text::setString(std::string texto)
     _text.setString(texto);
 }
 
+Font* Text::getFont()
+{
+    return _font;
+}
     
