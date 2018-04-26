@@ -13,6 +13,7 @@
 
 #include "Player.h"
 #include "Input.h"
+#include "Situation.h"
 
 Player* Player::_pinstance=0;
 

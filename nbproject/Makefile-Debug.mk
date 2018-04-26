@@ -41,6 +41,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Clock.o \
 	${OBJECTDIR}/Door.o \
 	${OBJECTDIR}/Enemy.o \
+	${OBJECTDIR}/EnemyBounce.o \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
@@ -125,6 +126,11 @@ ${OBJECTDIR}/Enemy.o: Enemy.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemy.o Enemy.cpp
+
+${OBJECTDIR}/EnemyBounce.o: EnemyBounce.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyBounce.o EnemyBounce.cpp
 
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}
