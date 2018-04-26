@@ -40,11 +40,15 @@ OBJECTFILES= \
 	${OBJECTDIR}/Bullet.o \
 	${OBJECTDIR}/Clock.o \
 	${OBJECTDIR}/Door.o \
+	${OBJECTDIR}/Enemy.o \
+	${OBJECTDIR}/EnemyBounce.o \
 	${OBJECTDIR}/Event.o \
+	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/LevelFactory.o \
+	${OBJECTDIR}/Message.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/PowerUp.o \
@@ -56,6 +60,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/StateGameOver.o \
 	${OBJECTDIR}/StateStart.o \
 	${OBJECTDIR}/Switch.o \
+	${OBJECTDIR}/Text.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
 	${OBJECTDIR}/main.o \
@@ -111,10 +116,25 @@ ${OBJECTDIR}/Door.o: Door.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Door.o Door.cpp
 
+${OBJECTDIR}/Enemy.o: Enemy.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Enemy.o Enemy.cpp
+
+${OBJECTDIR}/EnemyBounce.o: EnemyBounce.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyBounce.o EnemyBounce.cpp
+
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Event.o Event.cpp
+
+${OBJECTDIR}/Font.o: Font.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Font.o Font.cpp
 
 ${OBJECTDIR}/Game.o: Game.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -135,6 +155,11 @@ ${OBJECTDIR}/LevelFactory.o: LevelFactory.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LevelFactory.o LevelFactory.cpp
+
+${OBJECTDIR}/Message.o: Message.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -190,6 +215,11 @@ ${OBJECTDIR}/Switch.o: Switch.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Switch.o Switch.cpp
+
+${OBJECTDIR}/Text.o: Text.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Text.o Text.cpp
 
 ${OBJECTDIR}/Texture.o: Texture.cpp
 	${MKDIR} -p ${OBJECTDIR}

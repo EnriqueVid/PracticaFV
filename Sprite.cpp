@@ -23,12 +23,48 @@ Sprite::Sprite(Texture* texture, sf::IntRect box)
     _sprite.setPosition(0, 0);
     _sprite.setOrigin(0, 0);
     
+   
+    _box = new sf::IntRect[1];
+    _box[0] = box;
+    
     _animationFrame=-1;
     _animation = false;
+    _animationTime = -1;
+    _animationNumFrames = -1;
     
     _clock = new Clock();
-    
     _bitmasks = new Bitmasks();//<== Booop
+}
+
+Sprite::Sprite(Texture* texture, sf::IntRect* box, int aniFrames, float aniTime){
+    
+    _sprite.setTexture(*texture->getTextureTexture());
+    _sprite.setTextureRect(box[0]);
+    _sprite.setPosition(0, 0);
+    _sprite.setOrigin(0, 0);    
+    
+    _box = new sf::IntRect[aniFrames];
+    
+    for(int x=0 ; x<aniFrames; x++)
+    {
+        _box[x] = box[x];
+    }
+    
+    if(aniTime<0){
+        aniTime=0.1;
+    }
+    
+    _animationNumFrames=aniFrames;
+    _animationFrame=0;
+    _animation = true;
+    _animationTime = aniTime;
+    
+    _clock = new Clock();
+    _bitmasks = new Bitmasks();
+    
+    
+    delete box;
+    box=NULL;
 }
 
 Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position)
@@ -38,11 +74,15 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     _sprite.setPosition(position);
     _sprite.setOrigin(origin);
     
+    _box = new sf::IntRect[1];
+    _box[0] = box;
+    
     _animationFrame=-1;
     _animation = false;
+    _animationTime = -1;
+    _animationNumFrames = -1;
     
     _clock = new Clock();
-    
     _bitmasks = new Bitmasks();
 }
 
@@ -56,31 +96,54 @@ Sprite::Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vecto
     
     _animationFrame=-1;
     _animation = false;
+    _animationTime = -1;
+    _animationNumFrames = -1;
+    
+    _box = new sf::IntRect[1];
+    _box[0] = box;
     
     _clock = new Clock();
-
     _bitmasks = new Bitmasks();
+    
+
 }
 
 
-Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vector2f position)
+Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vector2f position,  int aniFrames, float aniTime)
 {
     //crear una animacion
     _sprite.setTexture(*texture->getTextureTexture());
     //setTectureRect
     _sprite.setPosition(position);
     _sprite.setOrigin(origin);
+    _sprite.setTextureRect(box[0]);
     
+    _box = new sf::IntRect[aniFrames];
+    
+    for(int x=0 ; x<aniFrames; x++)
+    {
+        _box[x] = box[x];
+    }
+    
+    if(aniTime<0){
+        aniTime=0.1;
+    }
+    
+    _animationNumFrames=aniFrames;
     _animationFrame=0;
     _animation = true;
+    _animationTime = aniTime;
     
     _clock = new Clock();
-    
     _bitmasks = new Bitmasks();
+    
+    
+    delete box;
+    box=NULL;
 }
 
 
-Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale)
+Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale,int aniFrames, float aniTime)
 {
     //crear una animacion
     _sprite.setTexture(*texture->getTextureTexture());
@@ -88,12 +151,25 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     _sprite.setPosition(position);
     _sprite.setOrigin(origin);
     _sprite.setScale(scale);
+    _sprite.setTextureRect(box[0]);
     
+    _box = new sf::IntRect[aniFrames];
+    
+    for(int x=0 ; x<aniFrames; x++)
+    {
+        _box[x] = box[x];
+    }
+    
+    if(aniTime<0){
+        aniTime=0.1;
+    }
+    
+    _animationNumFrames=aniFrames;
     _animationFrame=0;
     _animation = true;
+    _animationTime = aniTime;
     
     _clock = new Clock();
-    
     _bitmasks = new Bitmasks();
 }
 
@@ -205,6 +281,65 @@ void Sprite::setSpriteTextureRect(sf::IntRect box)
     _sprite.setTextureRect(box);
 }
     
+
+void Sprite::updateAnimation()
+{
+    cout <<_clock->getClockAsSeconds()<<endl;
+
+    if(_animation&&_clock->getClockAsSeconds()>=_animationTime)
+    {
+        cout<<_animationFrame<<endl;
+        if(_animationFrame>=_animationNumFrames) _animationFrame=0;
+        _sprite.setTextureRect(_box[_animationFrame]);
+        _animationFrame++;
+        _clock->clockRestart();
+    }
+    
+}
+
+void Sprite::changeAnimation(sf::IntRect* box, int animationNumFrames, float animationTime){
+    
+    if(_animation){
+    delete _box;
+    _box=NULL;
+    _animationNumFrames=animationNumFrames;
+    _animationTime=animationTime;
+    
+    _box = new sf::IntRect[animationNumFrames];
+    
+    for(int x=0 ; x<animationNumFrames; x++)
+    {
+        _box[x] = box[x];
+    }
+    
+    if(animationNumFrames<0){
+        animationNumFrames=0.1;
+    }
+    
+    _clock->clockRestart();
+    
+    _animationFrame=0;
+    }
+    
+    delete box;
+    box=NULL;
+}
+
+void Sprite::setAnimationFrame(int f)
+{
+    _animationFrame=f;
+}
+void Sprite::setAnimationNumFrames(int n)
+{
+    _animationNumFrames=n;
+}
+
+void Sprite::setAnimationTime(float t)
+{
+    cout <<"CAMBIO ANIMATION TIME"<<endl;
+    _animationTime=t;
+}
+
 sf::Vector2f Sprite::getSpritePosition()
 {
     return _sprite.getPosition();
@@ -233,7 +368,6 @@ sf::Sprite Sprite::getSpriteSprite()
 sf::IntRect Sprite::getSpriteTextureRect()
 {
     //hay que devolver el cuadrado de recorte actual
-    
     if(_animation==true){
         //devolver el cuadrado de recorte del frame actual de la caja.
     }
@@ -257,4 +391,8 @@ sf::Transform  Sprite::getSpriteInverseTransform(){
 
 sf::IntRect* Sprite::getBox(){
     return _box;
+}
+
+int Sprite::getAnimationFrame(){
+    return _animationFrame;
 }
