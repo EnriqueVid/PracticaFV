@@ -277,7 +277,7 @@ int main()
         
         player->render(window, clc, UPS);
 
-        //window->windowDraw(mes);
+        window->windowDraw(mes);
 
         
 

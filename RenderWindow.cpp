@@ -53,9 +53,8 @@ void RenderWindow::windowDraw(Sprite* sprite)
 void RenderWindow::windowDraw(Message* message)
 {
     _window->draw(message->getSpriteMessage()->getSpriteSprite());
-    //_window->draw(message->getTextMessage()->getText());
+    _window->draw(message->getTextMessage()->getText());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 }
-
 
 bool RenderWindow::windowIsOpen()
 {

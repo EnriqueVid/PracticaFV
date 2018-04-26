@@ -19,7 +19,6 @@ using namespace std;
 
 Message::Message(int number,Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        
         _text = new Text();
         
         sf::FloatRect box = pjbounds; 
@@ -30,10 +29,12 @@ Message::Message(int number,Font* font, Texture* texturebg, sf::FloatRect pjboun
         box1.width = (int) (texturebg->getTextureSize().x);
         
         _text->setFont(font);
-        _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition); 
+        _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
+        _sbox->spriteScale(sf::Vector2f(0.1f, 0.1f));
         _text->setCharacterSize(12);
         _text->setColor(sf::Color::White);
         _text->setPosition(_sbox->getSpritePosition().x + 20, _sbox->getSpritePosition().y);
+        _text->setPosition(600, 500);
         
         std::string message1 = "";
         switch(number)
@@ -41,11 +42,13 @@ Message::Message(int number,Font* font, Texture* texturebg, sf::FloatRect pjboun
             case 0:
                 message1 = "Hola, bienvenide a Color of Fate En este juego se va a poner a prueba tus habilidades asi que esperamos grandes cosas de ti.";
                 _text->setString(message1);
+                _text->getText().setString(message1);
                 break;
                 
             case 1:
                 message1 = "Cada piso tiene varios niveles y para salvar a tu mundo debes ascender a lo más alto para erradicar el mal. ¡Nos vemos en la cima!";
                 _text->setString(message1); 
+                //_text->getText().setString(message1);
                 break;
                 
             case 2:

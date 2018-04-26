@@ -80,7 +80,6 @@ void Text::setColor(sf::Color color)
 void Text::setFont(Font* font)
 {
     _font = font;
-    _text.setFont(_font->getFont());
 }
     
 void Text::setPosition(float x, float y)
