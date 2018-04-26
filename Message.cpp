@@ -13,26 +13,42 @@
 
 
 #include "Message.h"
-#include "Player.h"
+
 
 using namespace std;
 
-Message::Message(int number,std::string file, Texture* texturebg)
+Message::Message(int number,Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        
         _text = new Text();
+        
+        sf::FloatRect box = pjbounds; 
+        sf::IntRect box1;
+        box1.top = (int) (box.top + box.height);
+        box1.left = (int) (box.left - box.width);
+        box1.height = (int)(texturebg->getTextureSize().y);
+        box1.width = (int) (texturebg->getTextureSize().x);
+        
+        _text->setFont(font);
+        _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
+        _sbox->spriteScale(sf::Vector2f(0.1f, 0.1f));
+        _text->setCharacterSize(12);
+        _text->setColor(sf::Color::White);
+        _text->setPosition(_sbox->getSpritePosition().x + 20, _sbox->getSpritePosition().y);
+        _text->setPosition(600, 500);
         
         std::string message1 = "";
         switch(number)
         {
             case 0:
-                message1 = "¡Hola, bienvenide a Color of Fate! En este juego se va a poner a prueba tus habilidades así que esperamos grandes cosas de ti.";
+                message1 = "Hola, bienvenide a Color of Fate En este juego se va a poner a prueba tus habilidades asi que esperamos grandes cosas de ti.";
                 _text->setString(message1);
+                _text->getText().setString(message1);
                 break;
                 
             case 1:
                 message1 = "Cada piso tiene varios niveles y para salvar a tu mundo debes ascender a lo más alto para erradicar el mal. ¡Nos vemos en la cima!";
                 _text->setString(message1); 
+                //_text->getText().setString(message1);
                 break;
                 
             case 2:
@@ -50,26 +66,32 @@ Message::Message(int number,std::string file, Texture* texturebg)
                 break;                
         }
         
-        _font = new Font(file);
-        _sbox = new Sprite();        
-        _sbox->setSpriteTexture(texturebg);
-        _sbox->setSpriteOrigin(sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f));
-        _sbox->setSpritePosition(sf::Vector2f(Player::Instance()->getPlayer()->getSpritePosition().x, Player::Instance()->getPlayer()->getSpritePosition().y - texturebg->getTextureSize().y));
         
-        _text->setFont(_font);
-        _text->setCharacterSize(12);
-        _text->setColor(sf::Color::White);
-        _text->setOrigin(_text->getGlobalBounds().width/2.f, _text->getGlobalBounds().height/2.f);
-        _text->setPosition(_sbox->getSpritePosition().x, _sbox->getSpritePosition().y);
+
 
 }
+
+Text* Message::getTextMessage()
+{
+    return _text;
+}
+
+Sprite* Message::getSpriteMessage()
+{
+    return _sbox;
+}
+
+Font* Message::getFontMessage()
+{
+    return _text->getFont();
+}
+
+
 
 Message::~Message()
 {
     delete _text;
-    _text = NULL;
-    delete _font;
-    _font = NULL;   
+    _text = NULL;;   
     delete _sbox;
     _sbox = NULL;
 }

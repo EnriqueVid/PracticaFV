@@ -1,27 +1,22 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Font.hpp>
-
-
-#include "Font.h"
+#include <SFML/Graphics.hpp>
 #include "Text.h"
 #include "Sprite.h"
 #include "Texture.h"
 
-
 class Message {
 public:
-    Message(int number, std::string file, Texture* texturebg);
+    Message(int number, Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition);
+    Sprite* getSpriteMessage();
+    Text* getTextMessage();
+    Font* getFontMessage();
     virtual ~Message();
 
 private:
     
     Text* _text;
-    Font* _font;
     Sprite* _sbox;
 };
 

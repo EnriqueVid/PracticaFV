@@ -13,6 +13,7 @@
 
 #include "RenderWindow.h"
 #include "Event.h"
+#include "Message.h"
 
 RenderWindow::RenderWindow(int width, int height, std::string title)
 {
@@ -50,6 +51,7 @@ void RenderWindow::windowDraw(Sprite* sprite)
     _window->draw(sprite->getSpriteSprite());
 }
 
+
 void RenderWindow::windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual)
 {
     float x = prev->getPositionX()*(1-_percentTick) + actual->getPositionX()*_percentTick;
@@ -72,6 +74,12 @@ void RenderWindow::windowInterpolateDraw(Sprite* sprite, Situation* prev, Situat
     sprite->setSpriteRotation(g);
     
     _window->draw(sprite->getSpriteSprite());
+}
+
+void RenderWindow::windowDraw(Message* message)
+{
+    _window->draw(message->getSpriteMessage()->getSpriteSprite());
+    _window->draw(message->getTextMessage()->getText());
 }
 
 bool RenderWindow::windowIsOpen()

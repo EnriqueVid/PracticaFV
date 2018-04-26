@@ -17,6 +17,8 @@
 #include "Sprite.h"
 #include "Event.h"
 #include "Situation.h"
+#include "Message.h"
+
 
 class RenderWindow 
 {
@@ -27,6 +29,7 @@ public:
     void windowClear();
     void windowDraw(Sprite* sprite);
     void windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual);
+    void windowDraw(Message* message);
     void windowDisplay();
     void windowClose();
     bool windowIsOpen();
