@@ -17,6 +17,7 @@
 RenderWindow::RenderWindow(int width, int height, std::string title)
 {
     _window = new sf::RenderWindow(sf::VideoMode(width, height), title);
+    _percentTick = 1;
     //_view = new View();
     //_view->setViewView(_window->getView());
 }
@@ -49,6 +50,30 @@ void RenderWindow::windowDraw(Sprite* sprite)
     _window->draw(sprite->getSpriteSprite());
 }
 
+void RenderWindow::windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual)
+{
+    float x = prev->getPositionX()*(1-_percentTick) + actual->getPositionX()*_percentTick;
+    float y = prev->getPositionY()*(1-_percentTick) + actual->getPositionY()*_percentTick;
+    float degPrev = prev->getAngle();
+    float degActu = actual->getAngle();
+    
+    if((degActu >= 0 && degActu <= 90) && degPrev > (degActu + 180))
+    {
+        degPrev -= 360;
+    }
+    if((degActu <360 && degActu >= 270) && degPrev < (degActu - 180))
+    {
+        degPrev += 360;
+    }
+    
+    float g = (((_percentTick-0)*(degActu - degPrev))/(1-0)) + degPrev;
+    
+    sprite->setSpritePosition(sf::Vector2f(x, y));
+    sprite->setSpriteRotation(g);
+    
+    _window->draw(sprite->getSpriteSprite());
+}
+
 bool RenderWindow::windowIsOpen()
 {
     return _window->isOpen();
@@ -67,6 +92,11 @@ sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position, View* v
 sf::Vector2f RenderWindow::windowMapPixelToCoords(sf::Vector2i position, View* view)
 {
     return _window->mapPixelToCoords(position,view->getViewView());
+}
+
+void RenderWindow::updatePercentTick(float pt)
+{
+    _percentTick = pt;
 }
 
 void RenderWindow::setWindowFramerateLimit(int fps)

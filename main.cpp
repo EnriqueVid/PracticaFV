@@ -253,6 +253,10 @@ int main()
             }
         }
         
+        float percenTick = min(1.0f, clc->getClockAsSeconds() / float(UPS));
+        
+        window->updatePercentTick(percenTick);
+        
         window->windowClear();
         
         for (int l=1; l<lfnumlayers; l++)
@@ -269,7 +273,8 @@ int main()
         
         //window->windowDraw(meh);
         
-        player->render(window, clc, UPS);
+        //player->render(window, clc, UPS);
+        window->windowInterpolateDraw(player->getPlayer(), player->getPreviousSituation(), player->getActualSituation());
 
         //window->windowDraw(mes);
         
