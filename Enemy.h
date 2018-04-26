@@ -32,7 +32,6 @@ public:
     
     void update();
     
-    void setEnemySprite(Texture* tex, sf::IntRect* box);
     void setEnemyPreviousSituation(sf::Vector2f position, float deg);
     void setEnemyActualSituation(sf::Vector2f position, float deg);
     void setEnemySpeed(int speed);
