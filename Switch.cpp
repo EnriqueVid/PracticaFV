@@ -14,71 +14,108 @@
 #include "Switch.h"
 
 Switch::Switch(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture,
-    int switchType) : Object(objectType, initialPosX, initialPosY, initialAngle, canBeMoved, texture){
-    
+    int switchType) : Object(objectType, initialPosX, initialPosY, initialAngle, canBeMoved, texture)
+{
     _switchType = switchType;
-    _door=NULL; //esto es MUY importante.
+    _door1=NULL; //esto es MUY importante.
+    _door2=NULL;
+    _sprite = new Sprite(texture,sf::IntRect(32,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(400.0f,400.0f),sf::Vector2f(1.0f,1.0f));  
+    _sprite->setSpritePosition(sf::Vector2f(initialPosX,initialPosY));
 }
 
-void Switch::activate(){
+void Switch::activate()
+{
     std::cout <<"Activando interruptor" <<endl;
     _pressed=true;
     if(_switchType==1){
-        if(_door!=NULL){
+        if(_door1!=NULL&&_door2!=NULL){
             std::cout <<"Se abriria la puerta de este interruptor."<<endl;
-            _door->open();            
+            _door1->open();
+            _door2->open();
         }
         else{
-            std::cout <<"No tengo puerta."<<endl;            
+            std::cout <<"No tengo puerta."<<endl;
         }
-    } 
+    }
 }
 
 void Switch::deactivate(){
     std::cout <<"Desactivando interruptor"<<endl;
     _pressed=false;
 }
-    
-void Switch::setDoor(Door* door){
+ 
+void Switch::update(){
+    //update (animations?)
+    cout << _sprite->getSpritePosition().x << ","<<_sprite->getSpritePosition().y<<endl;
+}
+
+
+void Switch::setDoor(Door* door1, Door* door2)
+{
     
     std::cout <<"Seteando puerta para el interruptor."<<endl;
     
-    if(_door!=NULL){
+    if(_door1!=NULL){
             std::cout <<"Eliminando anterior puerta."<<endl;
-        delete _door;
-        _door=NULL;
+        delete _door1;
+        _door1=NULL;   
     }
-        std::cout <<"Puerta asignada al interruptor."<<endl;
-    _door = door;
+    if(_door2!=NULL){
+            std::cout <<"Eliminando anterior puerta."<<endl;
+        delete _door2;
+        _door2=NULL;   
+    }
+    std::cout <<"Puerta asignada al interruptor."<<endl;
+    _door1 = door1;
+    _door2 = door2;
 }
     
-Door* Switch::getDoor(){
-    
-    if(_door!=NULL){
-            std::cout <<"Devuelta la puerta del interruptor"<<endl;
-        return _door;        
+Door* Switch::getDoor1()
+{
+    if(_door1!=NULL){
+            std::cout <<"Devuelta la puerta 1 del interruptor"<<endl;
+        return _door1;        
     }
     else{
-            std::cout <<"No hay puerta."<<endl;
+            std::cout <<"No hay puerta 1."<<endl;
     }
     
     return NULL;
 }
 
-bool Switch::getPressed(){
+Door* Switch::getDoor2()
+{
+    
+    if(_door2!=NULL){
+            std::cout <<"Devuelta la puerta 2 del interruptor"<<endl;
+        return _door2;        
+    }
+    else{
+            std::cout <<"No hay puerta 2."<<endl;
+    }
+    
+    return NULL;
+}
+
+
+bool Switch::getPressed()
+{
     return _pressed;
 }
 
-int Switch::getSwitchType(){
+int Switch::getSwitchType()
+{
     return _switchType;
 }
 
-Switch::Switch(const Switch& orig) {
+Switch::Switch(const Switch& orig)
+{
     
 }
 
-Switch::~Switch() {  
-    //¡¡CUIDADO!! No eliminamos la puerta desde aqui porque si no, al hacer delete de puerta ocurrirá un 
+Switch::~Switch()
+{  
+    //*****¡¡CUIDADO!! No eliminamos la puerta desde aqui porque si no, al hacer delete de puerta ocurrirá un 
     //segmentation fault. Debido a que la puerta la declaramos por separado y luego la asignamos si el
     //interruptor es un interruptor con puerta.
     
@@ -87,7 +124,8 @@ Switch::~Switch() {
     /*
     delete _door;
     */
-    _door=NULL;
+    _door1=NULL;
+    _door2=NULL;
     
     //el destructor del padre se encarga de destruir el resto de punteros.
 }

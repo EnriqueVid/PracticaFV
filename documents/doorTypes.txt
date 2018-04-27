@@ -1,0 +1,10 @@
+
+DoorType:
+
+PUERTAS VERTICALES
+0 - Parte superior de la puerta
+1 - Parte inferior de la puerta
+
+PUERTAS HORIZONTALES
+2 - Parte izquierda de una puerta
+3 - Parte derecha de una puerta

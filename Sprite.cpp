@@ -187,16 +187,39 @@ Sprite::~Sprite()
     delete _bitmasks;
     _bitmasks=NULL;
 }
-    
+   
+
+bool Sprite::spriteIntersectsBounds(sf::Sprite spr){
+    _sprite.getGlobalBounds().intersects(spr.getGlobalBounds());
+}
+
+
+bool Sprite::spriteIntersectsBounds(Sprite* spr){
+    return spriteIntersectsBounds(spr->getSpriteSprite());
+}
+
+/*
 bool Sprite::spriteIntersectsBounds(Sprite* spr)
-{
-    if(_box->intersects(*spr->getBox())){
+{    
+    cout <<"¿Intersecta? Primero:" <<endl;
+    cout<< "   " << _box->top << "   " <<endl;
+    cout<<_box->left<<"   "<<(_box->left + _box->width)<<endl;
+    cout<<"   "<<(_box->top+_box->height)<<"   "<<endl;
+    
+    cout <<"¿Intersecta? Segundo:" <<endl;
+    cout<< "   " << spr->getBox()->top << "   " <<endl;
+    cout<< spr->getBox()->left <<"   "<<(spr->getBox()->left + spr->getBox()->width)<<endl;
+    cout<<"   "<<(spr->getBox()->top+spr->getBox()->height)<<"   "<<endl;
+
+    
+    if(_box->intersects(*spr->getBox()) ){
+        cout<<"SI QUE INTERSECTA"<<endl;
         return true;
     }
     else{
         return false;
     }
-}
+}*/
 
 
 bool Sprite::spriteIntersectsPixel(const sf::Sprite& Object2, sf::Uint8 AlphaLimit) {
@@ -284,11 +307,11 @@ void Sprite::setSpriteTextureRect(sf::IntRect box)
 
 void Sprite::updateAnimation()
 {
-    cout <<_clock->getClockAsSeconds()<<endl;
+    //cout <<_clock->getClockAsSeconds()<<endl;
 
     if(_animation&&_clock->getClockAsSeconds()>=_animationTime)
     {
-        cout<<_animationFrame<<endl;
+        //cout<<_animationFrame<<endl;
         if(_animationFrame>=_animationNumFrames) _animationFrame=0;
         _sprite.setTextureRect(_box[_animationFrame]);
         _animationFrame++;
@@ -336,7 +359,7 @@ void Sprite::setAnimationNumFrames(int n)
 
 void Sprite::setAnimationTime(float t)
 {
-    cout <<"CAMBIO ANIMATION TIME"<<endl;
+    //cout <<"CAMBIO ANIMATION TIME"<<endl;
     _animationTime=t;
 }
 
@@ -370,6 +393,7 @@ sf::IntRect Sprite::getSpriteTextureRect()
     //hay que devolver el cuadrado de recorte actual
     if(_animation==true){
         //devolver el cuadrado de recorte del frame actual de la caja.
+        return _box[_animationFrame];
     }
     else
     {

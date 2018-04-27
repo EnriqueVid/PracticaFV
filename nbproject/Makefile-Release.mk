@@ -61,6 +61,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Text.o \
 	${OBJECTDIR}/Texture.o \
 	${OBJECTDIR}/View.o \
+	${OBJECTDIR}/World.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/tinyxml2.o
 
@@ -218,6 +219,11 @@ ${OBJECTDIR}/View.o: View.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/View.o View.cpp
+
+${OBJECTDIR}/World.o: World.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/World.o World.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
