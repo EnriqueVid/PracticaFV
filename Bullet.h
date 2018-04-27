@@ -27,7 +27,7 @@ class Bullet {
 public:
     Bullet();
     
-    Bullet(bool playerBullet,float posX, float posY, float angle, float vel, int damage, Texture *textura);
+    Bullet(bool playerBullet,float posX, float posY, float angle, float vel,float maxDuration, int damage, Texture *texture);
     
     Bullet(const Bullet& orig);
     
@@ -69,6 +69,7 @@ private:
     
     Sprite* _sprite;
     float _speed;
+    float _duration;
     
     bool _erase;
 

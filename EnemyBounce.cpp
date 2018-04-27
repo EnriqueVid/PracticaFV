@@ -14,7 +14,7 @@
 #include "EnemyBounce.h"
 
 
-EnemyBounce::EnemyBounce(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern): Enemy(tex, box, origin, position, scale) 
+EnemyBounce::EnemyBounce(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern): Enemy(tex, origin, position, scale) 
 {
     _pattern = pattern;
     _actualStep = 0;
@@ -72,6 +72,7 @@ void EnemyBounce::updateStateStop()
 {
     
 }
+
 
 void EnemyBounce::setEnemyBouncePattern(string pattern)
 {

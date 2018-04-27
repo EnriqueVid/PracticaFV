@@ -39,6 +39,7 @@ public:
     int getBreakAnimationFrame();
     Clock* getClock();
     
+    
     virtual ~Box();
     
 private:

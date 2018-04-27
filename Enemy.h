@@ -26,7 +26,7 @@ class Enemy {
     
 public:
     Enemy();
-    Enemy(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
+    Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
     Enemy(const Enemy& orig);
     virtual ~Enemy();
     
