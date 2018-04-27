@@ -19,6 +19,7 @@
 #include "Font.h"
 #include "Text.h"
 #include "Message.h"
+#include "EnemyBounce.h"
 
 #define UPS 1.0f/15.0f
 
@@ -27,8 +28,9 @@ using namespace std;
 int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
-    
+    Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
 
+    EnemyBounce* enemyBounce = new EnemyBounce(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1.0f, 1.0f), "esnw");
     
     Event* ev = new Event();
     Input* in = Input::Instance();

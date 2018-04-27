@@ -18,7 +18,7 @@ Enemy::Enemy()
     
 }
 
-Enemy::Enemy(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale) 
+Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale) 
 {
     
     _previousSituation = new Situation();
@@ -26,7 +26,7 @@ Enemy::Enemy(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f p
     
     sf::IntRect* animation = getAnimation(0);
     
-    _sprite = new Sprite(tex, box, origin, position, scale, _animationNumFrames, _animationTime);
+    _sprite = new Sprite(tex, animation, origin, position, scale, _animationNumFrames, _animationTime);
     
     animation = NULL;
     
