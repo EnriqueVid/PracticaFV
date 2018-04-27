@@ -15,28 +15,32 @@
 #define STATEGAMEOVER_H
 
 #include "State.h"
+#include "Sprite.h"
+#include <iostream>
+#include "StateStart.h"
+#include "StateGameLoop.h"
 
 class StateGameOver : public State {
 public:
-    //StateGameLoop();
-    //StateGameLoop(const StateGameLoop& orig);
-    //virtual ~StateGameLoop();
-    virtual State* GetNextState();
+
+    virtual State* GetNextState(int i);
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void setState(State* nextState); 
+    virtual void update();
     
     static StateGameOver* Instance();
     
     protected:
+        virtual ~StateGameOver();
         StateGameOver();
         StateGameOver(const StateGameOver & );
         StateGameOver &operator= (const StateGameOver & ){};
         
     private:
     static StateGameOver* _pinstance;
-    
+    Texture* _tgameover;
+    Sprite* _sgameover;
     
 };
 #endif /* STATEGAMEOVER_H */

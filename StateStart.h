@@ -15,26 +15,34 @@
 #define STATESTART_H
 
 #include "State.h"
+#include "Texture.h"
+#include "Sprite.h"
+#include <iostream>
+#include "StateGameOver.h"
+#include "StateGameLoop.h"
 
 class StateStart : public State {
 public:
-    //StateGameLoop();
-    //StateGameLoop(const StateGameLoop& orig);
-    //virtual ~StateGameLoop();
-    virtual State* GetNextState();
+    
+    virtual State* GetNextState(int i);
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void setState(State* nextState); 
+    virtual void update();
     
     static StateStart* Instance();
     
     protected:
+        virtual ~StateStart();
         StateStart();
         StateStart(const StateStart & );
         StateStart &operator= (const StateStart & ){};
         
     private:
     static StateStart* _pinstance;    
+    Texture* _tstartbg;
+    Texture* _tstartbutton;
+    Sprite* _sstartbg;
+    Sprite* _sstartbutton;
 };
 #endif /* STATESTART_H */
