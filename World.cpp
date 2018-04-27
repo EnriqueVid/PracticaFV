@@ -29,10 +29,9 @@ World::World()
     buildWorld(0);
 }
 
-World::buildWorld(int lvlNumber)
+void World::buildWorld(int lvlNumber)
 {
-    LevelFactory* lvl = LevelFactory.Instance();
-    lvl->setLevelFactoryStates(0);
+    LevelFactory::Instance();
     
     //_box = lvl.getBox
     //_door = lvl.getDoor...    

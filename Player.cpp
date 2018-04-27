@@ -13,6 +13,7 @@
 
 #include "Player.h"
 #include "Input.h"
+#include "Situation.h"
 
 Player* Player::_pinstance=0;
 
@@ -439,7 +440,6 @@ void Player::move()
         angle = 225;
         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(_speed*sin(45),-_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -451,14 +451,8 @@ void Player::move()
 
         angle = 315;
         
-        if(_sprite->getSpriteRotation()<135)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
-        }
-
         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(_speed*sin(45),_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -471,7 +465,6 @@ void Player::move()
         angle = 135;
         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),-_speed*sin(45)));
     
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -480,16 +473,9 @@ void Player::move()
         //abajo izquierda
     if(_axis.x==-1&&_axis.y==1)
     {
-        
-        if(_sprite->getSpriteRotation()>225)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
-        }
-        
         angle = 45;
         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(-_speed*sin(45),_speed*sin(45)));
         
         _direction.x=_axis.x;
         _direction.y=_axis.y;
@@ -498,34 +484,9 @@ void Player::move()
         //derecha
     if(_axis.x==1)
     {
-        
-        //sprite->setRotation(0);
-        /*
-        if(sprite->getRotation()==330)
-        {
-            
-            SituationAnterior->setGrados(-90);
-            sprite->setRotation(sprite->getRotation()+90);    
-            
-        }
-        
-        if(sprite->getRotation()>180)
-        {
-            sprite->setRotation(sprite->getRotation()+90);
-        }else if(sprite->getRotation()>0)
-        {
-            sprite->setRotation(sprite->getRotation()-90);
-        }*/
-        
         angle = 270;
         
-        if(_sprite->getSpriteRotation()<90)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()+360);
-        }
-        
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(_speed,0));
         
         _direction.x=_axis.x;
         _direction.y=0;
@@ -533,25 +494,9 @@ void Player::move()
         //izquierda
     }else if(_axis.x==-1)
     {
-        //sprite->setRotation(180);
-        /*if(sprite->getRotation()<180)
-        {
-            sprite->setRotation(sprite->getRotation()+90);
-        }else if(sprite->getRotation()>180)
-        {
-            sprite->setRotation(sprite->getRotation()-90);
-        }
-         */
         angle = 90;
-        
+         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(_speed*(cos((angle)/(2*PI))),0));
-        
-        if(_sprite->getSpriteRotation()>270)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
-        }
-        
         
         _direction.x=_axis.x;
         _direction.y=0;
@@ -560,56 +505,19 @@ void Player::move()
         //arriba
     if(_axis.y==-1)
     {
-        //sprite->setRotation(270);
-        
-        /*
-        if(sprite->getRotation()==0)
-        {
-            SituationAnterior->setGrados(360);
-        }
-        
-        if(sprite->getRotation()<270 && sprite->getRotation()>=90)
-        {
-            sprite->setRotation(sprite->getRotation()+90);
-        }else if(sprite->getRotation()>270 || sprite->getRotation()<90)
-        {
-            sprite->setRotation(sprite->getRotation()-90);
-        }
-         */
-        
-        
         angle = 180;
         
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(0,-_speed));
-        
         
         _direction.x=0;
         _direction.y=_axis.y;
         
         //abajo
     }else if(_axis.y==1)
-    {
-        //sprite->setRotation(90);
-        /*
-        if(sprite->getRotation()<90)
-        {
-            sprite->setRotation(sprite->getRotation()+30);
-        }else if(sprite->getRotation()>90)
-        {
-            sprite->setRotation(sprite->getRotation()-30);
-        }
-         */
-        
+    {      
         angle = 0;
-        
-        if(_sprite->getSpriteRotation()>180)
-        {
-            _previousSituation->setAngle(_sprite->getSpriteRotation()-360);
-        }        
-        
+
         _sprite->setSpriteRotation(angle);
-        //_sprite->spriteMove(sf::Vector2f(0,_speed));
         
         _direction.x=0;
         _direction.y=_axis.y;

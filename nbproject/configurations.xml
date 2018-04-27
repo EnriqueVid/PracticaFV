@@ -9,6 +9,10 @@
       <itemPath>Bullet.h</itemPath>
       <itemPath>Clock.h</itemPath>
       <itemPath>Door.h</itemPath>
+      <itemPath>Enemy.h</itemPath>
+      <itemPath>EnemyBounce.h</itemPath>
+      <itemPath>EnemyChase.h</itemPath>
+      <itemPath>EnemyStand.h</itemPath>
       <itemPath>Event.h</itemPath>
       <itemPath>Font.h</itemPath>
       <itemPath>Game.h</itemPath>
@@ -45,6 +49,10 @@
       <itemPath>Bullet.cpp</itemPath>
       <itemPath>Clock.cpp</itemPath>
       <itemPath>Door.cpp</itemPath>
+      <itemPath>Enemy.cpp</itemPath>
+      <itemPath>EnemyBounce.cpp</itemPath>
+      <itemPath>EnemyChase.cpp</itemPath>
+      <itemPath>EnemyStand.cpp</itemPath>
       <itemPath>Event.cpp</itemPath>
       <itemPath>Font.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
@@ -126,6 +134,22 @@
       <item path="Door.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Door.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Enemy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Enemy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyBounce.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyBounce.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyChase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyChase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyStand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyStand.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -261,6 +285,22 @@
       <item path="Door.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Door.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Enemy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Enemy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyBounce.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyBounce.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyChase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyChase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyStand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyStand.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>

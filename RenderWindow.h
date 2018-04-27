@@ -16,6 +16,9 @@
 #include "View.h"
 #include "Sprite.h"
 #include "Event.h"
+#include "Situation.h"
+#include "Message.h"
+
 
 class RenderWindow 
 {
@@ -25,15 +28,19 @@ public:
     
     void windowClear();
     void windowDraw(Sprite* sprite);
+    void windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual);
+    void windowDraw(Message* message);
     void windowDisplay();
     void windowClose();
     bool windowIsOpen();
     bool windowPollEvent(Event* ev);
     sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position, View* view);
     sf::Vector2f windowMapPixelToCoords(sf::Vector2i position, View* view);
+    void updatePercentTick(float pt);
     
     void setWindowFramerateLimit(int fps);
     void setWindowView(View* view);
+    
     
     View* getWindowView();
     sf::RenderWindow* getWindowWindow();
@@ -42,6 +49,7 @@ public:
 private:
     sf::RenderWindow* _window;
     View* _view;
+    float _percentTick;
 };
 
 #endif /* RENDERWINDOW_H */

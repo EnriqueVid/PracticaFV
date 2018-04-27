@@ -244,6 +244,7 @@ void LevelFactory::levelFactoryMapCreator()
     }
 }
 
+
 Sprite**** LevelFactory::getLevelFactoryTileMapSprite()
 {
     return _tileMapSprite;
