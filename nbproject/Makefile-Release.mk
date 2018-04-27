@@ -42,6 +42,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/Door.o \
 	${OBJECTDIR}/Enemy.o \
 	${OBJECTDIR}/EnemyBounce.o \
+	${OBJECTDIR}/EnemyChase.o \
+	${OBJECTDIR}/EnemyStand.o \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
@@ -125,6 +127,16 @@ ${OBJECTDIR}/EnemyBounce.o: EnemyBounce.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyBounce.o EnemyBounce.cpp
+
+${OBJECTDIR}/EnemyChase.o: EnemyChase.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyChase.o EnemyChase.cpp
+
+${OBJECTDIR}/EnemyStand.o: EnemyStand.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyStand.o EnemyStand.cpp
 
 ${OBJECTDIR}/Event.o: Event.cpp
 	${MKDIR} -p ${OBJECTDIR}

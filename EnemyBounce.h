@@ -31,8 +31,19 @@ public:
     EnemyBounce(const EnemyBounce& orig);
     virtual ~EnemyBounce();
     
+    void update();
+    void updateStateIdle();
+    void updateStateStop();
+    
+    void setEnemyBouncePattern(string pattern);
+    void setEnemyState(int s);
+    
+    string getEnemyBouncePattern();
+    
 private:
     string _pattern;
+    int _actualStep;
+    int _state;
 
 };
 

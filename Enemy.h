@@ -17,6 +17,8 @@
 #include <SFML/Graphics.hpp>
 #include "Sprite.h"
 #include "Situation.h"
+#include <string.h>
+
 
 using namespace std;
 
@@ -30,14 +32,15 @@ public:
     
     sf::IntRect* getAnimation(int animationNum);
     
-    void update();
+    void enemyUpdate();
+    void enemyMove(sf::Vector2f dir, float g);
     
     void setEnemyPreviousSituation(sf::Vector2f position, float deg);
     void setEnemyActualSituation(sf::Vector2f position, float deg);
     void setEnemySpeed(int speed);
     void setEnemyDamage(float damage);
     void setEnemyAnimationNumFrames(int num);
-    void setEnemyAnimationTime(int time);
+    void setEnemyAnimationTime(float time);
     void setEnemyAxis(sf::Vector2i axis);
     void setEnemyDirection(sf::Vector2i dir);
     

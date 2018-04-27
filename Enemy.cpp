@@ -46,6 +46,12 @@ Enemy::~Enemy()
 {
 }
 
+void Enemy::enemyMove(sf::Vector2f dir, float g)
+{
+    _actualSituation->setPosition(dir.x*_speed, dir.y*_speed);
+    _actualSituation->setAngle(g);
+}
+
 sf::IntRect* Enemy::getAnimation(int animationNum)
 {
     sf::IntRect* animation;
@@ -119,30 +125,37 @@ Situation* Enemy::getEnemyPreviousSituation()
 {
     return _previousSituation;
 }
+
 Situation* Enemy::getEnemyActualSituation()
 {
     return _actualSituation;
 }
+
 int Enemy::getEnemySpeed()
 {
     return _speed;
 }
+
 float Enemy::getEnemyDamage()
 {
     return _damage;
 }
+
 int Enemy::getEnemyAnimationNumFrames()
 {
     return _animationNumFrames;
 }
+
 float Enemy::getEnemyAnimationTime()
 {
     return _animationTime;
 }
+
 sf::Vector2i Enemy::getEnemyAxis()
 {
     return _axis;
 }
+
 sf::Vector2i Enemy::getEnemyDirection()
 {
     return _direction;
