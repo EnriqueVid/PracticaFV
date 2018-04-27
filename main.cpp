@@ -20,6 +20,7 @@
 #include "Text.h"
 #include "Message.h"
 #include "EnemyBounce.h"
+#include "Bullet.h"
 
 #define UPS 1.0f/15.0f
 
@@ -55,8 +56,17 @@ int main()
     std::cout<<"Checkpoint 3"<<endl;
     
     std::string path = "textures/PlayerTiles.png";
+
+    std::string pathObject = "textures/ObjectTiles.png";
+
+    std::string pathBullet = "textures/BulletTiles.png";
+
+    std::string pathButton = "textures/TexturaBotonTemporal.png";
     
     Texture* playerTexture = new Texture(path);
+    Texture* bulletTexture = new Texture(pathBullet);
+    Texture* objectTexture = new Texture(pathObject);
+    Texture* buttonTexture = new Texture(pathButton);
     
     std::cout<<"Checkpoint 4"<<endl;
     
@@ -83,18 +93,33 @@ int main()
     
     int iteracion=0;
     
-    Object* objeto = new Object(0, 3.0, 3.0, 37.0, false, texture);
+    Object* objeto = new Object(0, 3.0, 3.0, 37.0, false, objectTexture);
     
-    Door* door1 = new Door(1, 0.0, 0.0, 0.0, false, texture,
-                            1, 4.5);
-    Door* door2 = new Door(1, 0.0, 0.0, 0.0, false, texture,
-                            1, 2.5);
-    Switch* button1 = new Switch(1, 0.0, 0.0, 0.0, false, texture,
+    Door* door1 = new Door(1, 352.0, 320.0+64, 0.0, false, objectTexture,
+                            0, 4.5, 1.0);
+    Door* door2 = new Door(1, 352.0, 352.0+64, 0.0, false, objectTexture,
+                            1, 4.5, 1.0);
+    Switch* button1 = new Switch(1, 160.0, 200.0, 0.0, false, buttonTexture,
                                 1);
-    Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, texture, 0);
+    Switch* button2 = new Switch(1, 0.0, 0.0, 0.0, false, buttonTexture, 
+            0);
     
-    Box* box = new Box(1, 0.0, 0.0, 0.0, false, texture,
+    Box* box = new Box(1, 160.0, 360.0, 0.0, false, objectTexture,
                         1, 2, 3.0);
+    
+    Bullet* bullet = new Bullet(true,40.0f,40.0f,0.0f,1.0f,2.0f,1,bulletTexture);
+    
+    sf::RectangleShape boundsPlayer;
+    sf::RectangleShape boundsBox;
+    
+    boundsPlayer.setSize(sf::Vector2f(32.0f,32.0f));
+    boundsBox.setSize(sf::Vector2f(64.0f,64.0f));
+    
+    boundsPlayer.setFillColor(sf::Color::Red);
+    boundsBox.setFillColor(sf::Color::Green);
+    
+    boundsPlayer.setOrigin(16.0f,16.0f);
+    boundsBox.setOrigin(32.0f,32.0f);
     
     //Sprite* meh = new Sprite(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
     
@@ -169,7 +194,7 @@ int main()
         }
         if(clock->getClockAsSeconds()>5.0&&iteracion==4){
             iteracion = iteracion + 1;          
-                        std::cout <<"==========================================" << endl;
+            std::cout <<"==========================================" << endl;
                         
             std::cout <<"¿Puede moverse?" <<objeto->getCanBeMoved() <<endl;
             std::cout << "¿Que tipo de objeto es?" <<objeto->getObjectType() <<endl;
@@ -190,19 +215,18 @@ int main()
         if(clock->getClockAsSeconds()>8.0&&iteracion==7){
             iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
-                        button1->setDoor(door1);
+                        button1->setDoor(door1,door2);
         }
         if(clock->getClockAsSeconds()>9.0&&iteracion==8){
             std::cout <<"Llego aqui"<<endl;
             iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
-                        if(button1->getDoor()!=NULL) button1->getDoor()->open();
+                        //button1->activate();
         }
         if(clock->getClockAsSeconds()>10.0&&iteracion==9){
             iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
                         //button1->getDoor()->close();
-                        door1->interact();
         }
         if(clock->getClockAsSeconds()>11.0&&iteracion==10){
             iteracion = iteracion + 1;
@@ -240,7 +264,7 @@ int main()
             if(clock->getClockAsSeconds()>20.0&&box->getErase()&&iteracion==15){
                 iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
-
+/*
                         delete box;
                         box=NULL;
                         
@@ -257,7 +281,7 @@ int main()
                         door2=NULL;
                         
                         delete objeto;
-                        objeto=NULL;
+                        objeto=NULL;*/
             }
         }
         
@@ -267,34 +291,114 @@ int main()
         
         window->windowClear();
         
-        for (int l=1; l<lfnumlayers; l++)
-        {
-            for (int y=0; y<lfheight; y++)
+        for (int y=0; y<lfheight; y++)
             {
                 for(int x=0; x<lfwidth; x++)
                 {
-                    if(lftilemap[l][y][x] != NULL)
-                        window->windowDraw(lftilemap[l][y][x]);
+                    if(lftilemap[1][y][x] != NULL)
+                        window->windowDraw(lftilemap[1][y][x]);
                 }
             }
-        }
         
         //window->windowDraw(meh);
         
+        if(bullet!=NULL){
+            bullet->update();
+        }
+        if(door1!=NULL){
+            door1->update();
+        }
+        if(door2!=NULL) door2->update();
+        if(box!=NULL) box->update();
+                
+        if(bullet!=NULL){
+            if(bullet->getErase()){
+                delete bullet;
+                bullet = NULL;
+            }
+        }
+        
+        
+        /*
+        if(box!=NULL){
+        if(player->getPlayer()->spriteIntersectsPixel(box->getSprite()->getSpriteSprite(),0)){
+            cout <<"Activando boton"<<endl;
+            button1->activate();
+        }
+        }*/
+        
+        
+        if(box!=NULL){
+            boundsPlayer.setPosition(player->getPlayer()->getSpritePosition().x , player->getPlayer()->getSpritePosition().y);
+            boundsBox.setPosition(box->getSprite()->getSpritePosition().x , box->getSprite()->getSpritePosition().y);
+        
+        }
+        
+        window->getWindowWindow()->draw(boundsPlayer);
+        window->getWindowWindow()->draw(boundsBox);
+        
+        
+        if(box!=NULL){
+        if(player->getPlayer()->spriteIntersectsBounds(box->getSprite())){
+            cout <<"Activando boton"<<endl;
+            button1->activate();
+        }
+        }        
+        
+        
+        if(box!=NULL){
+            if(box->getErase()){
+                delete box;
+                box=NULL;
+            }
+        }
+        
+        
+        
+
+        //cout << box->getActualSituation()->getPositionX() <<" , " << box->getActualSituation()->getPositionY()<< endl;
+
+        if(box!=NULL){
+            box->update();
+            box->render(window, clc, UPS);
+        }
+        
+        //cout << button1->getActualSituation()->getPositionX() <<" , " << button1->getActualSituation()->getPositionY()<< endl;
+        
+        if(button1!=NULL){
+            button1->update();
+            button1->render(window,clc,UPS);        
+        }
+        
+        door1->render(window,clc,UPS);
+        
+        door2->render(window,clc,UPS);
+        
+        if(bullet!=NULL){
+            bullet->render(window,clc,UPS);            
+        }
+
+        //window->windowDraw(mes);
         //player->render(window, clc, UPS);
         window->windowInterpolateDraw(player->getPlayer(), player->getPreviousSituation(), player->getActualSituation());
 
         window->windowDraw(mes);
 
         
+        //window->windowDraw(box->getSprite());
+        for (int y=0; y<lfheight; y++)
+            {
+                for(int x=0; x<lfwidth; x++)
+                {
+                    if(lftilemap[2][y][x] != NULL)
+                        window->windowDraw(lftilemap[2][y][x]);
+                }
+            }
 
         window->windowDisplay();
         
-        if(door1!=NULL){
-            door1->update();
-        }
-        if(door2!=NULL) door2->update();
-        if(box!=NULL) box->update();
+        
+
        
         
     }

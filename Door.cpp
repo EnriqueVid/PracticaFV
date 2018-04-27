@@ -14,20 +14,55 @@
 #include "Door.h"
 #include "Object.h"
 
-
 Door::Door() 
 {
     
 }
 
-Door::Door(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture, int doorType, float maxTimeOpen) : 
+Door::Door(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture, int doorType, float maxTimeOpen, float doorSpeed) : 
 Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, texture){
     _doorType = doorType;
     _maxTimeOpen = maxTimeOpen;
     _open = false;
-    _openAnimation =false;
-    _closeAnimation = false;
+    _close=true;
+    
+    _opening =false;
+    _closing = false;
+        
     _clock = new Clock();
+    
+    _speed = doorSpeed;
+    
+    /*
+DoorType:
+
+PUERTAS VERTICALES
+0 - Parte superior de la puerta
+1 - Parte inferior de la puerta
+
+PUERTAS HORIZONTALES
+2 - Parte izquierda de una puerta
+3 - Parte derecha de una puerta
+     */
+    
+    if(doorType==0)
+    {
+        _sprite = new Sprite(texture,sf::IntRect(64,0,64+32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
+        _initialPosition=initialPosY;
+        _maxPosition=initialPosY-32;
+    }
+    else if(doorType==1)
+    {
+        _sprite = new Sprite(texture,sf::IntRect(64,32,64,64),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _initialPosition=initialPosY;
+        _maxPosition=initialPosY+32;
+    }
+    else
+    {
+        _sprite=NULL;
+        _initialPosition=-1;
+        _maxPosition=-1;
+    }
 }
 
 Door::Door(const Door& orig) 
@@ -38,60 +73,136 @@ Door::Door(const Door& orig)
 //Open solo se ejecuta cuando la puerta esta cerrada y se abre.
 void Door::open()
 {
-    1+1;
-    
-    if(_clock==NULL){
-        std::cout <<"Clock no esta alojado en la memoria"<<endl;
-    }
-    else{
-        std::cout <<"Clock si esta alojado en la memoria"<<endl;        
-    }
-    
     _clock->clockRestart();
-    _open = true;
-    _openAnimation=true; //inicia una animacion para abrirse.
-    _closeAnimation=false;
+    _opening=true; 
+    _closing=false;
+    _open = false;
+    _close=false;
     std::cout <<"LA PUERTA SE ESTA ABRIENDO. OJO."<<endl;
 }
         
 void Door::close()
 {
     _open = false;
-    _closeAnimation=true;
-    _openAnimation=false;
+    _close=false;
+    _closing=true;
+    _opening=false;
     std::cout <<"LA PUERTA SE ESTA CERRANDO. OJO."<<endl;
 }
     
 void Door::update()
 {
-    if(_open==true){
-        if (_clock->getClockAsSeconds() > _maxTimeOpen){
-        close();
+    newSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY(),_actualSituation->getAngle());
+    
+    _sprite->setSpritePosition(_actualSituation->getPosition());
+    _sprite->setSpriteRotation(_actualSituation->getAngle());
+    
+    if(!_close&&!_closing)
+    {
+        if (_clock->getClockAsSeconds() > _maxTimeOpen)
+        {
+            close();
         }
     }
-    //Bucle de animaciones de la puerta (abrirse y cerrarse)
-    if(_openAnimation){
-        openDoorAnimation();
+    else
+    {
+        _clock->clockRestart();
     }
-    if(_closeAnimation){
-        closeDoorAnimation();
+    
+    if(_opening)
+    {
+        cout <<"Abriendo"<<endl;
+        if(checkMaxPositionOpening())
+        {
+            
+            cout <<"MAXIMA POSICION ALCANZADA"<<endl;
+            
+            _open=true;
+            _opening=false;
+            
+            _closing=false;
+            _close=false;
+            
+        }
+        else
+        {
+            move();
+        }
+    }
+    
+    else if(_closing)
+    {
+        cout <<"Cerrando"<<endl;
+        if(checkMaxPositionClosing()){
+            cout <<"MAXIMA POSICION CLOSING ALCANZADA"<<endl;
+            
+            fixPositionClosing();
+            _close=true;
+            _closing=false;
+            
+            _opening=false;
+            _open=false;
+        }
+        else
+        {
+            move();
+        }
     }
 }
 
-void Door::openDoorAnimation()
-{
-    //cuando termina la animacion{
-    _openAnimation=false;
-    //}
-    std::cout <<"Animacion open door" <<endl;
+void Door::move(){
+    if(_opening){
+        if(_doorType==0){
+            setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()-_speed,_actualSituation->getAngle());
+        }
+        else if(_doorType==1){
+            setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()+_speed,_actualSituation->getAngle());            
+        }
+    }
+    else if(_closing){
+        if(_doorType==0){
+            setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()+_speed,_actualSituation->getAngle());            
+        }
+        else if(_doorType==1){
+            setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()-_speed,_actualSituation->getAngle());            
+        }        
+    }
 }
 
-void Door::closeDoorAnimation()
+bool Door::checkMaxPositionOpening()
 {
-    //cuando termina la animacion{
-    _closeAnimation=false;
-    //}
-    std::cout <<"Animacion close door" <<endl;
+    if(_doorType==0){
+        if(_actualSituation->getPositionY()<=_maxPosition){
+            return true;
+        }
+    }
+    else if(_doorType==1){
+        if(_actualSituation->getPositionY()>=_maxPosition){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Door::checkMaxPositionClosing()
+{
+    if(_doorType==0){
+        if(_actualSituation->getPositionY()>=_initialPosition){
+            return true;
+        }
+    }
+    else if(_doorType==1){
+        if(_actualSituation->getPositionY()<=_initialPosition){
+            return true;
+        }
+    }
+    return false;
+}
+
+void Door::fixPositionClosing(){
+    if(_doorType==0||_doorType==1){
+        setActualSituation(_actualSituation->getPositionX(), _initialPosition, _actualSituation->getAngle());
+    }
 }
 
 bool Door::getOpen()
@@ -108,12 +219,12 @@ float Door::getMaxTimeOpen(){
     return _maxTimeOpen;
 }
 
-bool Door::getOpenDoorAnimation(){
-    return _openAnimation;
+bool Door::getOpening(){
+    return _opening;
 }
 
-bool Door::getCloseDoorAnimation(){
-    return _closeAnimation;
+bool Door::getClosing(){
+    return _closing;
 }
 
 Clock* Door::getClock(){

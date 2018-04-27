@@ -26,16 +26,20 @@ public:
     void activate();
     void deactivate();
     
-    void setDoor(Door* door);
+    void setDoor(Door* door1, Door* door2);
     
-    Door* getDoor();
+    void update();
+    
+    Door* getDoor1();
+    Door* getDoor2();
     bool getPressed();
     int getSwitchType();
     
 private:
     int _switchType;
     bool _pressed;
-    Door* _door;
+    Door* _door1; //puerta de arriba / izquierda
+    Door* _door2; //puerta de abajo / derecha
     
     //bool _pressedAnimation();
     //bool _unpressedAnimation();

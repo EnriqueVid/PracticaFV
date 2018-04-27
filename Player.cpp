@@ -244,7 +244,7 @@ void Player::update()
     
     moving.y = abs(_axis.y)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
     
-    cout << "damage: " <<_damage << endl;
+    //cout << "damage: " <<_damage << endl;
     
     _sprite->spriteMove(moving);
     
