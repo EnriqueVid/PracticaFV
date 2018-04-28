@@ -397,10 +397,6 @@ int main()
 
         window->windowDisplay();
         
-        
-
-       
-        
     }
     return 0;
 }
