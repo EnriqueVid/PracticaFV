@@ -13,7 +13,7 @@
 
 #include "EnemyStand.h"
 
-EnemyStand::EnemyStand(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern): Enemy(tex, box, origin, position, scale)
+EnemyStand::EnemyStand(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern): Enemy(tex, origin, position, scale)
 {
     _pattern = pattern;
     _cone = new Sprite(tex, sf::IntRect(160, 112, 96, 144), sf::Vector2f(48.0f,0.0f), position, scale);

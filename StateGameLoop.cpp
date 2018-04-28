@@ -12,8 +12,7 @@
  */
 
 #include "StateGameLoop.h"
-#include "StateGameOver.h"
-#include <iostream>
+
 
 StateGameLoop* StateGameLoop::_pinstance = 0;
 
@@ -29,19 +28,33 @@ StateGameLoop* StateGameLoop::Instance()
 
 StateGameLoop::StateGameLoop()
 {
-    std::cout<<"Creado."<<std::endl;
-}
-StateGameLoop::StateGameLoop(const StateGameLoop & )
-{
+    std::cout<<"Creado el state GAMELOOP"<<std::endl;
+    
+    
+    //FALTA INICIALIZAR WORLD
+    
     
 }
 
 
-
-State* StateGameLoop::GetNextState()
+StateGameLoop::StateGameLoop(const StateGameLoop & )
 {
-    StateGameOver* stateGameOver = StateGameOver::Instance();
-    return stateGameOver;
+}
+
+
+
+State* StateGameLoop::GetNextState(int which)
+{
+    if(which == 1)
+    {
+        StateStart* statestart = StateStart::Instance();
+        return statestart;
+        
+    }else if(which == 3)
+    {
+        StateGameOver* stateover = StateGameOver::Instance();
+        return stateover;     
+    }
 }
 void  StateGameLoop::test()
 {
@@ -49,14 +62,21 @@ void  StateGameLoop::test()
 }
 State*  StateGameLoop::getState()
 {
-    
+    return _pinstance;
 }
 int  StateGameLoop::getStateNumber()
 {
-        
+    return 2;
 }
-void  StateGameLoop::setState(State* nextState)
+void  StateGameLoop::update()
 {
-        
+  Input* input = Input::Instance();
+  input->inputInput();
+  if(Player::Instance()->getHealth() == 0 || input->inputCheck(10))
+  {
+    _pinstance->GetNextState(3);
+    
+    //HACER DELETE DE TODO;
+  }
 }
 

@@ -91,6 +91,17 @@ void Input::inputInput()
     }
     else  _keyboard[12] = false;
     
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        _keyboard[13] = true;
+    }
+    else  _keyboard[13] = false;
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Insert))
+    {
+        _keyboard[14] = true;
+    }
+    else  _keyboard[14] = false;
     
 }
 

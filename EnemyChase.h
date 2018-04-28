@@ -20,7 +20,7 @@ using namespace std;
 
 class EnemyChase : public Enemy{
 public:
-    EnemyChase(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
+    EnemyChase(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
     EnemyChase(const EnemyChase& orig);
     virtual ~EnemyChase();
     

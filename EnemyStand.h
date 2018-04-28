@@ -19,7 +19,7 @@ using namespace std;
 
 class EnemyStand : public Enemy{
 public:
-    EnemyStand(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
+    EnemyStand(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
     EnemyStand(const EnemyStand& orig);
     virtual ~EnemyStand();
     
