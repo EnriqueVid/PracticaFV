@@ -46,8 +46,8 @@ public:
     
     void buildTestObjects();
     
-    sf::Vector2f calculateMaxPosition(Sprite* obj1, Situation* previousSituation1, 
-    Situation* actualSituation1 , Sprite* obj2); //devuelve la posicion maxima donde no se colisiona
+    sf::Vector2f calculateMaxPosition(Sprite* obj1, Situation* previousSituation1, Situation* actualSituation1, float speed, 
+        Sprite* obj2); //devuelve la posicion maxima donde no se colisiona
         
     void render(RenderWindow* _renderWindow); //ejecuta el render de todos los objetos
     

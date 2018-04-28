@@ -32,13 +32,19 @@ public:
     void impact(); //cuando recibe un disparo enemigo
     void update(); 
     
+    void collision();
+    
+    void setCollisionPlayerDirection(bool b, float direcX, float direcY);
+
+    bool getCollisionLastUpdate();
+    
+    
     int getVt();
     int getBoxType();
     float getSpeed();
     bool getBreakAnimation(); //si devuelve true, se esta ejecutando la animacion de romperse.
     int getBreakAnimationFrame();
     Clock* getClock();
-    
     
     virtual ~Box();
     
@@ -52,6 +58,17 @@ private:
     bool _breakAnimation; //indica si se produce o no la animacion de romperse
     int _breakAnimationFrame; //indica el frame de la animacion por el que va
     Clock* _clock; //reloj de soporte para el avance de la animacion.
+    
+    int _collisionDesplX;
+    int _collisionDesplY;
+
+    
+    //En box, _collisionPlayer nos sirve para controlar el update de Box, pero luego esta variable se hace =false, 
+    //por lo que no podemos usarla en checkCollisions de World, en su lugar usamos _collisionLastUpdate de caja,
+    //el cual no se hace false hasta la siguiente iteracion.
+    bool _collisionLastUpdate; //indica si en el UPDATE anterior YA se estaba chocando. Esto evita dobles desplazamientos.
+        //Otra manera de decirlo: ¿Colisionó mi caja en la iteración anterior? Por tanto, ¿está el personaje CHOCANDO CONMIGO?
+
     
 };
 
