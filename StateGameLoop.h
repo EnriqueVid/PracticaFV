@@ -13,17 +13,22 @@
 #ifndef STATEGAMELOOP_H
 #define STATEGAMELOOP_H
 #include "State.h"
+#include "StateGameOver.h"
+#include "Texture.h"
+#include "StateStart.h"
+#include "Player.h"
+#include <iostream>
 
 class StateGameLoop : public State {
 public:
     //StateGameLoop();
     //StateGameLoop(const StateGameLoop& orig);
     //virtual ~StateGameLoop();
-    virtual State* GetNextState();
+    virtual State* GetNextState(int i);
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void setState(State* nextState);
+    virtual void update();
     
     static StateGameLoop* Instance();
     protected:
