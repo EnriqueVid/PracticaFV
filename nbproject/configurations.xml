@@ -16,6 +16,7 @@
       <itemPath>Event.h</itemPath>
       <itemPath>Font.h</itemPath>
       <itemPath>Game.h</itemPath>
+      <itemPath>Hud.h</itemPath>
       <itemPath>Image.h</itemPath>
       <itemPath>Input.h</itemPath>
       <itemPath>LevelFactory.h</itemPath>
@@ -56,6 +57,7 @@
       <itemPath>Event.cpp</itemPath>
       <itemPath>Font.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
+      <itemPath>Hud.cpp</itemPath>
       <itemPath>Image.cpp</itemPath>
       <itemPath>Input.cpp</itemPath>
       <itemPath>LevelFactory.cpp</itemPath>
@@ -162,6 +164,10 @@
       <item path="Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Hud.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Hud.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Image.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -313,6 +319,10 @@
       <item path="Game.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Hud.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Hud.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Image.cpp" ex="false" tool="1" flavor2="0">
       </item>

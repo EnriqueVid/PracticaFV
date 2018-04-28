@@ -47,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Hud.o \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/LevelFactory.o \
@@ -159,6 +160,11 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/Hud.o: Hud.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Hud.o Hud.cpp
 
 ${OBJECTDIR}/Image.o: Image.cpp
 	${MKDIR} -p ${OBJECTDIR}
