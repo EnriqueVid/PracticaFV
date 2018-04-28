@@ -244,6 +244,7 @@ void LevelFactory::levelFactoryMapCreator()
     }
 }
 
+
 Sprite**** LevelFactory::getLevelFactoryTileMapSprite()
 {
     return _tileMapSprite;
@@ -259,5 +260,10 @@ int LevelFactory::getLevelFactoryWidth()
 int LevelFactory::getLevelFactoryHeight()
 {
     return _height;
+}
+
+int** LevelFactory::getLevelFactoryCollisionMap()
+{
+    return _tileMap[0];
 }
 

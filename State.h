@@ -14,14 +14,16 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include "Input.h"
+
 class State {
 public:
     //State();
-    virtual State* GetNextState() = 0;
+    virtual State* GetNextState(int i) = 0;
     virtual void test() = 0;
     virtual State* getState() = 0;
     virtual int getStateNumber() = 0;
-    virtual void setState(State* nextState) = 0;
+    virtual void update() = 0;
     //virtual ~State()
     
 };

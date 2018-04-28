@@ -48,6 +48,8 @@ public:
     void setPreviousSituation(float x, float y, float g);
     void setActualSituation(float x, float y, float g);
     
+    sf::IntRect* getAnimation(int animationNum);
+    
     Sprite* getPlayer();
     sf::Color getColor();
     int getSpeed();
@@ -73,11 +75,19 @@ private:
     sf::Color _color;
     int _speed;
     
+    int _animationNumFrames; //indica el numero de frames de la animacion
+    float _animationTime; //indica el tiempo que pasa hasta el siguiente frame
+    
     sf::Vector2i _axis;
     sf::Vector2i _direction;
     
+    bool _idleAnimationStart;
+    bool _movingAnimationStart;
+    bool _damage;
+    int _actualAnimation;
+    
     bool _hability;
-    Clock* _clock;
+    Clock* _clock; //si el reloj es distinto de NULL, el personaje estara en supervelocidad.
 };
 
 #endif /* PLAYER_H */

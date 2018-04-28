@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /* 
  * File:   Sprite.h
  * Author: newman
@@ -24,13 +23,15 @@ class Sprite {
 public:
     Sprite();
     Sprite(Texture* texture, sf::IntRect box);
+    Sprite(Texture* texture, sf::IntRect* box, int aniFrames, float aniTime);
     Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position);
-    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position);
+    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, int aniFrames, float aniTime);
     Sprite(Texture* texture, sf::IntRect box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
-    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
+    Sprite(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, int aniFrames, float aniTime);
     Sprite(const Sprite& orig);
     virtual ~Sprite();
     
+    bool spriteIntersectsBounds(sf::Sprite spr);
     bool spriteIntersectsBounds(Sprite* spr);
     bool spriteIntersectsPixel(const sf::Sprite& Object2, sf::Uint8 AlphaLimit);
     void spriteMove(sf::Vector2f move);
@@ -45,6 +46,10 @@ public:
     void setSpriteTexture(Texture* texture);
     void setSpriteTextureRect(sf::IntRect box);
     
+    void setAnimationFrame(int f);
+    void setAnimationNumFrames(int n);
+    void setAnimationTime(float t);
+    
     sf::Texture getSpriteTexture();
     sf::Vector2f getSpritePosition();
     sf::Vector2f getSpriteOrigin();
@@ -54,24 +59,26 @@ public:
     sf::IntRect getSpriteTextureRect();
     sf::FloatRect getGlobalBounds();
     sf::Transform  getSpriteInverseTransform();
-        
+    
+    int getAnimationFrame();
+    
+    
+    void updateAnimation(); //cambia el frame de la animacion cuando haya animacion.
+    void changeAnimation(sf::IntRect* box, int animationNumFrames, float animationTime);
+    
     Clock* getClock();
     sf::IntRect* getBox(); //getTextureRect
     
 private:
     sf::Sprite _sprite;
-    
     sf::IntRect* _box;
-    
     //sf::Transform _inverseTransform;
-    
     Clock* _clock;
-    
-    bool _animation;
-    int _animationFrame;
-    
+    bool _animation; //indica si tiene animacion
+    int _animationFrame; //indica el frame de la animacion actual
+    int _animationNumFrames; //indica el numero de frames de la animacion
+    float _animationTime; //indica el tiempo que pasa hasta el siguiente frame
     Bitmasks* _bitmasks;
-    
 };
 
 #endif /* SPRITE_H */

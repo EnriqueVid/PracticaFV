@@ -12,9 +12,8 @@
  */
 
 #include "StateGameOver.h"
-#include "StateStart.h"
-#include "StateGameLoop.h"
-#include <iostream>
+
+
 
 StateGameOver* StateGameOver::_pinstance = 0;
 
@@ -30,32 +29,59 @@ StateGameOver* StateGameOver::Instance()
 
 StateGameOver::StateGameOver()
 {
-    std::cout<<"Creado."<<std::endl;
-}
-StateGameOver::StateGameOver(const StateGameOver & )
-{
-    
+    std::cout<<"Creado el estado de GAME OVER."<<std::endl;
+    _tgameover = new Texture("./textures/gameover.png");
+    _sgameover = new Sprite();
+    _sgameover->setSpriteTexture(_tgameover);
 }
 
-State* StateGameOver::GetNextState()
+StateGameOver::StateGameOver(const StateGameOver & )
 {
-    StateStart* estadoInicio = StateStart::Instance();
-    return estadoInicio;
 }
+
+State* StateGameOver::GetNextState(int which)
+{
+    if(which == 1)
+    {
+        StateStart* statestart = StateStart::Instance();
+        return statestart;
+        
+    }else if(which == 2)
+    {
+        StateGameLoop* stateloop = StateGameLoop::Instance();
+        return stateloop;     
+    }
+}
+
 void  StateGameOver::test()
 {
-    std::cout <<"Game over" << std::endl;
+    std::cout <<"GAME OVER" << std::endl;
 }
 State*  StateGameOver::getState()
 {
-    
+    return _pinstance;
 }
 int  StateGameOver::getStateNumber()
 {
-        
-}
-void  StateGameOver::setState(State* nextState)
-{
-        
+    return 3;
 }
 
+void StateGameOver::update()
+{
+  Input* input = Input::Instance();
+  input->inputInput();
+  if(input->inputCheck(12) || input->inputCheck(14))
+  {
+    _pinstance->GetNextState(1);
+    _pinstance->~StateGameOver();
+  }
+}
+
+StateGameOver::~StateGameOver(){
+    delete _tgameover;
+    delete _sgameover;
+    _tgameover = NULL;
+    _sgameover = NULL;
+    delete _pinstance;
+    _pinstance = NULL;
+}

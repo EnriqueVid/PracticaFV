@@ -20,6 +20,9 @@ Box::Box() {
 Box::Box(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture, 
         int boxType, int vt, float speed) : 
 Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, texture) {
+    
+    cout <<"Ejecutando constructor de hijo"<<endl;
+    
     _vt = vt;
     _speed=speed;
     _clock=NULL;
@@ -28,6 +31,11 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     _breakAnimation=false;
     _breakAnimationFrame=0;
     _clock = new Clock();
+    
+    _sprite = new Sprite(texture,sf::IntRect(0,0,64,64),sf::Vector2f(32.0f,32.0f),sf::Vector2f(300.0f,300.0f),sf::Vector2f(1.0f,1.0f));
+    
+    //_sprite = new Sprite(texture,sf::IntRect(0,0,64,64));
+    //cout << _sprite->getSpriteOrigin().x<<endl;
 }
 
 void Box::interact(){
@@ -74,7 +82,7 @@ void Box::update(){
         //avanzar los frames de la animacion acorde al reloj interno.
             //cuando la animacion haya acabado:
             if(_clock->getClockAsSeconds()>10.0){
-                    std::cout << "La caja deberia borrarse" <<std::endl;
+                    //std::cout << "La caja deberia borrarse" <<std::endl;
                 _erase=true;            
             }
     }
@@ -111,7 +119,12 @@ Box::Box(const Box& orig) {
 }
 
 Box::~Box() {
-    std::cout <<"Llamando al destructor de Box" << std::endl;
+    std::cout <<"Deleting Box" << std::endl;
+
+    if(_clock!=NULL){
+    delete _clock;
+    _clock = NULL;        
+    }
 
     /*
     delete _clock; 

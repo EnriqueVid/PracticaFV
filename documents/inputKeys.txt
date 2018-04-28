@@ -13,8 +13,8 @@
 10	Escape
 11	Return
 12	Space
-13	
-14	
+13	Mouse.Left
+14	Enter
 15	
 16	
 17	
