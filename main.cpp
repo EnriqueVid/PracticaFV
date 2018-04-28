@@ -33,7 +33,7 @@ int main()
 
     Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
 
-    EnemyBounce* enemyBounce = new EnemyBounce(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1.0f, 1.0f), "esnw");
+    EnemyBounce* enemyBounce = new EnemyBounce(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1.0f, 1.0f), "udlr");
     
     Event* ev = new Event();
     Input* in = Input::Instance();
@@ -47,6 +47,7 @@ int main()
     
     world->buildTestObjects();
     
+    enemyBounce->update();
     
     while(window->windowIsOpen())
     {
@@ -63,6 +64,7 @@ int main()
         window->windowClear();
 
         world->render(window);
+        window->windowInterpolateDraw(enemyBounce->getEnemySprite(), enemyBounce->getEnemyPreviousSituation(), enemyBounce->getEnemyActualSituation());
         
         window->windowDisplay();
 
