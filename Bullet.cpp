@@ -17,7 +17,7 @@
 Bullet::Bullet() {
 }
 
-Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float speed, int damage, Texture *textura)
+Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float speed, float maxDuration, int damage, Texture *texture)
 {
     _actualSituation = new Situation(posX,posY,angle);
     _previousSituation = new Situation(posX,posY,angle);
@@ -26,6 +26,7 @@ Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float spee
     _isFromPlayer = playerBullet; //Indica si la bala es del jugador o enemiga.
     _damage=damage;
     _speed=speed;
+    _duration=maxDuration;
     
     _direction = sf::Vector2i(cos(degreesToRadians(angle)),sin(degreesToRadians(angle)));
     _direction.x = cos(degreesToRadians(angle));
@@ -33,6 +34,11 @@ Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float spee
 
     _ignoreCollisions=false;
     _erase=false;
+    
+     
+    _sprite = new Sprite(texture,sf::IntRect(0,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
+
+
     
     //creacion del sprite
     //_sprite = new Sprite(textura);
@@ -46,11 +52,18 @@ float Bullet::degreesToRadians(float degree)
 void Bullet::update()
 {    
 
+    if(_clock->getClockAsSeconds()>_duration){
+        _erase=true;
+    }
+    
     _sprite->spriteMove(sf::Vector2f(_speed*_direction.x , _speed*_direction.y));
     if(_previousSituation->getAngle()==320)_previousSituation->setAngle(320-360);
     
-    _sprite->setSpriteRotation(_previousSituation->getAngle()+40);   
+    _sprite->setSpriteRotation(_previousSituation->getAngle()+20);  
+    
+    
     newSituation(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y, _sprite->getSpriteRotation());
+
 
     //disparos->at(a)->getSprite()->setRotation(disparos->at(a)->getEstadoAnterior()->getGrados()+40); 
 }
@@ -159,6 +172,10 @@ Bullet::Bullet(const Bullet& orig)
 
 Bullet::~Bullet() 
 {
+    
+    std::cout <<"Deleting bullet"<<endl;
+    delete _clock;
+    _clock=NULL;
     delete _sprite;
     _sprite=NULL;
     delete _previousSituation;

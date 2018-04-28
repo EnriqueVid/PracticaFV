@@ -29,7 +29,13 @@ Game::Game(State* stateGame){
 void Game::StateChanged(){
     if(_state){
         //Obtenemos siguiente estado
-        State* pState = _state->GetNextState();
+        int stat = _state->getStateNumber();
+        if(stat == 3){
+            stat = 1;
+        }else{
+            stat++;
+        }
+        State* pState = _state->GetNextState(stat);
         //borro el anterior estado
         _state = pState;
     }

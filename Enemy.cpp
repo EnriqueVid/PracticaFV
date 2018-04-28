@@ -18,14 +18,15 @@ Enemy::Enemy()
     
 }
 
-Enemy::Enemy(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale) 
+Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale) 
 {
-    _previousSituation->setPosition(position.x, position.y);
-    _actualSituation->setPosition(position.x, position.y);
+    
+    _previousSituation = new Situation();
+    _actualSituation = new Situation();
     
     sf::IntRect* animation = getAnimation(0);
     
-    _sprite = new Sprite(tex, box, origin, position, scale, _animationNumFrames, _animationTime);
+    _sprite = new Sprite(tex, animation, origin, position, scale, _animationNumFrames, _animationTime);
     
     animation = NULL;
     
@@ -43,6 +44,12 @@ Enemy::Enemy(const Enemy& orig)
 
 Enemy::~Enemy() 
 {
+}
+
+void Enemy::enemyMove(sf::Vector2f dir, float g)
+{
+    _actualSituation->setPosition(dir.x*_speed, dir.y*_speed);
+    _actualSituation->setAngle(g);
 }
 
 sf::IntRect* Enemy::getAnimation(int animationNum)
@@ -67,18 +74,47 @@ sf::IntRect* Enemy::getAnimation(int animationNum)
     return animation;
 }
 
-void Enemy::setEnemySprite(Texture* tex, sf::IntRect* box)
+void Enemy::setEnemyPreviousSituation(sf::Vector2f position, float deg)
 {
-    
+    _previousSituation->setPosition(position.x, position.y);
+    _previousSituation->setAngle(deg);
 }
-void Enemy::setEnemyPreviousSituation(sf::Vector2f position, float deg);
-void Enemy::setEnemyActualSituation(sf::Vector2f position, float deg);
-void Enemy::setEnemySpeed(int speed);
-void Enemy::setEnemyDamage(float damage);
-void Enemy::setEnemyAnimationNumFrames(int num);
-void Enemy::setEnemyAnimationTime(float time);
-void Enemy::setEnemyAxis(sf::Vector2i axis);
-void Enemy::setEnemyDirection(sf::Vector2i dir);
+
+void Enemy::setEnemyActualSituation(sf::Vector2f position, float deg)
+{
+    _actualSituation->setPosition(position.x, position.y);
+    _actualSituation->setAngle(deg);
+}
+
+void Enemy::setEnemySpeed(int speed)
+{
+    _speed = speed;
+}
+
+void Enemy::setEnemyDamage(float damage)
+{
+    _damage = damage;
+}
+
+void Enemy::setEnemyAnimationNumFrames(int num)
+{
+    _animationNumFrames = num;
+}
+
+void Enemy::setEnemyAnimationTime(float time)
+{
+    _animationTime = time;
+}
+
+void Enemy::setEnemyAxis(sf::Vector2i axis)
+{
+    _axis = axis;
+}
+
+void Enemy::setEnemyDirection(sf::Vector2i dir)
+{
+    _direction = dir;
+}
     
 Sprite* Enemy::getEnemySprite()
 {
@@ -89,30 +125,37 @@ Situation* Enemy::getEnemyPreviousSituation()
 {
     return _previousSituation;
 }
+
 Situation* Enemy::getEnemyActualSituation()
 {
     return _actualSituation;
 }
+
 int Enemy::getEnemySpeed()
 {
     return _speed;
 }
+
 float Enemy::getEnemyDamage()
 {
     return _damage;
 }
+
 int Enemy::getEnemyAnimationNumFrames()
 {
     return _animationNumFrames;
 }
+
 float Enemy::getEnemyAnimationTime()
 {
     return _animationTime;
 }
+
 sf::Vector2i Enemy::getEnemyAxis()
 {
     return _axis;
 }
+
 sf::Vector2i Enemy::getEnemyDirection()
 {
     return _direction;

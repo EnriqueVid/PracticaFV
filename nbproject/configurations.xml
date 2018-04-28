@@ -11,6 +11,8 @@
       <itemPath>Door.h</itemPath>
       <itemPath>Enemy.h</itemPath>
       <itemPath>EnemyBounce.h</itemPath>
+      <itemPath>EnemyChase.h</itemPath>
+      <itemPath>EnemyStand.h</itemPath>
       <itemPath>Event.h</itemPath>
       <itemPath>Font.h</itemPath>
       <itemPath>Game.h</itemPath>
@@ -32,6 +34,7 @@
       <itemPath>Text.h</itemPath>
       <itemPath>Texture.h</itemPath>
       <itemPath>View.h</itemPath>
+      <itemPath>World.h</itemPath>
       <itemPath>tinyxml2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -48,6 +51,8 @@
       <itemPath>Door.cpp</itemPath>
       <itemPath>Enemy.cpp</itemPath>
       <itemPath>EnemyBounce.cpp</itemPath>
+      <itemPath>EnemyChase.cpp</itemPath>
+      <itemPath>EnemyStand.cpp</itemPath>
       <itemPath>Event.cpp</itemPath>
       <itemPath>Font.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
@@ -69,6 +74,7 @@
       <itemPath>Text.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
       <itemPath>View.cpp</itemPath>
+      <itemPath>World.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>tinyxml2.cpp</itemPath>
     </logicalFolder>
@@ -137,6 +143,14 @@
       </item>
       <item path="EnemyBounce.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="EnemyChase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyChase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyStand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyStand.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
@@ -220,6 +234,10 @@
       <item path="View.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="View.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="World.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="World.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -276,6 +294,14 @@
       </item>
       <item path="EnemyBounce.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="EnemyChase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyChase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="EnemyStand.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="EnemyStand.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Event.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Event.h" ex="false" tool="3" flavor2="0">
@@ -359,6 +385,10 @@
       <item path="View.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="View.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="World.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="World.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

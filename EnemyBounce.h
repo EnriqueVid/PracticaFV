@@ -27,12 +27,23 @@ using namespace std;
 class EnemyBounce : public Enemy{
     
 public:
-    EnemyBounce(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
+    EnemyBounce(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
     EnemyBounce(const EnemyBounce& orig);
     virtual ~EnemyBounce();
     
+    void update();
+    void updateStateIdle();
+    void updateStateStop();
+    
+    void setEnemyBouncePattern(string pattern);
+    void setEnemyState(int s);
+    
+    string getEnemyBouncePattern();
+    
 private:
     string _pattern;
+    int _actualStep;
+    int _state;
 
 };
 

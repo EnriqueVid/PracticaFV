@@ -17,6 +17,8 @@
 #include <SFML/Graphics.hpp>
 #include "Sprite.h"
 #include "Situation.h"
+#include <string.h>
+
 
 using namespace std;
 
@@ -24,21 +26,21 @@ class Enemy {
     
 public:
     Enemy();
-    Enemy(Texture* tex, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
+    Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
     Enemy(const Enemy& orig);
     virtual ~Enemy();
     
     sf::IntRect* getAnimation(int animationNum);
     
-    void update();
+    void enemyUpdate();
+    void enemyMove(sf::Vector2f dir, float g);
     
-    void setEnemySprite(Texture* tex, sf::IntRect* box);
     void setEnemyPreviousSituation(sf::Vector2f position, float deg);
     void setEnemyActualSituation(sf::Vector2f position, float deg);
     void setEnemySpeed(int speed);
     void setEnemyDamage(float damage);
     void setEnemyAnimationNumFrames(int num);
-    void setEnemyAnimationTime(int time);
+    void setEnemyAnimationTime(float time);
     void setEnemyAxis(sf::Vector2i axis);
     void setEnemyDirection(sf::Vector2i dir);
     

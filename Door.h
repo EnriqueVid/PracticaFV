@@ -20,7 +20,7 @@ class Door : public Object {
 public:
     Door();
     Door(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture,
-            int doorType, float maxTimeOpen);
+            int doorType, float maxTimeOpen,float doorSpeed);
     Door(const Door& orig);
     
     virtual ~Door();
@@ -29,26 +29,33 @@ public:
     void close();
     void update();
     
-    void openDoorAnimation();
-    void closeDoorAnimation();
+    bool checkMaxPositionOpening();
+    bool checkMaxPositionClosing();
+    void fixPositionClosing();
+    
+    void move();
         
     bool getOpen();
     int getDoorType();
     float getMaxTimeOpen();
     Clock* getClock();
-    bool getOpenDoorAnimation();
-    bool getCloseDoorAnimation();
+    bool getOpening();
+    bool getClosing();
     
 private:
-        
     bool _open;
+    bool _close;
     int _doorType; //1: horizontal, 2: Vertical
     float _maxTimeOpen;
     Clock* _clock;
     
-    bool _openAnimation; //false en el constructor
-    bool _closeAnimation;
+    bool _opening; 
+    bool _closing;
     
+    float _speed;
+    
+    float _initialPosition;
+    float _maxPosition;
 };
 
 #endif /* DOOR_H */

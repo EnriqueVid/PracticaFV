@@ -31,6 +31,7 @@ public:
     Sprite(const Sprite& orig);
     virtual ~Sprite();
     
+    bool spriteIntersectsBounds(sf::Sprite spr);
     bool spriteIntersectsBounds(Sprite* spr);
     bool spriteIntersectsPixel(const sf::Sprite& Object2, sf::Uint8 AlphaLimit);
     void spriteMove(sf::Vector2f move);
