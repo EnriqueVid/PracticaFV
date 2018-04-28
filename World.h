@@ -23,9 +23,15 @@
 #include "Sprite.h"
 #include "Message.h"
 #include "LevelFactory.h"
-
+#include "EnemyBounce.h"
+#include "EnemyStand.h"
+#include "EnemyChase.h"
+#include "Clock.h"
+#include "Input.h"
 
 #include <SFML/System/Vector2.hpp>
+
+#define UPS 1.0f/15.0f
 
 
 class World {
@@ -38,19 +44,12 @@ public:
     
     void buildWorld(int lvlNumber);
     
-    //Jugador - Objetos Inmoviles (impedir paso)
-    //Jugador - Enemigos
-    //Jugador - Radares enemigos
-    //Jugador - Cajas
-    //Jugador - Switches
-    //Jugador - Puertas
-    
-    //Lo mismo para las cajas y los enemigos
+    void buildTestObjects();
     
     sf::Vector2f calculateMaxPosition(Sprite* obj1, Situation* previousSituation1, 
     Situation* actualSituation1 , Sprite* obj2); //devuelve la posicion maxima donde no se colisiona
         
-    void render(); //ejecuta el render de todos los objetos
+    void render(RenderWindow* _renderWindow); //ejecuta el render de todos los objetos
     
 protected:
     World();
@@ -67,15 +66,35 @@ private:
     Door** _door;
     PowerUp** _powerUp;
     Switch** _switch;
-    RenderWindow* _renderWindow;
     Sprite**** _map;
     Message** _message;
     
+    EnemyBounce** _enemyBounce;
+    EnemyChase** _enemyChase;
+    EnemyStand** _enemyStand;
+    
+    //RenderWindow* _renderWindow; //Should this variables be here or in the game class?
+    Input* _input;
+    
+    Clock* _clock;
+    float _percentTick;
+    
     int _textureNumber;
     int _boxNumber;
+    int _doorNumber;
     int _powerUpNumber;
     int _switchNumber;
     int _messageNumber;
+    
+    
+    int _enemyBounceNumber;
+    int _enemyChaseNumber;
+    int _enemyStandNumber;
+    
+    int _mapWidth;
+    int _mapHeight;
+    int _mapLayers;
+    
 };
 
 #endif /* WORLD_H */

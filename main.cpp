@@ -20,6 +20,7 @@
 #include "Text.h"
 #include "Message.h"
 #include "Bullet.h"
+#include "World.h"
 
 #define UPS 1.0f/15.0f
 
@@ -29,8 +30,6 @@ int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
     
-
-    
     Event* ev = new Event();
     Input* in = Input::Instance();
     Clock* clc = new Clock();
@@ -39,6 +38,7 @@ int main()
     
     std::cout<<"Checkpoint 1"<<endl;
     
+    /*
     LevelFactory* lf = LevelFactory::Instance();
     lf->setLevelFactoryStates(0);
     
@@ -121,6 +121,15 @@ int main()
     
     //Sprite* meh = new Sprite(playerTexture, square,sf::Vector2f(16,16), sf::Vector2f(100,100), sf::Vector2f(1,1));
     
+    */ 
+    
+    World* world = World::Instance();
+    
+    //world->buildTestObjects();
+    
+    world->buildTestObjects();
+    
+    
     while(window->windowIsOpen())
     {
         while(window->windowPollEvent(ev))
@@ -130,6 +139,16 @@ int main()
                 window->windowClose();
             }
         }
+        
+        world->update();
+
+        window->windowClear();
+
+        world->render(window);
+        
+        window->windowDisplay();
+        
+        /*
         
         in->inputInput();
         player->input();
@@ -262,7 +281,7 @@ int main()
             if(clock->getClockAsSeconds()>20.0&&box->getErase()&&iteracion==15){
                 iteracion = iteracion + 1;
                         std::cout <<"==========================================" << endl;
-/*
+
                         delete box;
                         box=NULL;
                         
@@ -279,7 +298,7 @@ int main()
                         door2=NULL;
                         
                         delete objeto;
-                        objeto=NULL;*/
+                        objeto=NULL;
             }
         }
         
@@ -316,14 +335,7 @@ int main()
             }
         }
         
-        
-        /*
-        if(box!=NULL){
-        if(player->getPlayer()->spriteIntersectsPixel(box->getSprite()->getSpriteSprite(),0)){
-            cout <<"Activando boton"<<endl;
-            button1->activate();
-        }
-        }*/
+
         
         
         if(box!=NULL){
@@ -397,7 +409,11 @@ int main()
         
         
 
-       
+       */
+        
+        
+        
+        
         
     }
     return 0;
