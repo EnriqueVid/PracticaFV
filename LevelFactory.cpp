@@ -262,3 +262,8 @@ int LevelFactory::getLevelFactoryHeight()
     return _height;
 }
 
+int** LevelFactory::getLevelFactoryCollisionMap()
+{
+    return _tileMap[0];
+}
+

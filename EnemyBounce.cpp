@@ -20,6 +20,7 @@ EnemyBounce::EnemyBounce(Texture* tex, sf::Vector2f origin, sf::Vector2f positio
     _actualStep = 0;
     _state = 0;
     setEnemySpeed(5);
+    _stopClock = NULL;
 }
 
 EnemyBounce::EnemyBounce(const EnemyBounce& orig)
@@ -28,13 +29,13 @@ EnemyBounce::EnemyBounce(const EnemyBounce& orig)
 EnemyBounce::~EnemyBounce() 
 {}
 
-void EnemyBounce::update()
+void EnemyBounce::update(int** map)
 {
     setEnemyPreviousSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle());
     
     if(_state == 0)
     {
-        updateStateIdle();
+        updateStateIdle(map);
     }
     else
     {
@@ -43,36 +44,101 @@ void EnemyBounce::update()
     
 }
 
-void EnemyBounce::updateStateIdle()
+void EnemyBounce::updateStateIdle(int** map)
 {
     if(_actualStep >= _pattern.length()) _actualStep = 0;
     
     switch(_pattern.at(_actualStep))
     {
         case 'u':
-            enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
-            
+            if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+            {
+                enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
+            }
+            else
+            {
+                sf::Vector2f aux;
+                while(map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+                {
+                    aux.x = getEnemyActualSituation()->getPosition().x;
+                    aux.y = getEnemyActualSituation()->getPosition().y-1;
+                    setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
+                }
+                _actualStep++;
+            }
             break;
             
         case 'd':
-            enemyMove(sf::Vector2f(0.0f, 1.0f), 0.0f);
+            if(map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+            {
+                enemyMove(sf::Vector2f(0.0f, 1.0f), 0.0f);
+            }
+            else
+            {
+                sf::Vector2f aux;
+                while(map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+                {
+                    aux.x = getEnemyActualSituation()->getPosition().x;
+                    aux.y = getEnemyActualSituation()->getPosition().y+1;
+                    setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
+                }
+                _actualStep++;
+            }
             break;
             
         case 'l':
-            enemyMove(sf::Vector2f(-1.0f, 0.0f), 90.0f);
+            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2)
+            {
+                enemyMove(sf::Vector2f(-1.0f, 0.0f), 90.0f);
+            }
+            else
+            {
+                sf::Vector2f aux;
+                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2)
+                {
+                    aux.x = getEnemyActualSituation()->getPosition().x-1;
+                    aux.y = getEnemyActualSituation()->getPosition().y;
+                    setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
+                }
+                _actualStep++;
+            }
             break;
             
         case 'r':
-            enemyMove(sf::Vector2f(1.0f, 0.0f), 270.0f);
+            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2)
+            {
+                enemyMove(sf::Vector2f(1.0f, 0.0f), 270.0f);
+            }
+            else
+            {
+                sf::Vector2f aux;
+                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2)
+                {
+                    aux.x = getEnemyActualSituation()->getPosition().x+1;
+                    aux.y = getEnemyActualSituation()->getPosition().y;
+                    setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
+                }
+                _actualStep++;
+            }
             break;
     }
 }
     
 void EnemyBounce::updateStateStop()
 {
-    
+    if(_stopClock == NULL) _stopClock = new Clock();
+    if(_stopClock != NULL && _stopClock->getClockAsSeconds() > 5)
+    {
+        _state = 0;
+        delete _stopClock;
+        _stopClock = NULL;
+    }
 }
 
+void enemyBounceCollision()
+{
+    //asdasdasdasdasdasd
+}
 
 void EnemyBounce::setEnemyBouncePattern(string pattern)
 {

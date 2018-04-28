@@ -50,8 +50,10 @@ Enemy::~Enemy()
 
 void Enemy::enemyMove(sf::Vector2f dir, float g)
 {
-    _actualSituation->setPosition(_previousSituation->getPositionX()+dir.x*_speed, _previousSituation->getPositionX()+dir.y*_speed);
+    _actualSituation->setPosition(_actualSituation->getPositionX()+dir.x*_speed, _actualSituation->getPositionY()+dir.y*_speed);
     _actualSituation->setAngle(g);
+    
+    
 }
 
 sf::IntRect* Enemy::getAnimation(int animationNum)
@@ -78,12 +80,19 @@ sf::IntRect* Enemy::getAnimation(int animationNum)
 
 void Enemy::setEnemyPreviousSituation(sf::Vector2f position, float deg)
 {
+    cout<<"Prev Situation: "<<_previousSituation->getPositionY()<<endl;
+    cout<<"Actual Situation: "<<_actualSituation->getPositionY()<<endl;
+    
+    cout<<"asdasdasdsad"<<endl;
+    
     _previousSituation->setPosition(position.x, position.y);
     _previousSituation->setAngle(deg);
 }
 
 void Enemy::setEnemyActualSituation(sf::Vector2f position, float deg)
-{
+{   
+    
+    
     _actualSituation->setPosition(position.x, position.y);
     _actualSituation->setAngle(deg);
 }

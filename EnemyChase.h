@@ -20,13 +20,32 @@ using namespace std;
 
 class EnemyChase : public Enemy{
 public:
-    EnemyChase(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern);
+    EnemyChase(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale, string pattern, float loop);
     EnemyChase(const EnemyChase& orig);
     virtual ~EnemyChase();
+    
+    void update(int** map);
+    void updateStateIdle(int** map);
+    void updateStateChase();
+    void updateStateStop();
+    
+    void setEnemyChasePattern(string pattern);
+    void setEnemyState(int s);
+    void enemyChaseCollision();
+    
+    string getEnemyChasePattern();
+    
+    Sprite* getConeSprite();
     
 private:
     Sprite* _cone;
     string _pattern;
+    int _actualStep;
+    int _state;
+    float _loop;
+    Clock* _chaseClock;
+    Clock* _loopClock;
+    Clock* _stopClock;
     
 
 };
