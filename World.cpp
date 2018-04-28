@@ -199,7 +199,7 @@ if(_player!=NULL)_player->input();
             {
                 if(_enemyBounce[x]!=NULL)
                 {
-                    _enemyBounce[x]->update();
+                    //_enemyBounce[x]->update();
                 }
             }
         }
