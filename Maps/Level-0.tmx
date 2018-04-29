@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="27">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="36">
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="Collisions" width="25" height="25">
   <data>
@@ -1888,26 +1888,20 @@
    <tile gid="2"/>
   </data>
  </layer>
- <objectgroup name="Objetos" visible="0">
-  <object id="12" gid="213" x="512" y="288" width="32" height="32">
-   <properties>
-    <property name="Dir" type="int" value="3"/>
-    <property name="Time" type="float" value="0"/>
-   </properties>
-  </object>
-  <object id="15" gid="230" x="144" y="207.333" width="32" height="32"/>
-  <object id="17" gid="246" x="320" y="384" width="32" height="32">
-   <properties>
-    <property name="Time" type="float" value="10"/>
-   </properties>
-  </object>
-  <object id="18" gid="240" x="129.333" y="320.667" width="63.3333" height="64"/>
+ <objectgroup name="Objetos">
   <object id="22" gid="237" x="321" y="160" width="32" height="32">
    <properties>
-    <property name="Next" type="int" value="0"/>
+    <property name="nextlevel" type="int" value="1"/>
    </properties>
   </object>
-  <object id="24" gid="255" x="129" y="416" width="32" height="32"/>
-  <object id="26" gid="161" x="256" y="672" width="32" height="32"/>
+  <object id="24" gid="255" x="176" y="432" width="32" height="32"/>
+  <object id="26" gid="161" x="176" y="688" width="32" height="32"/>
+  <object id="30" gid="198" x="512" y="288" width="32" height="32">
+   <properties>
+    <property name="pattern" value="luld"/>
+   </properties>
+  </object>
+  <object id="31" gid="225" x="144" y="208" width="32" height="32"/>
+  <object id="34" gid="256" x="144" y="304" width="32" height="32"/>
  </objectgroup>
 </map>
