@@ -28,13 +28,15 @@ public:
     static Player* Instance();
     
     void input();
-    void update();
+    void update(int** _collisionMap);
     void render(RenderWindow* window, Clock* clock, float ups);
     void interpolate(float actualTime);
     void keyReleased();
-    void superSpeed();
     float degreesToRadians(float degree);
     void move();
+    
+    void superSpeed();
+    void shoot();
     
     void setColor(sf::Color color);
     void setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, sf::Vector2f position, sf::Vector2f scale);
@@ -61,6 +63,18 @@ public:
     
     sf::Vector2i getDirection();
     
+    bool getFireBullet();
+    
+    void changePowerUp();
+    
+    void unlockPowerUp(int powerUpType);
+    void lockPowerUp(int powerUpType);
+    void unlockAllPowerUps();
+    void lockAllPowerUps();
+    
+    void checkMapCollisions(int** _collisionMap);
+    bool getCollisionWithMap();
+    
 protected:
     Player();
     Player(const Player& orig);
@@ -76,6 +90,7 @@ private:
     float _stamina;
     sf::Color _color;
     int _speed;
+    int _defaultSpeed;
     
     int _animationNumFrames; //indica el numero de frames de la animacion
     float _animationTime; //indica el tiempo que pasa hasta el siguiente frame
@@ -89,7 +104,18 @@ private:
     int _actualAnimation;
     
     bool _hability;
-    Clock* _clock; //si el reloj es distinto de NULL, el personaje estara en supervelocidad.
+    bool _fireBullet; //le indica al mundo que debe crear una bala.
+    Clock* _clockHability; //si el reloj es distinto de NULL, el personaje estara en supervelocidad.
+    Clock* _clockChangeColor;
+    
+    bool _redUnlocked;
+    bool _blueUnlocked;
+    bool _greenUnlocked;
+    
+    bool _changePowerUp;
+    
+    bool _collisionWithMap;
+
 };
 
 #endif /* PLAYER_H */

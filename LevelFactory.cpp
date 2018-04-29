@@ -29,7 +29,20 @@ LevelFactory::LevelFactory()
 {
     _numMap = -1;
     _tilesetTexture = new Texture("./textures/TileSet.png");
+    _playerTexture = new Texture("./textures/PlayerTiles.png");
+    _enemyTexture = new Texture("./textures/EnemyTiles.png");
+    _objectTexture = new Texture("./textures/ObjectTiles.png");
+    
     _mapName = "";
+    
+    _player = NULL;
+    _eBounce = NULL;
+    _eStand = NULL;
+    _eChase = NULL;
+    _oBox = NULL;
+    _oSwitch = NULL;
+    _oDoor = NULL;
+    _oPowerUp = NULL;
     
 }
 
@@ -105,7 +118,7 @@ void LevelFactory::levelFactoryMapCreator()
         int aux = i;
         _tilesetSprite[i].height = _tileheight;
         _tilesetSprite[i].width = _tilewidth;
-        cout<<"aux: "<<aux<<endl;
+        //cout<<"aux: "<<aux<<endl;
         while(aux!=0)
         {
             if(aux >= num)
@@ -173,15 +186,11 @@ void LevelFactory::levelFactoryMapCreator()
     
             
     XMLElement** data = new XMLElement*[_numlayers]; 
-    cout<<"pipo"<<endl;
     XMLElement* auxd = map->FirstChildElement("layer");
     data[0] = auxd->FirstChildElement("data")->FirstChildElement("tile");
-    cout<<"pipo"<<endl;
     for (int i=1; i<_numlayers; i++)
     {
-        cout<<"pipo"<<endl;
         data[i] = auxd->NextSiblingElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-        
         if(i+1<_numlayers) auxd = auxd->NextSiblingElement("layer");
     }
     
@@ -196,13 +205,13 @@ void LevelFactory::levelFactoryMapCreator()
             {
                 data[l]->QueryIntAttribute("gid", &_tileMap[l][y][x]);
                 data[l] = data[l]->NextSiblingElement("tile");
-                cout<<_tileMap[l][y][x]<<endl;
+                //cout<<_tileMap[l][y][x]<<endl;
             }
         }
-        cout<<"================"<<endl;
+        //cout<<"================"<<endl;
     }
     //---------------------------------------
-    
+    /*
     for (int l=0; l<_numlayers; l++)
     {
         for(int y=0; y<_height; y++)
@@ -217,6 +226,7 @@ void LevelFactory::levelFactoryMapCreator()
         }
         cout<<"-------------"<<endl;
     }
+    */
     
     for(int l=0; l<_numlayers; l++)
     {
@@ -242,6 +252,195 @@ void LevelFactory::levelFactoryMapCreator()
             }
         }
     }
+    
+    _numobjects = 0;
+    _numenemystand = 0;
+    _numenemybounce = 0;
+    _numenemychase = 0;
+    _numbox = 0;
+    _numbutton = 0;
+    
+    XMLElement *obj = map->FirstChildElement("objectgroup")->FirstChildElement("object");
+    while(obj)
+    {
+        _numobjects++;
+        int o = 0;
+        obj->QueryIntAttribute("gid", &o);
+        
+        switch(o)
+        {
+            case 161://Player
+                cout<<"Player"<<endl;
+                break;
+            
+            case 182:// EnemyBounce
+                _numenemybounce++;
+                cout<<"EnemyBounce"<<endl;
+                break;
+                
+            case 198:// EnemyStand
+                _numenemystand++;
+                cout<<"EnemyStand"<<endl;
+                break;
+                
+            case 214:// EnemyChase
+                _numenemychase++;
+                cout<<"EnemyChase"<<endl;
+                break;
+                
+            case 225:// Button
+                _numbutton++;
+                cout<<"Button"<<endl;
+                break;
+                
+            case 237:// NextLevel
+                cout<<"NextLevel"<<endl;
+                break;
+                
+            case 238:// Help
+                cout<<"Help"<<endl;
+                break;
+                
+            case 239:// TextScript
+                cout<<"TextScript"<<endl;
+                break;
+                
+            case 253:// PowerUpBlue
+                _numpowerup++;
+                cout<<"PowerUpBlue"<<endl;
+                break;
+                
+            case 254:// PowerUpGreen
+                cout<<"PowerUpGreen"<<endl;
+                _numpowerup++;
+                break;
+                
+            case 255:// PowerUpRed
+                _numpowerup++;
+                cout<<"PowerUpRed"<<endl;
+                break;
+            
+            case 256:// Box
+                _numbox++;
+                cout<<"Box"<<endl;
+                break;
+             
+        }
+        
+        obj = obj->NextSiblingElement("object");
+        
+    }
+    
+    cout<<"objects: "<<_numobjects<<endl;
+    cout<<"numenemystand: "<<_numenemystand<<endl;
+    cout<<"numenemybounce: "<<_numenemybounce<<endl;
+    cout<<"numenemychase: "<<_numenemychase<<endl;
+    cout<<"numbox: "<<_numbox<<endl;
+    cout<<"numbutton: "<<_numbutton<<endl;
+    
+    _player = Player::Instance();
+    if(_numenemybounce > 0)_eBounce = new EnemyBounce*[_numenemybounce];
+    if(_numenemystand > 0)_eStand = new EnemyStand*[_numenemystand];
+    if(_numenemychase > 0)_eChase = new EnemyChase*[_numenemychase];
+    if(_numbox > 0)_oBox = new Box*[_numbox];
+    if(_numbutton > 0)_oSwitch = new Switch*[_numbutton];
+    if(_numbutton > 0)_oDoor = new Door*[_numbutton*2];
+    if(_numpowerup > 0)_oPowerUp = new PowerUp*[_numpowerup];
+    
+    XMLElement *object = map->FirstChildElement("objectgroup")->FirstChildElement("object");
+    for(int i=0; i<_numobjects; i++)
+    {
+        int gid = 0;
+        int aux = 0;
+        float oX = 0;
+        float oY = 0;
+        object->QueryIntAttribute("gid", &gid);
+        sf::IntRect* rect;
+        
+        switch(gid)
+        {
+            case 161://Player
+                cout<<"Player"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                rect = new sf::IntRect(0, 0, 32, 32);
+                _player->setPlayer(_playerTexture, rect, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f));
+                break;
+            
+            case 182:// EnemyBounce
+                cout<<"EnemyBounce"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                rect = new sf::IntRect(0, 0, 32, 32);
+                break;
+                
+            case 198:// EnemyStand
+                _numenemystand++;
+                cout<<"EnemyStand"<<endl;
+                break;
+                
+            case 214:// EnemyChase
+                _numenemychase++;
+                cout<<"EnemyChase"<<endl;
+                break;
+                
+            case 225:// Button
+                _numbutton++;
+                cout<<"Button"<<endl;
+                break;
+                
+            case 237:// NextLevel
+                cout<<"NextLevel"<<endl;
+                break;
+                
+            case 238:// Help
+                cout<<"Help"<<endl;
+                break;
+                
+            case 239:// TextScript
+                cout<<"TextScript"<<endl;
+                break;
+                
+            case 253:// PowerUpBlue
+                _numpowerup++;
+                cout<<"PowerUpBlue"<<endl;
+                break;
+                
+            case 254:// PowerUpGreen
+                cout<<"PowerUpGreen"<<endl;
+                _numpowerup++;
+                break;
+                
+            case 255:// PowerUpRed
+                _numpowerup++;
+                cout<<"PowerUpRed"<<endl;
+                break;
+            
+            case 256:// Box
+                while(_oBox[aux] != NULL) aux++;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                rect = new sf::IntRect(0, 0, 32, 32);
+                _oBox[aux] = new Box(1, oX, oY, 0, true, _objectTexture, 1, 5, 16);
+                cout<<"Box"<<endl;
+                break;
+             
+        }
+        
+        object = object->NextSiblingElement("object");
+        
+    }
+    
+    
+    
+    
+    
 }
 
 
@@ -265,5 +464,10 @@ int LevelFactory::getLevelFactoryHeight()
 int** LevelFactory::getLevelFactoryCollisionMap()
 {
     return _tileMap[0];
+}
+
+Box** LevelFactory::getLevelFactoryBox()
+{
+    return _oBox;
 }
 

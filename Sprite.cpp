@@ -179,6 +179,10 @@ Sprite::Sprite(Texture* texture, sf::IntRect* box,  sf::Vector2f origin, sf::Vec
     
     _clock = new Clock();
     _bitmasks = new Bitmasks();
+    
+    delete box;
+    box=NULL;
+    
 }
 
 Sprite::Sprite(const Sprite& orig)

@@ -1,0 +1,1 @@
+Las coordenadas de los objetos estan situadas en la esquina inferior derecha del sprite

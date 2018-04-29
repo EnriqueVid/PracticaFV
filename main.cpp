@@ -34,7 +34,7 @@ int main()
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
 
     Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
-    
+    /*
     bool dado = false;
     
     Astar* astar;
@@ -62,7 +62,7 @@ int main()
             map[i][j] = 1;
         }
     }
-    
+    */
     Texture* playerTex = new Texture("./textures/PlayerTiles.png");
 
     LevelFactory* lf = LevelFactory::Instance();
@@ -78,9 +78,9 @@ int main()
     
     hud->update(256,100, 0, 255, 255, 255);
     
-    astar = new Astar(map, width, height, 8);
+    //astar = new Astar(map, width, height, 8);
     
-    string meh = astar->pathfind(start, end);
+    //string meh = astar->pathfind(start, end);
     
     Event* ev = new Event();
     Input* in = Input::Instance();
@@ -123,6 +123,7 @@ int main()
         window->windowInterpolateDraw(enemyChase->getConeSprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
         window->windowInterpolateDraw(enemyChase->getEnemySprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
         
+        /*
         if(in->inputCheck(12) && !dado)
         {
             dado=true;
@@ -138,6 +139,7 @@ int main()
             
             cout<<meh<<endl;
         }
+        */
         window->windowDraw(hud->getLife());
         window->windowDraw(hud->getRectangle());
         window->windowDraw(hud->getStamina());

@@ -115,12 +115,8 @@ Switch::Switch(const Switch& orig)
 
 Switch::~Switch()
 {  
-    //*****¡¡CUIDADO!! No eliminamos la puerta desde aqui porque si no, al hacer delete de puerta ocurrirá un 
-    //segmentation fault. Debido a que la puerta la declaramos por separado y luego la asignamos si el
-    //interruptor es un interruptor con puerta.
-    
-    //En resumen: Se debe eliminar la puerta por separado debido a que se crea por separado.
-    
+
+    //MUY IMPORTANTE: LAS PUERTAS SE BORRAN EN EL SWITCH    
     /*
     delete _door;
     */
