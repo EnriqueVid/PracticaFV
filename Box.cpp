@@ -21,7 +21,7 @@ Box::Box(int objectType, float initialPosX, float initialPosY, float initialAngl
         int boxType, int vt, float speed) : 
 Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, texture) {
     
-    cout <<"Ejecutando constructor de hijo"<<endl;
+    //cout <<"Ejecutando constructor de hijo"<<endl;
     
     _vt = vt;
     _speed=speed;
@@ -46,10 +46,10 @@ void Box::interact(){
     //interactuacion con la caja
     if(_breakAnimation==false){
         //solo interactuamos si no se esta rompiendo
-        std::cout << "Puedo interactuar con la caja" <<std::endl;
+        //std::cout << "Puedo interactuar con la caja" <<std::endl;
     }
     else{
-        std::cout << "No puedo interactuar" <<std::endl;
+        //std::cout << "No puedo interactuar" <<std::endl;
     }
 }
     
@@ -66,17 +66,17 @@ void Box::breakBox(){
 }
     
 void Box::impact(){
-     std::cout << "Intentando Impacto a la caja" <<std::endl;
+    //std::cout << "Intentando Impacto a la caja" <<std::endl;
     if(_breakAnimation==false){
-             std::cout << "Hay impacto." <<std::endl;
+            //std::cout << "Hay impacto." <<std::endl;
     _vt = _vt - 1;
         if(_vt<=0){
-            std::cout << "0 de vida. llamando a romper." <<std::endl;
+            //std::cout << "0 de vida. llamando a romper." <<std::endl;
             breakBox();
         }
     }
     else{
-        std::cout << "No puedo haber impacto porque se esta rompiendo." <<std::endl;
+        //std::cout << "No puedo haber impacto porque se esta rompiendo." <<std::endl;
     }
 }
     
@@ -91,12 +91,9 @@ void Box::collision(){
     _collisionDesplX=0;
     _collisionDesplY=0;
     _collisionPlayer=false;
-    
     _collisionLastUpdate=true;
     
 }
-
-
 
 void Box::update(){
     
@@ -106,7 +103,7 @@ void Box::update(){
     float auxPrevY=_previousSituation->getPositionY();
     
     if(_collisionPlayer&&_collisionObject){
-        cout <<"Colision con objeto Y JUGADOR"<<endl;
+        //cout <<"Colision con objeto Y JUGADOR"<<endl;
         _previousSituation->setPosition(auxPrevX,auxPrevY);
         _actualSituation->setPosition(auxPrevX,auxPrevY);
         _collisionObject=false;
@@ -117,29 +114,18 @@ void Box::update(){
             _actualSituation->getPosition().y+_collisionDesplY*_speed,
             _actualSituation->getAngle());
     
-    cout <<"===================================="<<endl;
-    cout <<"_actualSituation: "<<_actualSituation->getPositionX()<<" , "<<_actualSituation->getPositionY()<<endl;
-    cout <<"_previousSituation: "<<_previousSituation->getPositionX()<<" , "<<_previousSituation->getPositionY()<<endl;
-
-
     if(_collisionPlayer){
-        cout <<"Colision con el jugador"<<endl;
+        //cout <<"Colision con el jugador"<<endl;
         collision(); //borra el desplazamiento y _collisionPlayer
     }
     else if(_collisionObject){
-        cout <<"Colision con objeto"<<endl;
+        //cout <<"Colision con objeto"<<endl;
         _previousSituation->setPosition(auxPrevX,auxPrevY);
         _actualSituation->setPosition(auxPrevX,auxPrevY);
         _collisionObject=false;
         _collisionLastUpdate=true;
     }
-    
-    
-    
 
-    
-    
-    
     if(_breakAnimation==true){
         _ignoreCollisions=true;
         //avanzar los frames de la animacion acorde al reloj interno.

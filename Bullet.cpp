@@ -12,12 +12,14 @@
  */
 
 #include "Bullet.h"
+#include "Player.h"
 #include <math.h>
 
 Bullet::Bullet() {
 }
 
-Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float speed, float maxDuration, int damage, Texture *texture)
+Bullet::Bullet(bool playerBullet, bool generatedFromMouse,float posX, float posY, float angle, float speed, 
+        float maxDuration, int damage, Texture *texture)
 {
     _actualSituation = new Situation(posX,posY,angle);
     _previousSituation = new Situation(posX,posY,angle);
@@ -28,9 +30,17 @@ Bullet::Bullet(bool playerBullet,float posX, float posY, float angle, float spee
     _speed=speed;
     _duration=maxDuration;
     
-    _direction = sf::Vector2i(cos(degreesToRadians(angle)),sin(degreesToRadians(angle)));
-    _direction.x = cos(degreesToRadians(angle));
-    _direction.y = sin(degreesToRadians(angle));
+    if(generatedFromMouse)
+    {
+        _direction = sf::Vector2i(cos(degreesToRadians(angle)),sin(degreesToRadians(angle)));
+        _direction.x = cos(degreesToRadians(angle));
+        _direction.y = sin(degreesToRadians(angle));
+    }
+    else
+    {
+        _direction.x=Player::Instance()->getDirection().x;
+        _direction.y=Player::Instance()->getDirection().y;
+    }
 
     _ignoreCollisions=false;
     _erase=false;

@@ -110,7 +110,6 @@ void Door::update()
         _clock->clockRestart();
     }
     
-    
     if(_opening||_closing){
         if(!_collisionPlayer&&!_collisionObject){
             if(_opening)
@@ -245,8 +244,7 @@ Clock* Door::getClock(){
     return _clock;
 }
 
-//es importante eliminar puerta por separado, debido a que eliminar el boton de una puerta
-//no elimina directamente a la puerta.
+//LAS PUERTAS SE BORRAN AL BORRARSE EL SWITCH QUE LAS TIENE ASIGNADAS
 Door::~Door() 
 {
     delete _clock;

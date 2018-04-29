@@ -36,27 +36,31 @@ StateStart::StateStart()
     _sstartbg->setSpriteTexture(_tstartbg);
     _sstartbutton->setSpriteTexture(_tstartbutton);
     
-    _tpj1->textureLoadFromFile("./textures/PlayerSheet.png");
-    _tpj2->textureLoadFromFile("./textures/PlayerSheetRedBeta.png");
-    _tpj3->textureLoadFromFile("./textures/PlayerSheetGreenBeta.png");
-    _tpj4->textureLoadFromFile("./textures/PlayerSheetBlueBeta.png");
+    _tpj1->textureLoadFromFile("./textures/pjWhite.png");
+    _tpj2->textureLoadFromFile("./textures/pjRed.png");
+    _tpj3->textureLoadFromFile("./textures/pjGreen.png");
+    _tpj4->textureLoadFromFile("./textures/pjBlue.png");
     
     _spj1->setSpriteTexture(_tpj1);
     _spj1->setSpriteOrigin(sf::Vector2f(_spj1->getSpriteTexture().getSize().x/2.f, _spj1->getSpriteTexture().getSize().y/2.f));
-    _spj1->setSpritePosition(sf::Vector2f(400.f,200.f));
+    _spj1->setSpritePosition(sf::Vector2f(400.f,350.f));
+    _spj1->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj2->setSpriteTexture(_tpj2);
     _spj2->setSpriteOrigin(sf::Vector2f(_spj2->getSpriteTexture().getSize().x/2.f, _spj2->getSpriteTexture().getSize().y/2.f));
-    _spj2->setSpritePosition(sf::Vector2f(200.f,600.f));
+    _spj2->setSpritePosition(sf::Vector2f(200.f,700.f));
+    _spj2->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj3->setSpriteTexture(_tpj3);
     _spj3->setSpriteOrigin(sf::Vector2f(_spj3->getSpriteTexture().getSize().x/2.f, _spj3->getSpriteTexture().getSize().y/2.f));    
-    _spj3->setSpritePosition(sf::Vector2f(400.f,600.f));
+    _spj3->setSpritePosition(sf::Vector2f(400.f,700.f));
+    _spj3->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj4->setSpriteTexture(_tpj4);
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
-    _spj4->setSpritePosition(sf::Vector2f(600.f,600.f));
-
+    _spj4->setSpritePosition(sf::Vector2f(600.f,700.f));
+    _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
+    
 }
 
 StateStart::StateStart(const StateStart & )
