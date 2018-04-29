@@ -28,7 +28,7 @@ public:
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void update();
+    virtual void update(RenderWindow* window);
     
     static StateStart* Instance();
     
@@ -39,10 +39,19 @@ public:
         StateStart &operator= (const StateStart & ){};
         
     private:
-    static StateStart* _pinstance;    
+        
+    static StateStart* _pinstance;        
     Texture* _tstartbg;
     Texture* _tstartbutton;
+    Texture* _tpj1;
+    Texture* _tpj2;
+    Texture* _tpj3;
+    Texture* _tpj4;
     Sprite* _sstartbg;
     Sprite* _sstartbutton;
+    Sprite* _spj1;
+    Sprite* _spj2;
+    Sprite* _spj3;
+    Sprite* _spj4;
 };
 #endif /* STATESTART_H */

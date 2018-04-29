@@ -68,7 +68,7 @@ int  StateGameLoop::getStateNumber()
 {
     return 2;
 }
-void  StateGameLoop::update()
+void  StateGameLoop::update(RenderWindow* window)
 {
   Input* input = Input::Instance();
   input->inputInput();
