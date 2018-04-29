@@ -92,6 +92,7 @@ void Door::close()
     
 void Door::update()
 {
+        
     newSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY(),_actualSituation->getAngle());
     
     _sprite->setSpritePosition(_actualSituation->getPosition());
@@ -109,43 +110,56 @@ void Door::update()
         _clock->clockRestart();
     }
     
-    if(_opening)
-    {
-        cout <<"Abriendo"<<endl;
-        if(checkMaxPositionOpening())
-        {
-            
-            cout <<"MAXIMA POSICION ALCANZADA"<<endl;
-            
-            _open=true;
-            _opening=false;
-            
-            _closing=false;
-            _close=false;
-            
-        }
-        else
-        {
-            move();
-        }
-    }
     
-    else if(_closing)
-    {
-        cout <<"Cerrando"<<endl;
-        if(checkMaxPositionClosing()){
-            cout <<"MAXIMA POSICION CLOSING ALCANZADA"<<endl;
-            
-            fixPositionClosing();
-            _close=true;
-            _closing=false;
-            
-            _opening=false;
-            _open=false;
+    if(_opening||_closing){
+        if(!_collisionPlayer&&!_collisionObject){
+            if(_opening)
+            {
+                cout <<"Abriendo"<<endl;
+                if(checkMaxPositionOpening())
+                {
+
+                    cout <<"MAXIMA POSICION ALCANZADA"<<endl;
+
+                    _open=true;
+                    _opening=false;
+
+                    _closing=false;
+                    _close=false;
+
+                }
+                else
+                {
+                    move();
+                }
+            }
+
+            else if(_closing)
+            {
+                cout <<"Cerrando"<<endl;
+                if(checkMaxPositionClosing()){
+                    cout <<"MAXIMA POSICION CLOSING ALCANZADA"<<endl;
+
+                    fixPositionClosing();
+                    _close=true;
+                    _closing=false;
+
+                    _opening=false;
+                    _open=false;
+                }
+                else
+                {
+                    move();
+                }
+            }
         }
-        else
-        {
+        else{
+
+            open();
             move();
+
+            _collisionPlayer=false;
+            _collisionObject=false;
         }
     }
 }

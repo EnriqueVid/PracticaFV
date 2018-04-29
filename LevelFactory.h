@@ -30,6 +30,7 @@ public:
     static LevelFactory* Instance();
     void setLevelFactoryStates(int i);
     Sprite**** getLevelFactoryTileMapSprite();
+    int** getLevelFactoryCollisionMap();
     int getLevelFactoryNumLayers();
     int getLevelFactoryWidth();
     int getLevelFactoryHeight();

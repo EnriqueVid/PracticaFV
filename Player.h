@@ -59,6 +59,8 @@ public:
     Situation* getPreviousSituation();
     Situation* getActualSituation();
     
+    sf::Vector2i getDirection();
+    
 protected:
     Player();
     Player(const Player& orig);

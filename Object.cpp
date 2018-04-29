@@ -30,6 +30,12 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
     _actualSituation = new Situation(initialPosX,initialPosY,initialAngle);
     _previousSituation = new Situation(initialPosX,initialPosY,initialAngle);
     _ignoreCollisions=false;
+    
+    _collisionPlayer=false;
+    _collisionEnemy=false;
+    _collisionBox=false;
+    _collisionObject=false;
+    
     _erase=false;
     
     /*
@@ -48,6 +54,43 @@ void Object::update()
 {
     //std::cout <<"This should not happen. ERROR: IS Calling the father object update." <<endl;    
 }
+
+
+bool Object::getCollisionPlayer()
+{
+    return _collisionPlayer;
+}
+bool Object::getCollisionEnemy()
+{
+    return _collisionEnemy;
+}
+bool Object::getCollisionBox()
+{
+    return _collisionBox;
+}
+bool Object::getCollisionObject()
+{
+    return _collisionObject;
+}
+
+void Object::setCollisionPlayer(bool b)
+{
+    _collisionPlayer=b;
+}
+void Object::setCollisionEnemy(bool b)
+{
+    _collisionEnemy=b;
+}
+void Object::setCollisionBox(bool b)
+{
+    _collisionBox=b;
+}
+void Object::setCollisionObject(bool b)
+{
+    _collisionObject=b;
+}
+
+
 Sprite* Object::getSprite()
 {
     return _sprite;
