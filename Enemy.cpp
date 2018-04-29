@@ -27,6 +27,8 @@ Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vecto
     sf::IntRect* animation = getAnimation(0);
     
     _sprite = new Sprite(tex, animation, origin, position, scale, _animationNumFrames, _animationTime);
+    _previousSituation->setPosition(position.x, position.y);
+    _actualSituation->setPosition(position.x, position.y);
     
     animation = NULL;
     
@@ -48,7 +50,7 @@ Enemy::~Enemy()
 
 void Enemy::enemyMove(sf::Vector2f dir, float g)
 {
-    _actualSituation->setPosition(dir.x*_speed, dir.y*_speed);
+    _actualSituation->setPosition(_previousSituation->getPositionX()+dir.x*_speed, _previousSituation->getPositionX()+dir.y*_speed);
     _actualSituation->setAngle(g);
 }
 

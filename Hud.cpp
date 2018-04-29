@@ -45,35 +45,35 @@ Hud::~Hud()
     _stamina = NULL;
 }
 
-void Hud::update(float life, float stamina, sf::Color color)
+void Hud::update(float life, float stamina, int r, int g, int b, int a)
 {
-    _life->setSpriteScale(sf::Vector2f(float((life*100)/256),20));
+    _life->setSpriteScale(sf::Vector2f(float((life*200)/256),20));
     
-    _rectangle->setSpriteColor(color.r,color.g,color.b, color.a);
+    _rectangle->setSpriteColor(r, g, b, a);
     
-    _stamina->setSpriteColor(color.r,color.g,color.b, color.a);
-    _stamina->setSpriteScale(sf::Vector2f(float((stamina*60)/100),10));
+    _stamina->setSpriteColor(r, g, b, a);
+    _stamina->setSpriteScale(sf::Vector2f(float((stamina*165)/100),10));
 }
 
 void Hud::setSprites(Texture* texture)
 {
     _life->setSpriteTexture(texture);
     _life->setSpriteTextureRect(sf::IntRect(16,16,1,1));
-    _life->setSpriteColor(255,255,255,1);
-    _life->setSpriteScale(sf::Vector2f(100,20));
-    _life->setSpritePosition(sf::Vector2f(5,5));
+    _life->setSpriteColor(255,255,255,255);
+    _life->setSpriteScale(sf::Vector2f(200,20));
+    _life->setSpritePosition(sf::Vector2f(20,20));
     
     _rectangle->setSpriteTexture(texture);
     _rectangle->setSpriteTextureRect(sf::IntRect(16,16,1,1));
-    _rectangle->setSpriteColor(255,255,255,1);
+    _rectangle->setSpriteColor(255,255,255,255);
     _rectangle->setSpriteScale(sf::Vector2f(30,30));
-    _rectangle->setSpritePosition(sf::Vector2f(10,30));
+    _rectangle->setSpritePosition(sf::Vector2f(20,42));
     
     _stamina->setSpriteTexture(texture);
     _stamina->setSpriteTextureRect(sf::IntRect(16,16,1,1));
-    _stamina->setSpriteColor(255,255,255,1);
-    _stamina->setSpriteScale(sf::Vector2f(60,10));
-    _stamina->setSpritePosition(sf::Vector2f(40,35));
+    _stamina->setSpriteColor(255,255,255,255);
+    _stamina->setSpriteScale(sf::Vector2f(165,10));
+    _stamina->setSpritePosition(sf::Vector2f(55,52));
 }
 
 

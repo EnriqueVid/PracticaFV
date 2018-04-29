@@ -3,7 +3,7 @@ build/Debug/GNU-Linux/main.o: main.cpp RenderWindow.h View.h Sprite.h \
  Input.h Game.h State.h StateGameLoop.h StateGameOver.h StateStart.h \
  Player.h Object.h Box.h Switch.h Door.h LevelFactory.h tinyxml2.h \
  EnemyBounce.h Enemy.h Bullet.h World.h PowerUp.h EnemyStand.h \
- EnemyChase.h
+ EnemyChase.h Hud.h
 
 RenderWindow.h:
 
@@ -66,3 +66,5 @@ PowerUp.h:
 EnemyStand.h:
 
 EnemyChase.h:
+
+Hud.h:

@@ -15,14 +15,13 @@
 #define HUD_H
 
 #include "Player.h"
-#include <SFML/Graphics.hpp>
 #include <iostream>
 
 class Hud {
 public:
-    Hud* Instance();
+    static Hud* Instance();
     
-    void update(float life, float stamina, sf::Color color);
+    void update(float life, float stamina, int r, int g, int b, int a);
     void setSprites(Texture* texture);
     
     Sprite* getLife();
