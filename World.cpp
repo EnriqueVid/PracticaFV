@@ -93,15 +93,15 @@ void World::buildTestObjects()
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     _player = Player::Instance();
-    _player->setPlayer(_texture[0], square,sf::Vector2f(16,16), sf::Vector2f(200.0f,200.0f), sf::Vector2f(1,1));
-    _player->setColor(sf::Color::Cyan);
+    //_player->setPlayer(_texture[0], square,sf::Vector2f(16,16), sf::Vector2f(200.0f,200.0f), sf::Vector2f(1,1));
+    //_player->setColor(sf::Color::Cyan);
     
     _boxNumber = 1;
     
-    _box = new Box*[_boxNumber];
+    _box = lf->getLevelFactoryBox();
 
-    _box[0] = new Box(1, 160.0, 384.0, 0.0, false, _texture[2],
-                        1, 2, 16.0);
+    //_box[0] = new Box(1, 160.0, 384.0, 0.0, false, _texture[2],
+    //                   1, 2, 16.0);
     //_box[1] = new Box(1, 128.0, 300.0, 0.0, false, _texture[2],1, 2, 16.0);
     //_box[2] = new Box(1, 224.0, 260.0, 0.0, false, _texture[2],1, 2, 16.0);    
 
