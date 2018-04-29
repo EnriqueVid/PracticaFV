@@ -73,12 +73,14 @@ int main()
     
     EnemyChase* enemyChase = new EnemyChase(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 370.0f), sf::Vector2f(1.0f, 1.0f), "usds", 4.0f);
     
+    /*
     Hud* hud = Hud::Instance();
     
     hud->setSprites(playerTex);
     
     hud->update(256,100, 0, 255, 255, 255);
     
+     */ 
     //astar = new Astar(map, width, height, 8);
     
     //string meh = astar->pathfind(start, end);
@@ -141,9 +143,11 @@ int main()
             cout<<meh<<endl;
         }
         */
+        /**
         window->windowDraw(hud->getLife());
         window->windowDraw(hud->getRectangle());
         window->windowDraw(hud->getStamina());
+         */ 
         
         window->windowDisplay();
         

@@ -29,6 +29,7 @@
 #include "Clock.h"
 #include "Input.h"
 #include "Bullet.h"
+#include "Hud.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -74,6 +75,7 @@ private:
     EnemyStand** _enemyStand;
     
     Bullet* _bullet; //Bala del jugador.
+    Hud* _HUD; //HUD del jugador.
     
     Input* _input;
     

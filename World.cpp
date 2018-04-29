@@ -16,6 +16,7 @@
 #include "EnemyBounce.h"
 #include "Input.h"
 #include "Bullet.h"
+#include "Hud.h"
 
 
 World* World::_pinstance = 0;
@@ -49,6 +50,8 @@ World::World()
     
     _collisionMap=NULL;
     _advancedCollisionMap=NULL;
+    
+    _HUD=NULL;
     
     //cout <<"World created."<<endl;
 }
@@ -154,6 +157,14 @@ void World::buildTestObjects()
 
                         3);        
     */
+    
+    
+    _HUD = Hud::Instance();
+    
+    _HUD->setSprites(_texture[0]);
+    
+    _player->unlockAllPowerUps();
+    
     }
 
 
@@ -292,6 +303,15 @@ if(_player!=NULL)_player->input();
                 }
             }
         }
+        
+        if(_HUD!=NULL&&_player!=NULL){
+            _HUD->update(_player->getHealth(),_player->getStamina(),
+                    _player->getColor().r, _player->getColor().g,
+            _player->getColor().b, _player->getColor().a);
+        }
+        
+        
+        
         checkCollisions();
         _clock->clockRestart();    
     }
@@ -726,6 +746,14 @@ void World::render(RenderWindow* _renderWindow)
             _renderWindow->windowDraw(_map[2][y][x]);
         }
     }
+    
+    
+    if(_HUD!=NULL){
+        _renderWindow->windowDraw(_HUD->getLife());
+        _renderWindow->windowDraw(_HUD->getRectangle());
+        _renderWindow->windowDraw(_HUD->getStamina());
+    }
+    
 }
 
 World::World(const World& orig)
@@ -884,11 +912,18 @@ World::~World()
         _bullet=NULL;
     }
     
-    /*
+    
+    if(_HUD!=NULL){
+        //delete _HUD; //?????????????????????
+        _HUD=NULL;
+    }
+    
+    
+    
     if(_player!=NULL){
-        delete _player; //??????????????????
+        //delete _player; //??????????????????
         _player=NULL;
-    }*/
+    }
     
     if(_pinstance!=NULL){
         delete _pinstance; //??????

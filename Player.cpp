@@ -32,8 +32,8 @@ Player::Player()
 {
     _maxHealth=256;
     _health=256;
-    _maxStamina=100;
-    _stamina=100;
+    _maxStamina=200;
+    _stamina=200;
     _sprite=new Sprite();
     _speed=8;
     _defaultSpeed=8;
@@ -515,7 +515,9 @@ void Player::update(int** _collisionMap)
     
     keyReleased(); //No influye al input, solo a variables de player relacionadas con ellos.
     _changePowerUp=false;
-    if(_stamina<_maxStamina) _stamina = _stamina + 1;
+    if(_stamina<_maxStamina) _stamina = _stamina + 3;
+    if(_stamina>_maxStamina)_stamina=_maxStamina;
+    
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
