@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "EnemyBounce.h"
 #include "Input.h"
+#include "Bullet.h"
 
 
 World* World::_pinstance = 0;
@@ -43,15 +44,20 @@ World::World()
     _enemyChase=NULL;
     _enemyStand=NULL;
     _clock=NULL;
+    _levelFactory = NULL;
+    _bullet=NULL;
+    
+    _collisionMap=NULL;
+    _advancedCollisionMap=NULL;
+    
     cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
 {
+    
     buildTestObjects();
-    
     //LevelFactory::Instance();
-    
     //_box = lvl.getBox
     //_door = lvl.getDoor...    
 }
@@ -59,22 +65,28 @@ void World::buildWorld(int lvlNumber)
 void World::buildTestObjects()
 {
     
+    
+    _levelFactory = LevelFactory::Instance();
+    
+    _levelFactory->setLevelFactoryStates(0);
+
+    _collisionMap = _levelFactory->getLevelFactoryCollisionMap();
+    
     _clock = new Clock();
     
     _input = Input::Instance();
     
     cout <<" Build test objects."<<endl;
     
-    
     int x;
     
-    LevelFactory* lf = LevelFactory::Instance();
-    lf->setLevelFactoryStates(0);
+    //_levelFactory->setLevelFactoryStates(0);
     
-    _map = lf->getLevelFactoryTileMapSprite();
-    _mapWidth = lf->getLevelFactoryWidth();
-    _mapHeight = lf->getLevelFactoryHeight();
-    _mapLayers = lf->getLevelFactoryNumLayers();
+    _map = _levelFactory->getLevelFactoryTileMapSprite();
+    _mapWidth = _levelFactory->getLevelFactoryWidth();
+    _mapHeight = _levelFactory->getLevelFactoryHeight();
+    _mapLayers = _levelFactory->getLevelFactoryNumLayers();
+    
 
     _textureNumber=4;
     _texture = new Texture*[_textureNumber];
@@ -84,7 +96,6 @@ void World::buildTestObjects()
     std::string pathObject = "textures/ObjectTiles.png";
     std::string pathButton = "textures/TexturaBotonTemporal.png";
     
-    
     _texture[0] = new Texture(path);
     _texture[1] = new Texture(pathBullet);
     _texture[2] = new Texture(pathObject);
@@ -93,7 +104,7 @@ void World::buildTestObjects()
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     _player = Player::Instance();
-    _player->setPlayer(_texture[0], square,sf::Vector2f(16,16), sf::Vector2f(200.0f,200.0f), sf::Vector2f(1,1));
+    _player->setPlayer(_texture[0], square,sf::Vector2f(16,16), sf::Vector2f(160.0f,200.0f), sf::Vector2f(1,1));
     _player->setColor(sf::Color::Cyan);
     
     _boxNumber = 1;
@@ -119,6 +130,18 @@ void World::buildTestObjects()
     
     _switch[0]->setDoor(_door[0],_door[1]);
     
+    _powerUpNumber = 3;
+    
+    _powerUp = new PowerUp*[_powerUpNumber];
+    
+    _powerUp[0] = new PowerUp(1, 210.0, 384.0, 0.0, false, _texture[2],
+                        1);
+
+    _powerUp[1] = new PowerUp(1, 190.0, 424.0, 0.0, false, _texture[2],
+                        2);
+
+    _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
+                        3);        
 }
 
 
@@ -130,7 +153,6 @@ void World::update()
 
 if(_player!=NULL)_player->input();
 
-    
     if(_clock->getClockAsSeconds()>=float(UPS)){
         
         _input->inputInput();
@@ -142,8 +164,7 @@ if(_player!=NULL)_player->input();
         //if(_input->inputCheck(10)) _renderWindow->windowClose();
         
         if(_player!=NULL){
-            _player->update();
-            
+            _player->update(_collisionMap);
         }
         
         int x;
@@ -152,8 +173,12 @@ if(_player!=NULL)_player->input();
         {
             for(x=0;x<_boxNumber;x++)
             {
-                if(_box[x]!=NULL)
+                if(_box[x]->getErase())
                 {
+                    delete _box[x];
+                    _box[x]==NULL;
+                }
+                else{
                     _box[x]->update();
                 }
             }
@@ -165,7 +190,14 @@ if(_player!=NULL)_player->input();
             {
                 if(_powerUp[x]!=NULL)
                 {
-                    _powerUp[x]->update();
+                    //if(_powerUp[x]->getErase())
+                    //{
+                    //    delete _powerUp[x];
+                    //    _powerUp[x]==NULL;
+                    //}
+                    //else{
+                        _powerUp[x]->update();
+                    //}
                 }
             }
         }
@@ -188,10 +220,32 @@ if(_player!=NULL)_player->input();
                 if(_switch[x]!=NULL)
                 {
                     _switch[x]->update();
+                    
+
                 }
             }
         }
-
+        
+        if(_bullet!=NULL){
+            if(_bullet->getErase())
+            {
+                delete _bullet;
+                _bullet=NULL;
+            }
+            else{
+                _bullet->update();
+            }
+        }
+        else
+        {
+            if(_player->getFireBullet())
+            {
+                _bullet = new Bullet(true,false, _player->getPreviousSituation()->getPositionX(),
+                        _player->getPreviousSituation()->getPositionY(),
+                        _player->getPreviousSituation()->getAngle(),
+                        11.0f, 3.5f, 1, _texture[1]);
+            }
+        }        
 
         if(_enemyBounce!=NULL)
         {
@@ -199,7 +253,7 @@ if(_player!=NULL)_player->input();
             {
                 if(_enemyBounce[x]!=NULL)
                 {
-                    //_enemyBounce[x]->update();
+                    _enemyBounce[x]->update(_collisionMap);
                 }
             }
         }
@@ -210,31 +264,28 @@ if(_player!=NULL)_player->input();
             {
                 if(_enemyChase[x]!=NULL)
                 {
-                    //_enemyChase[x]->update();
+                    _enemyChase[x]->update(_collisionMap);
                 }
             }
         }
 
-        /*
-         if(_enemyStand!=NULL)
-          {
-        for(x=0;x<_enemyStandNumber;x++)
+        if(_enemyStand!=NULL)
         {
-            if(_enemyStand[x]!=NULL)
-          {
-
-                 }
+            for(x=0;x<_enemyStandNumber;x++)
+            {
+                if(_enemyStand[x]!=NULL)
+                {
+                    _enemyStand[x]->update(_player->getActualSituation()->getPosition());
+                }
+            }
         }
-         }
-        */
-
         checkCollisions();
-
-            _clock->clockRestart();    
+        _clock->clockRestart();    
     }
-        _percentTick=_clock->getClockAsSeconds()/float(UPS);        
-    
+    _percentTick=_clock->getClockAsSeconds()/float(UPS);        
 }
+
+
 
 //Metodo usado para corregir la posicion de los objetos tras todos sus updates, para comprobar que nadie se mete
 //donde no le corresponde.
@@ -243,7 +294,14 @@ void World::checkCollisions()
 {
     int x;
     int y;
-    //Colision Jugador con otros Objetos
+    
+    //Colision Jugador con el entorno
+    
+    
+
+     
+    
+    //Colision Jugador - Cajas
     
     if(_player!=NULL&&_box!=NULL)
     {
@@ -260,23 +318,39 @@ void World::checkCollisions()
                 if(_player->getPlayer()->spriteIntersectsBounds(_box[x]->getSprite()))
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_box[x]->getSprite()->getSpriteSprite(),0))
-                    {                        
+                    {
+                        
+                        //Si el jugador puede mover la caja
+                        if(_player->getColor()==sf::Color::Red)
+                        {
+                           sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                        sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
+                                    _player->getPreviousSituation()->getPositionY());
+
+                            _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                        }
+                        //Si el jugador no puede mover la caja.
+                        else
+                        {
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                 _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
                         
-                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
                         
-                        _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
-                                _player->getPreviousSituation()->getPositionY());
-                       
-                        _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                            _box[x]->setCollisionObject(true);                           
+                        }
+                                        
                     }
                 }
             }
         }
     }
     
+    //Colision Jugador - Puertas
     if(_player!=NULL&&_door!=NULL)
     {
         for(x=0;x<_doorNumber;x++)
@@ -302,6 +376,7 @@ void World::checkCollisions()
         }
     }
     
+    //Colision Jugador - Interruptores
     if(_player!=NULL&&_switch!=NULL)
     {
         for(x=0;x<_switchNumber;x++)
@@ -320,7 +395,26 @@ void World::checkCollisions()
             }
         }
     }
+
+    if(_player!=NULL&&_powerUp!=NULL)
+    {
+        for(x=0;x<_powerUpNumber;x++)
+        {
+            if(_powerUp[x]!=NULL)
+            {
+                if(_player->getPlayer()->spriteIntersectsBounds(_powerUp[x]->getSprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_powerUp[x]->getSprite()->getSpriteSprite(),0))
+                    {                        
+                        _powerUp[x]->setCollisionPlayer(true);
+                        //el propio powerUp activa el poder en el jugador.
+                    }
+                }
+            }
+        }
+    }
     
+    //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
     {
         for(x=0;x<_boxNumber;x++)
@@ -340,12 +434,11 @@ void World::checkCollisions()
                         {
                             if(_box[x]->getSprite()->spriteIntersectsPixel(_door[y]->getSprite()->getSpriteSprite(),0))
                             {
-                                cout <<"ENTRO AHI"<<endl;
                                 
                                 sf::Vector2f maxDespl = calculateMaxPosition(_box[x]->getSprite(),_box[x]->getPreviousSituation(),
                                 _box[x]->getActualSituation(), _box[x]->getSpeed(), _door[y]->getSprite());
                                                                 
-                                cout << maxDespl.x <<" , "<<maxDespl.y <<endl;
+                                //cout << maxDespl.x <<" , "<<maxDespl.y <<endl;
                                 
                                 _box[x]->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);
                                 
@@ -362,14 +455,13 @@ void World::checkCollisions()
                                 //_box[x].set
                             }
                         }
-                        
-                        
                     }
                 }
             }
         }
     }
     
+    //Colision Cajas - Interruptores
     if(_box!=NULL&&_switch!=NULL)
     {
         for(x=0;x<_boxNumber;x++)
@@ -393,31 +485,29 @@ void World::checkCollisions()
     }
     
     
-    for(x=0;x<_boxNumber;x++)
+    //Arreglo de conflicto: Si una caja y choca con un jugador y una puerta.
+    if(_box!=NULL){
+        for(x=0;x<_boxNumber;x++)
         {
-
             if(_box[x]!=NULL)
             {
                 if(_box[x]->getCollisionLastUpdate()&&_box[x]->getCollisionObject())
                 {
-                cout <<"REAJUSTE"<<endl;
-                
-                    _player->setActualSituation(
+                    //cout <<"REAJUSTE"<<endl;
+
+                        _player->setActualSituation(
                         _player->getPreviousSituation()->getPositionX(),
                         _player->getPreviousSituation()->getPositionY(),
                         _player->getPreviousSituation()->getAngle()
-                    );
-                    
-                    _box[x]->getActualSituation()->setPosition(
-                    _box[x]->getPreviousSituation()->getPositionX(),
-                    _box[x]->getPreviousSituation()->getPositionY());                    
+                        );
+
+                        _box[x]->getActualSituation()->setPosition(
+                        _box[x]->getPreviousSituation()->getPositionX(),
+                        _box[x]->getPreviousSituation()->getPositionY());                    
                 }
-                
             }
         }
-    
-    
-    
+    }
 }
 
 //Metodo usado para calcular el maximo desplazamiento de un sprite frente a otro.
@@ -508,10 +598,14 @@ void World::render(RenderWindow* _renderWindow)
                 _renderWindow->windowDraw(_switch[x]->getSprite());
             }
         }
-    }    
+    }
     
     if(_player!=NULL){
         _renderWindow->windowInterpolateDraw(_player->getPlayer(),_player->getPreviousSituation(),_player->getActualSituation());
+    }
+    
+    if(_bullet!=NULL){
+        _renderWindow->windowInterpolateDraw(_bullet->getSprite(),_bullet->getPreviousSituation(),_bullet->getActualSituation());
     }
 
     
@@ -548,8 +642,6 @@ void World::render(RenderWindow* _renderWindow)
         }
     }
 
-
-
     if(_message!=NULL)
     {
         for(x=0;x<_messageNumber;x++)
@@ -582,7 +674,7 @@ void World::render(RenderWindow* _renderWindow)
             }
         }
     }
-    
+        
     /*
      if(_enemyStand!=NULL)
      * {
@@ -595,6 +687,12 @@ void World::render(RenderWindow* _renderWindow)
     }
      }
     */
+    
+    if(_bullet!=NULL)
+    {
+        _renderWindow->windowInterpolateDraw(_bullet->getSprite(),
+                _bullet->getPreviousSituation(), _bullet->getActualSituation());
+    }
     
     for (int y=0; y<_mapHeight; y++)
     {
@@ -688,7 +786,6 @@ World::~World()
         _switch=NULL;
     }
 
-
     if(_enemyBounce!=NULL)
     {
         for(x=0;x<_enemyBounceNumber;x++)
@@ -756,6 +853,11 @@ World::~World()
         }
         delete _map;
         _map=NULL;
+    }
+    
+    if(_bullet!=NULL){
+        delete _bullet;
+        _bullet=NULL;
     }
     
     /*

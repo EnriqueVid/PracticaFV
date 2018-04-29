@@ -30,24 +30,33 @@ Player* Player::Instance()
 //por defecto.
 Player::Player() 
 {
-     _maxHealth=256;
-     _health=256;
-     _maxStamina=100;
-     _stamina=100;
-     _sprite=new Sprite();
-     _speed=5;
-     _color=sf::Color::White;
-     _hability=false;
-     _previousSituation=new Situation();
-     _actualSituation=new Situation();
-     _clock = NULL;
-     _animationNumFrames=-1;
-     _animationTime=-1;
-     _idleAnimationStart=true;
-     _movingAnimationStart=false;
-     _damage=false;
-     _actualAnimation=0;
-     
+    _maxHealth=256;
+    _health=256;
+    _maxStamina=100;
+    _stamina=100;
+    _sprite=new Sprite();
+    _speed=8;
+    _defaultSpeed=8;
+    _color=sf::Color::White;
+    _hability=false;
+    _previousSituation=new Situation();
+    _actualSituation=new Situation();
+    _clockHability = NULL;
+    _clockChangeColor = NULL;
+    _animationNumFrames=-1;
+    _animationTime=-1;
+    _idleAnimationStart=true;
+    _movingAnimationStart=false;
+    _damage=false;
+    _actualAnimation=0;
+    
+    _fireBullet=false;
+    
+    _collisionWithMap=false;
+    
+    _redUnlocked=false;
+    _blueUnlocked=false;
+    _greenUnlocked=false;     
 }
 
 Player::Player(const Player& orig) 
@@ -57,6 +66,17 @@ Player::Player(const Player& orig)
 
 Player::~Player()
 {
+    
+    if(_clockHability!=NULL){
+        delete _clockHability;
+        _clockHability=NULL;
+    }
+    
+    if(_clockChangeColor!=NULL){
+        delete _clockChangeColor;
+        _clockChangeColor=NULL;
+    }
+    
     delete _sprite;
     _sprite = NULL;
     
@@ -74,11 +94,8 @@ void Player::setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, 
     _previousSituation->setPosition(position.x, position.y);
     _actualSituation->setPosition(position.x, position.y);
     
-    
     _sprite = new Sprite(texture,getAnimation(0),origin,position,scale,_animationNumFrames,_animationTime);
-    
    //_sprite = new Sprite(texture, *box, origin, position, scale);
-    
 }
 
 void Player::input()
@@ -198,6 +215,39 @@ void Player::input()
     }
     
     
+    if(input->inputCheck(9))
+    {
+        _changePowerUp=true;
+    }
+}
+
+void Player::shoot()
+{
+    if(_hability && _clockHability==NULL && _stamina==_maxStamina)
+    {
+        _clockHability = new Clock();
+        _hability=false;
+        _stamina=0;
+        _fireBullet=true;
+    }
+    
+    if(_clockHability!=NULL)
+    {
+        if(_clockHability->getClockAsSeconds()<=1.0f)
+        {
+            
+        }
+        else
+        {
+            delete _clockHability;
+            _clockHability = NULL;
+        }
+    }    
+}
+
+bool Player::getFireBullet()
+{
+    return _fireBullet;
 }
 
 void Player::keyReleased()
@@ -208,25 +258,107 @@ void Player::keyReleased()
     _damage = false;
 }
 
-void Player::update()
+void Player::checkMapCollisions(int** _collisionMap)
 {
+    if(_axis.x>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+            }
+        }
+    }
+    else if(_axis.x<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+            }
+        }
+    }
+    
+    if(_axis.y>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+            }
+        }
+    }
+    else if(_axis.y<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+            }
+        }
+    }
+}
+
+bool Player::getCollisionWithMap(){
+    return _collisionWithMap;
+}
+
+void Player::update(int** _collisionMap)
+{
+    
+    _collisionWithMap=false;
+    _fireBullet=false;
     _sprite->setSpritePosition(_actualSituation->getPosition());
     _sprite->setSpriteRotation(_actualSituation->getAngle());
         
     _previousSituation = new Situation(_actualSituation->getPositionX(), _actualSituation->getPositionY(), _actualSituation->getAngle());
     
-    if(_clock==NULL)
+    if(_clockHability==NULL)
     {
         move();
     }else
     {
+        if(_color==sf::Color::Cyan)
+        {
         _axis.x = _direction.x;
         _axis.y = _direction.y;
+        }
+        else{
+            move();
+        }
     }
     
-    if(_color == sf::Color::Blue)
+    if(_changePowerUp&&_clockChangeColor==NULL)
     {
-       superSpeed();
+        if(!(_color==sf::Color::Cyan&&_clockHability!=NULL)){
+
+            changePowerUp();
+        }
+    }
+    
+    if(_clockChangeColor!=NULL)
+    {
+        if(_clockChangeColor->getClockAsSeconds()>0.2f){
+            delete _clockChangeColor;
+            _clockChangeColor=NULL;
+        }
+    }
+    
+    if(_color == sf::Color::Cyan)
+    {
+       superSpeed(); //Se comprueba si debe realizarse superspeed. Y si se debe, lo hace.
     }
     if(_color == sf::Color::Red)
     {
@@ -234,9 +366,8 @@ void Player::update()
     }
     if(_color == sf::Color::Green)
     {
-       //shoot();
+       shoot(); //Se comprueba si debe realizarse shoot. Y si se debe, lo hace.
     }
-    
     
     sf::Vector2f moving(0,0);
     
@@ -244,16 +375,24 @@ void Player::update()
     
     moving.y = abs(_axis.y)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
     
+    
+    
     //cout << "damage: " <<_damage << endl;
     
     _sprite->spriteMove(moving);
     
     _sprite->updateAnimation();
     
-    _actualSituation = new Situation(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y, _sprite->getSpriteRotation());
+    _actualSituation->setPosition(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y);
+    _actualSituation->setAngle(_sprite->getSpriteRotation());
+    
+
+    checkMapCollisions(_collisionMap); //puede afectar a la actual situation.
+    
     
     int actualFrame = 0;
     
+    //CONTROL DE ANIMACIONES
     if(_axis.x==0&&_axis.y==0)
     {
         if(_idleAnimationStart){
@@ -294,9 +433,6 @@ void Player::update()
                 _actualAnimation=2;
             }
         }
-
-        
-
         _movingAnimationStart=true;
         _idleAnimationStart=false;
     }
@@ -351,10 +487,8 @@ void Player::update()
                 }                
             }
         }
-
-
-                
-        if(_clock!=NULL)
+        
+        if(_clockHability!=NULL)
         {
             _sprite->setAnimationTime(0.01/4);
             _animationTime=0.001;
@@ -368,8 +502,13 @@ void Player::update()
         _idleAnimationStart=true;
         _movingAnimationStart=false;
     }
-    keyReleased();
+    //*fin de control de animaciones
     
+    //Ajustes finales:
+    
+    keyReleased(); //No influye al input, solo a variables de player relacionadas con ellos.
+    _changePowerUp=false;
+    if(_stamina<_maxStamina) _stamina = _stamina + 1;
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
@@ -398,24 +537,24 @@ void Player::interpolate(float actualTime)
 
 void Player::superSpeed()
 {
-    if(_hability && _clock==NULL && _stamina==_maxStamina)
+    if(_hability && _clockHability==NULL && _stamina==_maxStamina)
     {
-        _clock = new Clock();
+        _clockHability = new Clock();
         _hability=false;
         _stamina=0;
-        _speed = _speed*4;
+        _speed = _defaultSpeed*4;
     }
     
-    if(_clock!=NULL)
+    if(_clockHability!=NULL)
     {
-        if(_clock->getClockAsSeconds()<=1.0f)
+        if(_clockHability->getClockAsSeconds()<=1.0f)
         {
             
         }else
         {
-            delete _clock;
-            _clock = NULL;
-            _speed = _speed/4;
+            delete _clockHability;
+            _clockHability = NULL;
+            _speed = _defaultSpeed;
         }
     }
     
@@ -528,6 +667,14 @@ void Player::move()
 //Setters
 void Player::setColor(sf::Color color)
 {
+    if(_clockHability!=NULL)
+    {
+        delete _clockHability;
+        _clockHability = NULL;
+        _speed = _defaultSpeed;
+        _fireBullet=false;
+    }
+    
     _color = color;
     _sprite->setSpriteColor(_color.r,_color.g,_color.b,_color.a);
 }
@@ -687,4 +834,113 @@ Situation* Player::getActualSituation()
 sf::Vector2i Player::getDirection()
 {
     return _direction;
+}
+
+void Player::unlockPowerUp(int powerUpType)
+{
+    if(powerUpType==1){
+        _redUnlocked=true;
+    }
+    else if (powerUpType==2)
+    {
+        _blueUnlocked=true;
+    }
+    else if(powerUpType==3)
+    {
+        _greenUnlocked=true;
+    }
+}
+
+void Player::lockPowerUp(int powerUpType)
+{
+    if(powerUpType==1){
+        _redUnlocked=false;
+    }
+    else if (powerUpType==2)
+    {
+        _blueUnlocked=false;
+    }
+    else if(powerUpType==3)
+    {
+        _greenUnlocked=false;
+    }    
+}
+
+void Player::unlockAllPowerUps()
+{
+    _redUnlocked=true;
+    _blueUnlocked=true;
+    _greenUnlocked=true;
+}
+    
+void Player::lockAllPowerUps()
+{
+    _redUnlocked=false;
+    _greenUnlocked=false;
+    _blueUnlocked=false;
+}
+
+void Player::changePowerUp()
+{
+    
+    if(_clockHability!=NULL)
+    {
+        delete _clockHability;
+        _clockHability = NULL;
+        _speed = _defaultSpeed;
+        _fireBullet=false;
+    }
+
+    
+    if(_color == sf::Color::Red)
+    {
+        if(_blueUnlocked)
+        {
+            setColor(sf::Color::Cyan);
+        }
+        else if(_greenUnlocked)
+        {
+            setColor(sf::Color::Green);            
+        }
+        else
+        {
+            setColor(sf::Color::White);            
+        }
+    }
+    else if(_color==sf::Color::Cyan)
+    {
+        if(_greenUnlocked)
+        {
+            setColor(sf::Color::Green);
+        }
+        else
+        {
+            setColor(sf::Color::White);            
+        }        
+    }
+    else if(_color==sf::Color::Green)
+    {
+        setColor(sf::Color::White);                
+    }
+    else if(_color==sf::Color::White)
+    {
+        if(_redUnlocked)
+        {
+            setColor(sf::Color::Red);
+        }
+        else if(_blueUnlocked)
+        {
+            setColor(sf::Color::Cyan);            
+        }
+        else if(_greenUnlocked)
+        {
+            setColor(sf::Color::Green);            
+        }
+    }
+    if(_clockChangeColor==NULL){
+        _clockChangeColor = new Clock();        
+    }
+    else{
+        _clockChangeColor->clockRestart();
+    }
 }

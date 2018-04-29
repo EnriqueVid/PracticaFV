@@ -27,6 +27,8 @@ public:
             int PowerUpType);
 
     void interact();
+    void update();
+    
     void pickPowerUp();
     int getPowerUpType();
     sf::Color getColor();
@@ -34,8 +36,12 @@ public:
     PowerUp(const PowerUp& orig);
     virtual ~PowerUp();    
 private:
-    int _powerUpType; //1: ROJO . 2: AZUL . 3: VERDE
+    int _powerUpType; //1: ROJO . 2: AZUL . 3: VERDE...
     sf::Color _color;
+    
+    int _animationNumFrames; //indica el numero de frames de la animacion
+    float _animationTime; //indica el tiempo que pasa hasta el siguiente frame    
+    
 };
 
 #endif /* POWERUP_H */
