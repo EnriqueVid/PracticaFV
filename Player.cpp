@@ -683,3 +683,8 @@ Situation* Player::getActualSituation()
 {
     return _actualSituation;
 }
+
+sf::Vector2i Player::getDirection()
+{
+    return _direction;
+}

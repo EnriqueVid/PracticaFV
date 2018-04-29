@@ -38,6 +38,17 @@ public:
     
     bool getIgnoreCollisions();
     bool getErase();
+    bool getCollision();
+    
+    bool getCollisionPlayer();
+    bool getCollisionEnemy();
+    bool getCollisionBox();
+    bool getCollisionObject();    
+    
+    void setCollisionPlayer(bool b);
+    void setCollisionEnemy(bool b);
+    void setCollisionBox(bool b);
+    void setCollisionObject(bool b);
     
     void update();
     void render(RenderWindow* window, Clock* clock, float ups);
@@ -53,6 +64,15 @@ protected:
     int _objectType; //Nos indica el tipo de objeto del que se trata.
     bool _ignoreCollisions; //Indica si le afectaran o no las colisiones.
     bool _erase; //Boolean usado para indicar al mundo si debe borrar este objeto.
+
+    bool _collisionPlayer; //Ojo: depende mucho de la implementacion.
+    //En box, por ejemplo, nos sirve para controlar el update de Box, pero luego se hace =false, por lo que no podemos usarla en
+    //checkCollisions, en su lugar usamos _collisionLastUpdate de caja, el cual no se hace false hasta la siguiente iteracion.
+    bool _collisionEnemy;
+    bool _collisionBox;
+    bool _collisionObject;
+    
+    
 };
 
 #endif /* OBJECT_H */

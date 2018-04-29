@@ -23,6 +23,7 @@
 #include "Bullet.h"
 #include "World.h"
 #include "Hud.h"
+#include "Astar.h"
 
 #define UPS 1.0f/15.0f
 
@@ -34,9 +35,42 @@ int main()
 
     Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
     
+    bool dado = false;
+    
+    Astar* astar;
+    
+    int** map;
+    
+    int width = 25;
+    int height = 25;
+    
+    sf::Vector2i start;
+    sf::Vector2i end;
+    
+    start.x = 0;
+    start.y = 0;
+    
+    end.x = 20;
+    end.y = 0;
+    
+    map = new int*[width];
+    for(int i=0;i<width;i++)
+    {
+        map[i] = new int[height];
+        for(int j=0;j<height;j++)
+        {
+            map[i][j] = 1;
+        }
+    }
+    
     Texture* playerTex = new Texture("./textures/PlayerTiles.png");
 
-    EnemyBounce* enemyBounce = new EnemyBounce(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 300.0f), sf::Vector2f(1.0f, 1.0f), "udlr");
+    LevelFactory* lf = LevelFactory::Instance();
+    
+    
+    Player* pl = Player::Instance();
+    
+    EnemyChase* enemyChase = new EnemyChase(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 370.0f), sf::Vector2f(1.0f, 1.0f), "usds", 4.0f);
     
     Hud* hud = Hud::Instance();
     
@@ -44,7 +78,9 @@ int main()
     
     hud->update(256,100, 0, 255, 255, 255);
     
+    astar = new Astar(map, width, height, 8);
     
+    string meh = astar->pathfind(start, end);
     
     Event* ev = new Event();
     Input* in = Input::Instance();
@@ -58,7 +94,7 @@ int main()
     
     world->buildTestObjects();
     
-    enemyBounce->update();
+    //enemyBounce->update();
     
     while(window->windowIsOpen())
     {
@@ -71,27 +107,43 @@ int main()
         }
         
         world->update();
+        
+        if(clc->getClockAsSeconds() > float(1.0f/15.0f))
+        {
+            enemyChase->update(lf->getLevelFactoryCollisionMap());
+            clc->clockRestart();
+        }
 
         window->windowClear();
-
-        world->render(window);
-        window->windowInterpolateDraw(enemyBounce->getEnemySprite(), enemyBounce->getEnemyPreviousSituation(), enemyBounce->getEnemyActualSituation());
         
-        if(in->inputCheck(12))
+        
+        
+        world->render(window);
+        
+        window->windowInterpolateDraw(enemyChase->getConeSprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
+        window->windowInterpolateDraw(enemyChase->getEnemySprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
+        
+        if(in->inputCheck(12) && !dado)
         {
-            hud->update(200, 50, 255, 255, 0, 255);
-            cout<<"Revisando hud"<<endl;
-            cout<<hud->getLife()->getBox()->height<<endl;
-            cout<<hud->getLife()->getBox()->width<<endl;
-            cout<<hud->getLife()->getSpritePosition().x<<endl;
-            cout<<hud->getLife()->getSpritePosition().y<<endl;
+            dado=true;
+            cout<<"Revisando A* al pulsar espacio"<<endl;
+            for(int i=0;i<width;i++)
+            {
+                for(int j=0;j<height;j++)
+                {
+                    cout<<map[i][j];
+                }
+                cout<<endl;
+            }
+            
+            cout<<meh<<endl;
         }
         window->windowDraw(hud->getLife());
         window->windowDraw(hud->getRectangle());
         window->windowDraw(hud->getStamina());
         
         window->windowDisplay();
-
+        
     }
     return 0;
 }
