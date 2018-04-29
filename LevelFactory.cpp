@@ -44,6 +44,13 @@ LevelFactory::LevelFactory()
     _oDoor = NULL;
     _oPowerUp = NULL;
     
+    _countenemystand = 0;
+    _countenemybounce = 0;
+    _countenemychase = 0;
+    _countbox = 0;
+    _countbutton = 0;
+    _countpowerup = 0;
+    
 }
 
 LevelFactory::LevelFactory(const LevelFactory& orig) 
@@ -351,9 +358,10 @@ void LevelFactory::levelFactoryMapCreator()
     for(int i=0; i<_numobjects; i++)
     {
         int gid = 0;
-        int aux = 0;
+        int count = 0;
         float oX = 0;
         float oY = 0;
+        string str = "";
         object->QueryIntAttribute("gid", &gid);
         sf::IntRect* rect;
         
@@ -376,11 +384,20 @@ void LevelFactory::levelFactoryMapCreator()
                 oX += 16;
                 oY -= 16;
                 rect = new sf::IntRect(0, 0, 32, 32);
+                str = object->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value");
+                //_eBounce[_countenemybounce] = new EnemyBounce();
+                _countenemybounce++;
                 break;
                 
             case 198:// EnemyStand
-                _numenemystand++;
-                cout<<"EnemyStand"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                rect = new sf::IntRect(0, 0, 32, 32);
+                str = object->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value");
+                _eStand[_countenemystand] = new EnemyStand(_enemyTexture, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f), str, 5.0f); 
+                cout<<"EnemyStand Bieeeeeen"<<endl;
                 break;
                 
             case 214:// EnemyChase
@@ -406,29 +423,42 @@ void LevelFactory::levelFactoryMapCreator()
                 break;
                 
             case 253:// PowerUpBlue
-                _numpowerup++;
                 cout<<"PowerUpBlue"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 2);
                 break;
                 
             case 254:// PowerUpGreen
                 cout<<"PowerUpGreen"<<endl;
-                _numpowerup++;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 3);
                 break;
                 
             case 255:// PowerUpRed
-                _numpowerup++;
                 cout<<"PowerUpRed"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 1);
+                _countpowerup++;
                 break;
             
             case 256:// Box
-                while(_oBox[aux] == NULL) aux++;
                 object->QueryFloatAttribute("x", &oX);
                 object->QueryFloatAttribute("y", &oY);
                 oX += 16;
                 oY -= 16;
                 rect = new sf::IntRect(0, 0, 32, 32);
-                _oBox[aux] = new Box(1, oX, oY, 0, true, _objectTexture, 1, 5, 16);
+                _oBox[_countbox] = new Box(1, oX, oY, 0, true, _objectTexture, 1, 5, 16);
                 cout<<"Box"<<endl;
+                _countbox++;
                 break;
              
         }
@@ -469,5 +499,10 @@ int** LevelFactory::getLevelFactoryCollisionMap()
 Box** LevelFactory::getLevelFactoryBox()
 {
     return _oBox;
+}
+
+PowerUp** LevelFactory::getLevelFactoryPowerUp()
+{
+    return _oPowerUp;
 }
 

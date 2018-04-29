@@ -127,14 +127,17 @@ void World::buildTestObjects()
     
     _switchNumber = 1;
     _switch = new Switch*[_switchNumber];
-    _switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[3],
+    _switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[2],
                                 1);
     
     _switch[0]->setDoor(_door[0],_door[1]);
     
-    _powerUpNumber = 3;
+    _powerUpNumber = 1;
+    _powerUp = _levelFactory->getLevelFactoryPowerUp();
     
+    /*
     _powerUp = new PowerUp*[_powerUpNumber];
+    
     
     _powerUp[0] = new PowerUp(1, 210.0, 384.0, 0.0, false, _texture[2],
                         1);
@@ -144,7 +147,8 @@ void World::buildTestObjects()
 
     _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
                         3);        
-}
+    */
+    }
 
 
 //habra que pasarle _map[0] al update de los enemigos

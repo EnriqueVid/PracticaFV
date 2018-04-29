@@ -19,7 +19,7 @@ Switch::Switch(int objectType, float initialPosX, float initialPosY, float initi
     _switchType = switchType;
     _door1=NULL; //esto es MUY importante.
     _door2=NULL;
-    _sprite = new Sprite(texture,sf::IntRect(32,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(400.0f,400.0f),sf::Vector2f(1.0f,1.0f));  
+    _sprite = new Sprite(texture,sf::IntRect(96,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(400.0f,400.0f),sf::Vector2f(1.0f,1.0f));  
     _sprite->setSpritePosition(sf::Vector2f(initialPosX,initialPosY));
 }
 

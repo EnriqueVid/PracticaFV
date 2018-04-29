@@ -45,6 +45,7 @@ public:
     int getLevelFactoryHeight();
     
     Box** getLevelFactoryBox();
+    PowerUp** getLevelFactoryPowerUp();
     
     
     
@@ -77,6 +78,8 @@ private:
     Door** _oDoor;
     PowerUp** _oPowerUp;
     
+    
+    
     int _numlayers;
     int _numobjects;
     
@@ -86,6 +89,13 @@ private:
     int _numbox;
     int _numbutton;
     int _numpowerup;
+    
+    int _countenemystand;
+    int _countenemybounce;
+    int _countenemychase;
+    int _countbox;
+    int _countbutton;
+    int _countpowerup;
     
     int _height;
     int _width;

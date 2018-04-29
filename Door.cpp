@@ -47,13 +47,13 @@ PUERTAS HORIZONTALES
     
     if(doorType==0)
     {
-        _sprite = new Sprite(texture,sf::IntRect(64,0,64+32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
+        _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
         _initialPosition=initialPosY;
         _maxPosition=initialPosY-32;
     }
     else if(doorType==1)
     {
-        _sprite = new Sprite(texture,sf::IntRect(64,32,64,64),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _sprite = new Sprite(texture,sf::IntRect(64,32,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
         _initialPosition=initialPosY;
         _maxPosition=initialPosY+32;
     }
