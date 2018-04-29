@@ -119,18 +119,15 @@ void World::buildTestObjects()
     //_box[2] = new Box(1, 224.0, 260.0, 0.0, false, _texture[2],1, 2, 16.0);    
 
     _doorNumber = 2;
-    _door = new Door*[_doorNumber];
-    _door[0] = new Door(1, 352.0, 320.0+64, 0.0, false, _texture[2],
-                            0, 4.5, 1.0);
-    _door[1] = new Door(1, 352.0, 352.0+64, 0.0, false, _texture[2],
-                            1, 4.5, 1.0);
+    _door = _levelFactory->getLevelFactoryDoor();
+    //_door[0] = new Door(1, 352.0, 320.0+64, 0.0, false, _texture[2], 0, 4.5, 1.0);
+    //_door[1] = new Door(1, 352.0, 352.0+64, 0.0, false, _texture[2],1, 4.5, 1.0);
     
     _switchNumber = 1;
-    _switch = new Switch*[_switchNumber];
-    _switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[2],
-                                1);
+    _switch = _levelFactory->getLevelFactorySwitch();
+    //_switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[2], 1);
     
-    _switch[0]->setDoor(_door[0],_door[1]);
+    //_switch[0]->setDoor(_door[0],_door[1]);
     
     _powerUpNumber = 1;
     _powerUp = _levelFactory->getLevelFactoryPowerUp();
@@ -148,6 +145,9 @@ void World::buildTestObjects()
     _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
                         3);        
     */
+    
+    _enemyStandNumber = 1;
+    _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
     }
 
 
@@ -677,23 +677,26 @@ void World::render(RenderWindow* _renderWindow)
         {
             if(_enemyChase[x]!=NULL)
             {
+                
                 _renderWindow->windowInterpolateDraw(_enemyChase[x]->getEnemySprite(),_enemyChase[x]->getEnemyPreviousSituation(),_enemyChase[x]->getEnemyActualSituation());
             }
         }
     }
         
-    /*
+   
      if(_enemyStand!=NULL)
-     * {
-    for(x=0;x<_enemyStandNumber;x++)
-    {
-        if(_enemyStand[x]!=NULL)
-      {
-            _renderWindow->windowDraw(_enemyStandNumber[x]->getEnemySprite());
+     {
+        for(x=0;x<_enemyStandNumber;x++)
+        {
+            if(_enemyStand[x]!=NULL)
+            {
+                if(_enemyStand[x]->getConeSprite() != NULL)_renderWindow->windowInterpolateDraw(_enemyStand[x]->getConeSprite(),_enemyStand[x]->getEnemyPreviousSituation(),_enemyStand[x]->getEnemyActualSituation());
+                _renderWindow->windowInterpolateDraw(_enemyStand[x]->getEnemySprite(),_enemyStand[x]->getEnemyPreviousSituation(),_enemyStand[x]->getEnemyActualSituation());
+                
+            }
         }
-    }
      }
-    */
+    
     
     if(_bullet!=NULL)
     {

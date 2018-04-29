@@ -46,7 +46,10 @@ public:
     
     Box** getLevelFactoryBox();
     PowerUp** getLevelFactoryPowerUp();
-    
+    EnemyChase** getLevelFactoryEnemyChase();
+    EnemyStand** getLevelFactoryEnemyStand();
+    Switch** getLevelFactorySwitch();
+    Door** getLevelFactoryDoor();
     
     
 protected:
@@ -95,6 +98,7 @@ private:
     int _countenemychase;
     int _countbox;
     int _countbutton;
+    int _countdoor;
     int _countpowerup;
     
     int _height;
