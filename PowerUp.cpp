@@ -47,16 +47,14 @@ PowerUp::PowerUp(int objectType, float initialPosX, float initialPosY, float ini
         _sprite = new Sprite(texture, animation,  sf::Vector2f(16.0f,16.0f), sf::Vector2f(initialPosX,initialPosY), _animationNumFrames, _animationTime);
     }
     else if(_powerUpType==2){ //AZUL
-        
         animation[0] = sf::IntRect(32*0, 32*3, 32, 32);  
         animation[1] = sf::IntRect(32*1, 32*3, 32, 32);  
         animation[2] = sf::IntRect(32*2, 32*3, 32, 32);  
         animation[3] = sf::IntRect(32*1, 32*3, 32, 32);  
-        
-        for(int x=4; x<_animationNumFrames;x++){
+        for(int x=4; x<_animationNumFrames;x++)
+        {
             animation[x] = sf::IntRect(32*0, 32*3, 32*1, 32);              
         }
-        
         _color=sf::Color::Cyan;   
         //"animation" se borra de memoria en el constructor de Sprite.
         _sprite = new Sprite(texture, animation,  sf::Vector2f(16.0f,16.0f), sf::Vector2f(initialPosX,initialPosY),   _animationNumFrames,  _animationTime);        

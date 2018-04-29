@@ -17,6 +17,7 @@
 #include "Input.h"
 #include "Bullet.h"
 #include "Hud.h"
+#include "Stairs.h"
 
 
 World* World::_pinstance = 0;
@@ -52,6 +53,7 @@ World::World()
     _advancedCollisionMap=NULL;
     
     _HUD=NULL;
+    _stairs=NULL;
     
     //cout <<"World created."<<endl;
 }
@@ -159,11 +161,22 @@ void World::buildTestObjects()
     */
     
     
+    
+    
     _HUD = Hud::Instance();
     
     _HUD->setSprites(_texture[0]);
     
+    
+    
+    //COMANDOS DE PRUEBA
+    /*
+    _stairs = new Stairs(1, 320.0+16.0, 128.0+16.0, 0.0, false, _texture[2],
+            1,2);
     _player->unlockAllPowerUps();
+     */ 
+    
+    
     
     }
 
@@ -309,6 +322,8 @@ if(_player!=NULL)_player->input();
                     _player->getColor().r, _player->getColor().g,
             _player->getColor().b, _player->getColor().a);
         }
+        
+
         
         
         
@@ -632,6 +647,11 @@ void World::render(RenderWindow* _renderWindow)
         }
     }
     
+    if(_stairs!=NULL)
+    {
+        _renderWindow->windowDraw(_stairs->getSprite());
+    }
+    
 
     if(_switch!=NULL)
     {
@@ -912,6 +932,10 @@ World::~World()
         _bullet=NULL;
     }
     
+    if(_stairs!=NULL){
+        delete _stairs;
+        _stairs=NULL;
+    }
     
     if(_HUD!=NULL){
         //delete _HUD; //?????????????????????

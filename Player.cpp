@@ -541,7 +541,6 @@ void Player::interpolate(float actualTime)
     
     _sprite->setSpritePosition(sf::Vector2f(x,y));
     _sprite->setSpriteRotation(g);
-    
 }
 
 void Player::superSpeed()
