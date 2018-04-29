@@ -370,8 +370,12 @@ void LevelFactory::levelFactoryMapCreator()
                 break;
             
             case 182:// EnemyBounce
-                _numenemybounce++;
                 cout<<"EnemyBounce"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                rect = new sf::IntRect(0, 0, 32, 32);
                 break;
                 
             case 198:// EnemyStand

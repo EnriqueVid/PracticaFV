@@ -28,6 +28,7 @@
 #include "EnemyChase.h"
 #include "Clock.h"
 #include "Input.h"
+#include "Bullet.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -56,7 +57,6 @@ protected:
     World(const World& orig);
     virtual ~World();
     
-    
 private:
     static World* _pinstance;
     //World tendra a todos los objetos de la escena.
@@ -73,8 +73,14 @@ private:
     EnemyChase** _enemyChase;
     EnemyStand** _enemyStand;
     
-    //RenderWindow* _renderWindow; //Should this variables be here or in the game class?
+    Bullet* _bullet; //Bala del jugador.
+    
     Input* _input;
+    
+    LevelFactory* _levelFactory;
+    
+    int** _collisionMap;
+    int** _advancedCollisionMap;
     
     Clock* _clock;
     float _percentTick;

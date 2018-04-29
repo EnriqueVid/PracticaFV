@@ -27,7 +27,7 @@ class Bullet {
 public:
     Bullet();
     
-    Bullet(bool playerBullet,float posX, float posY, float angle, float vel,float maxDuration, int damage, Texture *texture);
+    Bullet(bool playerBullet,bool generatedFromMouse, float posX, float posY, float angle, float vel,float maxDuration, int damage, Texture *texture);
     
     Bullet(const Bullet& orig);
     
