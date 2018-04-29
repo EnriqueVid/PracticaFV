@@ -34,6 +34,10 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     
     _sprite = new Sprite(texture,sf::IntRect(0,0,64,64),sf::Vector2f(32.0f,32.0f),sf::Vector2f(300.0f,300.0f),sf::Vector2f(1.0f,1.0f));
     
+    _collisionDesplX=0;
+    _collisionDesplY=0;
+    _collisionLastUpdate=false;
+    
     //_sprite = new Sprite(texture,sf::IntRect(0,0,64,64));
     //cout << _sprite->getSpriteOrigin().x<<endl;
 }
@@ -76,7 +80,66 @@ void Box::impact(){
     }
 }
     
+
+bool Box::getCollisionLastUpdate(){
+    return _collisionLastUpdate;
+}
+
+//borra el desplazamiento y _collisionPlayer
+void Box::collision(){
+    
+    _collisionDesplX=0;
+    _collisionDesplY=0;
+    _collisionPlayer=false;
+    
+    _collisionLastUpdate=true;
+    
+}
+
+
+
 void Box::update(){
+    
+    if(_collisionLastUpdate)_collisionLastUpdate=false;
+    
+    float auxPrevX=_previousSituation->getPositionX();
+    float auxPrevY=_previousSituation->getPositionY();
+    
+    if(_collisionPlayer&&_collisionObject){
+        cout <<"Colision con objeto Y JUGADOR"<<endl;
+        _previousSituation->setPosition(auxPrevX,auxPrevY);
+        _actualSituation->setPosition(auxPrevX,auxPrevY);
+        _collisionObject=false;
+        collision();
+    }
+    
+    newSituation(_actualSituation->getPosition().x+_collisionDesplX*_speed,
+            _actualSituation->getPosition().y+_collisionDesplY*_speed,
+            _actualSituation->getAngle());
+    
+    cout <<"===================================="<<endl;
+    cout <<"_actualSituation: "<<_actualSituation->getPositionX()<<" , "<<_actualSituation->getPositionY()<<endl;
+    cout <<"_previousSituation: "<<_previousSituation->getPositionX()<<" , "<<_previousSituation->getPositionY()<<endl;
+
+
+    if(_collisionPlayer){
+        cout <<"Colision con el jugador"<<endl;
+        collision(); //borra el desplazamiento y _collisionPlayer
+    }
+    else if(_collisionObject){
+        cout <<"Colision con objeto"<<endl;
+        _previousSituation->setPosition(auxPrevX,auxPrevY);
+        _actualSituation->setPosition(auxPrevX,auxPrevY);
+        _collisionObject=false;
+        _collisionLastUpdate=true;
+    }
+    
+    
+    
+
+    
+    
+    
     if(_breakAnimation==true){
         _ignoreCollisions=true;
         //avanzar los frames de la animacion acorde al reloj interno.
@@ -90,6 +153,15 @@ void Box::update(){
         //realizar acciones normales de update.
     }
 }
+
+
+void Box::setCollisionPlayerDirection(bool b, float direcX, float direcY){
+    _collisionPlayer=b;
+    _collisionDesplX=direcX;
+    _collisionDesplY=direcY;
+}
+
+
         
 int Box::getVt(){
     return _vt;

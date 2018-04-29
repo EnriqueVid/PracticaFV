@@ -31,12 +31,13 @@ public:
     EnemyBounce(const EnemyBounce& orig);
     virtual ~EnemyBounce();
     
-    void update();
-    void updateStateIdle();
+    void update(int** map);
+    void updateStateIdle(int** map);
     void updateStateStop();
     
     void setEnemyBouncePattern(string pattern);
     void setEnemyState(int s);
+    void enemyBounceCollision();
     
     string getEnemyBouncePattern();
     
@@ -44,6 +45,7 @@ private:
     string _pattern;
     int _actualStep;
     int _state;
+    Clock* _stopClock;
 
 };
 
