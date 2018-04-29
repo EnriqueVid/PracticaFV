@@ -50,7 +50,7 @@ World::World()
     _collisionMap=NULL;
     _advancedCollisionMap=NULL;
     
-    cout <<"World created."<<endl;
+    //cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
@@ -76,7 +76,7 @@ void World::buildTestObjects()
     
     _input = Input::Instance();
     
-    cout <<" Build test objects."<<endl;
+    //cout <<" Build test objects."<<endl;
     
     int x;
     
@@ -143,7 +143,10 @@ void World::buildTestObjects()
                         2);
 
     _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
-                        3);        
+                        3);  
+    
+    
+    _box[0]->setActualSituation(_box[x]->getActualSituation()->getPositionX(),400.0f,_box[x]->getActualSituation()->getAngle());
 }
 
 
@@ -159,10 +162,10 @@ if(_player!=NULL)_player->input();
         
         _input->inputInput();
 
-        if(_input->inputCheck(0)) cout<<"UP"<<endl;
-        if(_input->inputCheck(1)) cout<<"DOWN"<<endl;
-        if(_input->inputCheck(2)) cout<<"LEFT"<<endl;
-        if(_input->inputCheck(3)) cout<<"RIGHT"<<endl;
+        if(_input->inputCheck(0));
+        if(_input->inputCheck(1));
+        if(_input->inputCheck(2));
+        if(_input->inputCheck(3));
         //if(_input->inputCheck(10)) _renderWindow->windowClose();
         
         if(_player!=NULL){
@@ -181,7 +184,7 @@ if(_player!=NULL)_player->input();
                     _box[x]==NULL;
                 }
                 else{
-                    _box[x]->update();
+                    _box[x]->update(_collisionMap);
                 }
             }
         }
@@ -192,14 +195,14 @@ if(_player!=NULL)_player->input();
             {
                 if(_powerUp[x]!=NULL)
                 {
-                    //if(_powerUp[x]->getErase())
-                    //{
-                    //    delete _powerUp[x];
-                    //    _powerUp[x]==NULL;
-                    //}
-                    //else{
+                    if(_powerUp[x]->getErase())
+                    {
+                        delete _powerUp[x];
+                        _powerUp[x]=NULL;
+                    }
+                    else{
                         _powerUp[x]->update();
-                    //}
+                    }
                 }
             }
         }
@@ -298,10 +301,7 @@ void World::checkCollisions()
     int y;
     
     //Colision Jugador con el entorno
-    
-    
 
-     
     
     //Colision Jugador - Cajas
     
@@ -322,29 +322,43 @@ void World::checkCollisions()
                     if(_player->getPlayer()->spriteIntersectsPixel(_box[x]->getSprite()->getSpriteSprite(),0))
                     {
                         
-                        //Si el jugador puede mover la caja
-                        if(_player->getColor()==sf::Color::Red)
-                        {
-                           sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                        //si la caja no se esta chocando contra la pared.
+                        if(_box[x]->getCollisionWithMap()==false){
+                        
+                            //Si el jugador puede mover la caja
+                            if(_player->getColor()==sf::Color::Red)
+                            {
+                               sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                        _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
+
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
+                                        _player->getPreviousSituation()->getPositionY());
+
+                                _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                            }
+                            //Si el jugador no puede mover la caja.
+                            else
+                            {
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                     _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
 
-                            _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
-                                    _player->getPreviousSituation()->getPositionY());
+                                _box[x]->setCollisionObject(true);                           
+                            }
+                        
+                        }
+                        else{
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _box[x]->setCollisionObject(true);    
                         }
-                        //Si el jugador no puede mover la caja.
-                        else
-                        {
-                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
-                                _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
                         
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
-                        
-                            _box[x]->setCollisionObject(true);                           
-                        }
                                         
                     }
                 }

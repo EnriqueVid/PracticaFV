@@ -67,12 +67,14 @@ Player::Player(const Player& orig)
 Player::~Player()
 {
     
-    if(_clockHability!=NULL){
+    if(_clockHability!=NULL)
+    {
         delete _clockHability;
         _clockHability=NULL;
     }
     
-    if(_clockChangeColor!=NULL){
+    if(_clockChangeColor!=NULL)
+    {
         delete _clockChangeColor;
         _clockChangeColor=NULL;
     }
@@ -270,6 +272,8 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
+
         }
     }
     else if(_axis.x<0)
@@ -282,6 +286,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
         }
     }
     
@@ -295,6 +300,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
             }
+            _collisionWithMap=true;
         }
     }
     else if(_axis.y<0)
@@ -307,6 +313,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
             }
+            _collisionWithMap=true;
         }
     }
 }
@@ -675,7 +682,13 @@ void Player::setColor(sf::Color color)
         _fireBullet=false;
     }
     
-    _color = color;
+    //_color = color;
+    
+    _color.a = color.a;
+    _color.b = color.b;
+    _color.g = color.g;
+    _color.r = color.r;
+    
     _sprite->setSpriteColor(_color.r,_color.g,_color.b,_color.a);
 }
 

@@ -38,6 +38,7 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     _collisionDesplY=0;
     _collisionLastUpdate=false;
     
+    _collisionWithMap=false;
     //_sprite = new Sprite(texture,sf::IntRect(0,0,64,64));
     //cout << _sprite->getSpriteOrigin().x<<endl;
 }
@@ -92,17 +93,96 @@ void Box::collision(){
     _collisionDesplY=0;
     _collisionPlayer=false;
     _collisionLastUpdate=true;
-    
 }
 
-void Box::update(){
+void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
+{
+    cout <<"MAP COLLISIONS"<<endl;
+    cout <<"AxisX: "<<axisX << "AxisY: " << axisY<<endl;
     
+    if(axisX>0)
+    {
+        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()+31)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()+32)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()+32)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+            }
+            _collisionWithMap=true;
+        }
+    }
+    else if(axisX<0)
+    {
+        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()-31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            /*
+            while(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()-32)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()-32)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+            }
+             */ 
+            _collisionWithMap=true;
+        }
+    }
+    
+    if(axisY>0)
+    {
+        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            /*
+            while(_collisionMap[int(_actualSituation->getPositionY()+32)/32][int(_actualSituation->getPositionX()+31)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+32)/32][int(_actualSituation->getPositionX()-31)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+            }
+             */ 
+            
+            _collisionWithMap=true;
+        }
+    }
+    else if(axisY<0)
+    {
+        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        if(_collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()-32)/32][int(_actualSituation->getPositionX()+31)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-32)/32][int(_actualSituation->getPositionX()-31)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+            }
+            
+            _collisionWithMap=true;
+        }
+    }
+}
+
+
+bool Box::getCollisionWithMap()
+{
+    return _collisionWithMap;
+}
+
+
+void Box::update(int** _collisionMap){
+    
+    
+    _collisionWithMap=false;
     if(_collisionLastUpdate)_collisionLastUpdate=false;
     
     float auxPrevX=_previousSituation->getPositionX();
     float auxPrevY=_previousSituation->getPositionY();
     
-    if(_collisionPlayer&&_collisionObject){
+    if(_collisionPlayer&&_collisionObject)
+    {
         //cout <<"Colision con objeto Y JUGADOR"<<endl;
         _previousSituation->setPosition(auxPrevX,auxPrevY);
         _actualSituation->setPosition(auxPrevX,auxPrevY);
@@ -110,9 +190,14 @@ void Box::update(){
         collision();
     }
     
+    
+    
     newSituation(_actualSituation->getPosition().x+_collisionDesplX*_speed,
             _actualSituation->getPosition().y+_collisionDesplY*_speed,
             _actualSituation->getAngle());
+
+    checkMapCollisions(_collisionMap,_collisionDesplX,_collisionDesplY);
+
     
     if(_collisionPlayer){
         //cout <<"Colision con el jugador"<<endl;
@@ -125,6 +210,9 @@ void Box::update(){
         _collisionObject=false;
         _collisionLastUpdate=true;
     }
+    
+    
+    
 
     if(_breakAnimation==true){
         _ignoreCollisions=true;
@@ -138,6 +226,9 @@ void Box::update(){
     else{
         //realizar acciones normales de update.
     }
+
+    checkMapCollisions(_collisionMap,_collisionDesplX,_collisionDesplY);
+
 }
 
 
