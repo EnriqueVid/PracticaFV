@@ -14,6 +14,14 @@
 
 Sprite::Sprite(){
     
+    _box = new sf::IntRect[1];
+    _clock = new Clock();
+    _bitmasks = new Bitmasks();//<====Boop
+    _animationFrame = -1;
+    _animationFrame=-1;
+    _animation = false;
+    _animationTime = -1;
+    _animationNumFrames = -1;
 }
 
 Sprite::Sprite(Texture* texture, sf::IntRect box)
@@ -295,6 +303,9 @@ void Sprite::setSpriteRotation(float rot)
 
 void Sprite::setSpriteColor(int r, int g, int b, int a)
 {
+    
+    
+    //_sprite.setColor(sf::Color(sf::Uint8(r),sf::Uint8(g),sf::Uint8(b),sf::Uint8(a)));
     _sprite.setColor(sf::Color(r,g,b,a));
 }
 
@@ -306,6 +317,10 @@ void Sprite::setSpriteTexture(Texture* texture)
 void Sprite::setSpriteTextureRect(sf::IntRect box)
 {
     _sprite.setTextureRect(box);
+    _box[0].height = box.height;
+    _box[0].width = box.width;
+    _box[0].left = box.left;
+    _box[0].top = box.top;
 }
     
 

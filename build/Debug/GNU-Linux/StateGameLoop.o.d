@@ -1,7 +1,7 @@
 build/Debug/GNU-Linux/StateGameLoop.o: StateGameLoop.cpp StateGameLoop.h \
- State.h Input.h StateGameOver.h Sprite.h Texture.h Clock.h Bitmasks.h \
- StateStart.h Player.h Situation.h RenderWindow.h View.h Event.h \
- Message.h Text.h Font.h
+ State.h Input.h RenderWindow.h View.h Sprite.h Texture.h Clock.h \
+ Bitmasks.h Event.h Situation.h Message.h Text.h Font.h StateGameOver.h \
+ StateStart.h Player.h
 
 StateGameLoop.h:
 
@@ -9,7 +9,9 @@ State.h:
 
 Input.h:
 
-StateGameOver.h:
+RenderWindow.h:
+
+View.h:
 
 Sprite.h:
 
@@ -19,20 +21,18 @@ Clock.h:
 
 Bitmasks.h:
 
-StateStart.h:
-
-Player.h:
+Event.h:
 
 Situation.h:
-
-RenderWindow.h:
-
-View.h:
-
-Event.h:
 
 Message.h:
 
 Text.h:
 
 Font.h:
+
+StateGameOver.h:
+
+StateStart.h:
+
+Player.h:

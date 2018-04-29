@@ -15,6 +15,7 @@
 #define STATE_H
 
 #include "Input.h"
+#include "RenderWindow.h"
 
 class State {
 public:
@@ -23,7 +24,7 @@ public:
     virtual void test() = 0;
     virtual State* getState() = 0;
     virtual int getStateNumber() = 0;
-    virtual void update() = 0;
+    virtual void update(RenderWindow* window) = 0;
     //virtual ~State()
     
 };

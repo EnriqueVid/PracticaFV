@@ -66,7 +66,7 @@ int  StateGameOver::getStateNumber()
     return 3;
 }
 
-void StateGameOver::update()
+void StateGameOver::update(RenderWindow* window)
 {
   Input* input = Input::Instance();
   input->inputInput();
@@ -74,6 +74,11 @@ void StateGameOver::update()
   {
     _pinstance->GetNextState(1);
     _pinstance->~StateGameOver();
+  }else{
+      window->windowClear();
+      _sgameover->setSpritePosition(window->getWindowWindow()->getView().getCenter());
+      window->windowDraw(_sgameover);
+      window->windowDisplay();
   }
 }
 
