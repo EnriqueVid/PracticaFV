@@ -421,7 +421,7 @@ void LevelFactory::levelFactoryMapCreator()
                 break;
             
             case 256:// Box
-                while(_oBox[aux] == NULL) aux++;
+                while(_oBox[aux] != NULL) aux++;
                 object->QueryFloatAttribute("x", &oX);
                 object->QueryFloatAttribute("y", &oY);
                 oX += 16;

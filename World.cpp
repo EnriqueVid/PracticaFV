@@ -158,6 +158,7 @@ void World::update()
 
 if(_player!=NULL)_player->input();
 
+    
     if(_clock->getClockAsSeconds()>=float(UPS)){
         
         _input->inputInput();

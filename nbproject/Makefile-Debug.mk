@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Astar.o \
 	${OBJECTDIR}/Bitmasks.o \
 	${OBJECTDIR}/Box.o \
 	${OBJECTDIR}/Bullet.o \
@@ -47,10 +48,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Hud.o \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/LevelFactory.o \
 	${OBJECTDIR}/Message.o \
+	${OBJECTDIR}/Node.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/PowerUp.o \
@@ -99,6 +102,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/Astar.o: Astar.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Astar.o Astar.cpp
 
 ${OBJECTDIR}/Bitmasks.o: Bitmasks.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -160,6 +168,11 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
 
+${OBJECTDIR}/Hud.o: Hud.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Hud.o Hud.cpp
+
 ${OBJECTDIR}/Image.o: Image.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -179,6 +192,11 @@ ${OBJECTDIR}/Message.o: Message.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
+
+${OBJECTDIR}/Node.o: Node.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Node.o Node.cpp
 
 ${OBJECTDIR}/Object.o: Object.cpp
 	${MKDIR} -p ${OBJECTDIR}
