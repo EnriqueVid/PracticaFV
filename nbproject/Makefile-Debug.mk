@@ -60,6 +60,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Situation.o \
 	${OBJECTDIR}/Sprite.o \
+	${OBJECTDIR}/Stairs.o \
 	${OBJECTDIR}/State.o \
 	${OBJECTDIR}/StateGameLoop.o \
 	${OBJECTDIR}/StateGameOver.o \
@@ -227,6 +228,11 @@ ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sprite.o Sprite.cpp
+
+${OBJECTDIR}/Stairs.o: Stairs.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Stairs.o Stairs.cpp
 
 ${OBJECTDIR}/State.o: State.cpp
 	${MKDIR} -p ${OBJECTDIR}

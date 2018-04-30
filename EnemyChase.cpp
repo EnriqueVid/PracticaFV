@@ -29,7 +29,30 @@ EnemyChase::EnemyChase(Texture* tex, sf::Vector2f origin, sf::Vector2f position,
 EnemyChase::EnemyChase(const EnemyChase& orig) {
 }
 
-EnemyChase::~EnemyChase() {
+EnemyChase::~EnemyChase() 
+{
+    //se llama al destructor de padre
+    if(_cone!=NULL)
+    {
+        delete _cone;
+        _cone=NULL;
+    }
+    if(_chaseClock!=NULL)
+    {
+        delete _chaseClock;
+        _chaseClock=NULL;
+    }
+    if(_loopClock!=NULL)
+    {
+        delete _loopClock;
+        _loopClock=NULL;
+    }
+    if(_stopClock!=NULL)
+    {
+        delete _stopClock;
+        _stopClock=NULL;
+    }
+    
 }
 
 void EnemyChase::update(int** map)
@@ -70,7 +93,7 @@ void EnemyChase::updateStateIdle(int** map)
                 if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
                 {
                     enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
-                    cout<<"Me traslado"<<endl;
+                    //cout<<"Me traslado"<<endl;
                 }
                 else
                 {
@@ -238,7 +261,7 @@ void EnemyChase::setEnemyChasePattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyChase::setEnemyState(int s)
+void EnemyChase::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }

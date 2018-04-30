@@ -43,6 +43,16 @@ LevelFactory::LevelFactory()
     _oSwitch = NULL;
     _oDoor = NULL;
     _oPowerUp = NULL;
+    _oStairs = NULL;
+    
+    _countenemystand = 0;
+    _countenemybounce = 0;
+    _countenemychase = 0;
+    _countbox = 0;
+    _countbutton = 0;
+    _countpowerup = 0;
+    _countdoor = 0;
+    _countstairs = 0;
     
 }
 
@@ -257,8 +267,10 @@ void LevelFactory::levelFactoryMapCreator()
     _numenemystand = 0;
     _numenemybounce = 0;
     _numenemychase = 0;
+    _numpowerup = 0;
     _numbox = 0;
     _numbutton = 0;
+    _numstairs = 0;
     
     XMLElement *obj = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     while(obj)
@@ -295,6 +307,7 @@ void LevelFactory::levelFactoryMapCreator()
                 
             case 237:// NextLevel
                 cout<<"NextLevel"<<endl;
+                _numstairs++;
                 break;
                 
             case 238:// Help
@@ -337,6 +350,7 @@ void LevelFactory::levelFactoryMapCreator()
     cout<<"numenemychase: "<<_numenemychase<<endl;
     cout<<"numbox: "<<_numbox<<endl;
     cout<<"numbutton: "<<_numbutton<<endl;
+    cout<<"numstairs: "<<_numstairs<<endl;
     
     _player = Player::Instance();
     if(_numenemybounce > 0)_eBounce = new EnemyBounce*[_numenemybounce];
@@ -346,14 +360,20 @@ void LevelFactory::levelFactoryMapCreator()
     if(_numbutton > 0)_oSwitch = new Switch*[_numbutton];
     if(_numbutton > 0)_oDoor = new Door*[_numbutton*2];
     if(_numpowerup > 0)_oPowerUp = new PowerUp*[_numpowerup];
+    if(_numstairs > 0)_oStairs = new Stairs*[_numstairs];
     
     XMLElement *object = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     for(int i=0; i<_numobjects; i++)
     {
         int gid = 0;
-        int aux = 0;
+        int doorPos = 0;
         float oX = 0;
         float oY = 0;
+        float timer = 0.0;
+        float doorVel = 0.0;
+        string str = "";
+        XMLElement* auxDoor;
+        
         object->QueryIntAttribute("gid", &gid);
         sf::IntRect* rect;
         
@@ -375,26 +395,92 @@ void LevelFactory::levelFactoryMapCreator()
                 object->QueryFloatAttribute("y", &oY);
                 oX += 16;
                 oY -= 16;
-                rect = new sf::IntRect(0, 0, 32, 32);
+                str = object->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value");
+                _eBounce[_countenemybounce] = new EnemyBounce(_enemyTexture, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f), str);
+                _countenemybounce++;
                 break;
                 
             case 198:// EnemyStand
-                _numenemystand++;
-                cout<<"EnemyStand"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                str = object->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value");
+                timer = object->FirstChildElement("properties")->LastChildElement("property")->FloatAttribute("value");
+                _eStand[_countenemystand] = new EnemyStand(_enemyTexture, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f), str, timer); 
+                _countenemystand++;
+                cout<<"EnemyStand Bieeeeeen"<<endl;
                 break;
                 
             case 214:// EnemyChase
-                _numenemychase++;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                str = object->FirstChildElement("properties")->FirstChildElement("property")->Attribute("value");
+                timer = object->FirstChildElement("properties")->LastChildElement("property")->FloatAttribute("value");
+                _eChase[_countenemychase] = new EnemyChase(_enemyTexture, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f), str, timer); 
+                _countenemychase++;
                 cout<<"EnemyChase"<<endl;
                 break;
                 
             case 225:// Button
-                _numbutton++;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oSwitch[_countbutton] = new Switch(2, oX, oY, 0.0f, false, _objectTexture, 1);
+                auxDoor = object->FirstChildElement("properties")->FirstChildElement("property");
+                auxDoor->QueryFloatAttribute("value", &oX);
+                auxDoor = auxDoor->NextSiblingElement("property");
+                auxDoor->QueryFloatAttribute("value", &oY);
+                auxDoor = auxDoor->NextSiblingElement("property");
+                auxDoor->QueryIntAttribute("value", &doorPos);
+                auxDoor = auxDoor->NextSiblingElement("property");
+                auxDoor->QueryFloatAttribute("value", &doorVel);
+                auxDoor = auxDoor->NextSiblingElement("property");
+                auxDoor->QueryFloatAttribute("value", &timer);
+                
+                cout<<"X: "<<oX<<endl;
+                cout<<"Y: "<<oY<<endl;
+                cout<<"pos: "<<doorPos<<endl;
+                cout<<"vel: "<<doorVel<<endl;
+                cout<<"timer: "<<timer<<endl;
+                
+                oX += 16;
+                oY += 16;
+                
+                if(doorPos == 0)// Vertical
+                {
+                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 0, timer, doorVel);
+                    _countdoor++;
+                    _oDoor[_countdoor] = new Door(3, oX, oY+32, 0, false, _objectTexture, 1, timer, doorVel);
+                    _oSwitch[_countbutton]->setDoor(_oDoor[_countdoor-1], _oDoor[_countdoor]);
+                    _countdoor++;
+                }
+                else // Horizontal
+                {
+                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 2, timer, doorVel);
+                    _countdoor++;
+                    _oDoor[_countdoor] = new Door(3, oX+32, oY, 0, false, _objectTexture, 3, timer, doorVel);
+                    _oSwitch[_countbutton]->setDoor(_oDoor[_countdoor-1], _oDoor[_countdoor]);
+                    _countdoor++;
+                }
+                
+                auxDoor = NULL;
+                _countbutton++;
                 cout<<"Button"<<endl;
                 break;
                 
             case 237:// NextLevel
                 cout<<"NextLevel"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                doorPos = object->FirstChildElement("properties")->FirstChildElement("property")->IntAttribute("value");
+                _oStairs[_countstairs] = new Stairs(5, oX, oY, 0, false, _objectTexture, 0, doorPos);
+                _countstairs++;
                 break;
                 
             case 238:// Help
@@ -406,29 +492,42 @@ void LevelFactory::levelFactoryMapCreator()
                 break;
                 
             case 253:// PowerUpBlue
-                _numpowerup++;
                 cout<<"PowerUpBlue"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 2);
                 break;
                 
             case 254:// PowerUpGreen
                 cout<<"PowerUpGreen"<<endl;
-                _numpowerup++;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 3);
                 break;
                 
             case 255:// PowerUpRed
-                _numpowerup++;
                 cout<<"PowerUpRed"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 1);
+                _countpowerup++;
                 break;
             
             case 256:// Box
-                while(_oBox[aux] != NULL) aux++;
                 object->QueryFloatAttribute("x", &oX);
                 object->QueryFloatAttribute("y", &oY);
                 oX += 16;
                 oY -= 16;
                 rect = new sf::IntRect(0, 0, 32, 32);
-                _oBox[aux] = new Box(1, oX, oY, 0, true, _objectTexture, 1, 5, 16);
+                _oBox[_countbox] = new Box(1, oX, oY, 0, true, _objectTexture, 1, 5, 16);
                 cout<<"Box"<<endl;
+                _countbox++;
                 break;
              
         }
@@ -470,4 +569,35 @@ Box** LevelFactory::getLevelFactoryBox()
 {
     return _oBox;
 }
+
+PowerUp** LevelFactory::getLevelFactoryPowerUp()
+{
+    return _oPowerUp;
+}
+
+EnemyChase** LevelFactory::getLevelFactoryEnemyChase()
+{
+    return _eChase;
+}
+
+EnemyStand** LevelFactory::getLevelFactoryEnemyStand()
+{
+    return _eStand;
+}
+
+Switch** LevelFactory::getLevelFactorySwitch()
+{
+    return _oSwitch;
+}
+
+Door** LevelFactory::getLevelFactoryDoor()
+{
+    return _oDoor;
+}
+
+Stairs*  LevelFactory::getlevelFactoryStairs()
+{
+    return _oStairs[0];
+}
+
 

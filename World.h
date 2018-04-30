@@ -29,6 +29,8 @@
 #include "Clock.h"
 #include "Input.h"
 #include "Bullet.h"
+#include "Hud.h"
+#include "Stairs.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -74,6 +76,8 @@ private:
     EnemyStand** _enemyStand;
     
     Bullet* _bullet; //Bala del jugador.
+    Hud* _HUD; //HUD del jugador.
+    Stairs* _stairs; //escaleras al siguiente nivel
     
     Input* _input;
     

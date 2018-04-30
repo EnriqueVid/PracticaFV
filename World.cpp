@@ -16,6 +16,8 @@
 #include "EnemyBounce.h"
 #include "Input.h"
 #include "Bullet.h"
+#include "Hud.h"
+#include "Stairs.h"
 
 
 World* World::_pinstance = 0;
@@ -50,7 +52,10 @@ World::World()
     _collisionMap=NULL;
     _advancedCollisionMap=NULL;
     
-    cout <<"World created."<<endl;
+    _HUD=NULL;
+    _stairs=NULL;
+    
+    //cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
@@ -76,7 +81,7 @@ void World::buildTestObjects()
     
     _input = Input::Instance();
     
-    cout <<" Build test objects."<<endl;
+    //cout <<" Build test objects."<<endl;
     
     int x;
     
@@ -88,18 +93,18 @@ void World::buildTestObjects()
     _mapLayers = _levelFactory->getLevelFactoryNumLayers();
     
 
-    _textureNumber=4;
+    _textureNumber=5;
     _texture = new Texture*[_textureNumber];
     
     std::string path = "textures/PlayerTiles.png";
     std::string pathBullet = "textures/BulletTiles.png";
     std::string pathObject = "textures/ObjectTiles.png";
-    std::string pathButton = "textures/TexturaBotonTemporal.png";
+    std::string pathEnemy = "textures/EnemyTiles.png";
     
     _texture[0] = new Texture(path);
     _texture[1] = new Texture(pathBullet);
     _texture[2] = new Texture(pathObject);
-    _texture[3] = new Texture(pathButton);
+    _texture[3] = new Texture(pathEnemy);
     
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
@@ -119,22 +124,22 @@ void World::buildTestObjects()
     //_box[2] = new Box(1, 224.0, 260.0, 0.0, false, _texture[2],1, 2, 16.0);    
 
     _doorNumber = 2;
-    _door = new Door*[_doorNumber];
-    _door[0] = new Door(1, 352.0, 320.0+64, 0.0, false, _texture[2],
-                            0, 4.5, 1.0);
-    _door[1] = new Door(1, 352.0, 352.0+64, 0.0, false, _texture[2],
-                            1, 4.5, 1.0);
+    _door = _levelFactory->getLevelFactoryDoor();
+    //_door[0] = new Door(1, 352.0, 320.0+64, 0.0, false, _texture[2], 0, 4.5, 1.0);
+    //_door[1] = new Door(1, 352.0, 352.0+64, 0.0, false, _texture[2],1, 4.5, 1.0);
     
     _switchNumber = 1;
-    _switch = new Switch*[_switchNumber];
-    _switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[3],
-                                1);
+    _switch = _levelFactory->getLevelFactorySwitch();
+    //_switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[2], 1);
     
-    _switch[0]->setDoor(_door[0],_door[1]);
+    //_switch[0]->setDoor(_door[0],_door[1]);
     
-    _powerUpNumber = 3;
+    _powerUpNumber = 1;
+    _powerUp = _levelFactory->getLevelFactoryPowerUp();
     
+    /*
     _powerUp = new PowerUp*[_powerUpNumber];
+    
     
     _powerUp[0] = new PowerUp(1, 210.0, 384.0, 0.0, false, _texture[2],
                         1);
@@ -143,8 +148,44 @@ void World::buildTestObjects()
                         2);
 
     _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
+                        3);  
+    
+    
+    _box[0]->setActualSituation(_box[x]->getActualSituation()->getPositionX(),400.0f,_box[x]->getActualSituation()->getAngle());
+
+
                         3);        
-}
+    */
+    
+    _enemyStandNumber = 1;
+    _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
+    
+    
+    
+    _HUD = Hud::Instance();
+    
+    _HUD->setSprites(_texture[0]);
+    
+    
+    
+    //COMANDOS DE PRUEBA
+    /*
+    _stairs = new Stairs(1, 320.0+16.0, 128.0+16.0, 0.0, false, _texture[2],
+            1,2);
+    
+     */ 
+    _stairs = _levelFactory->getlevelFactoryStairs();
+    _player->unlockAllPowerUps();
+    
+    _enemyBounceNumber=1;
+    _enemyBounce = new EnemyBounce*[1];
+    
+    _enemyBounce[0] = new EnemyBounce
+            (_texture[3], sf::Vector2f(16.0f,16.0f), sf::Vector2f (224.0f,384.0f), sf::Vector2f(1.0f,1.0f), "uldr");
+
+    
+    
+    }
 
 
 //habra que pasarle _map[0] al update de los enemigos
@@ -160,10 +201,10 @@ if(_player!=NULL)_player->input();
         
         _input->inputInput();
 
-        if(_input->inputCheck(0)) cout<<"UP"<<endl;
-        if(_input->inputCheck(1)) cout<<"DOWN"<<endl;
-        if(_input->inputCheck(2)) cout<<"LEFT"<<endl;
-        if(_input->inputCheck(3)) cout<<"RIGHT"<<endl;
+        if(_input->inputCheck(0));
+        if(_input->inputCheck(1));
+        if(_input->inputCheck(2));
+        if(_input->inputCheck(3));
         //if(_input->inputCheck(10)) _renderWindow->windowClose();
         
         if(_player!=NULL){
@@ -182,7 +223,7 @@ if(_player!=NULL)_player->input();
                     _box[x]==NULL;
                 }
                 else{
-                    _box[x]->update();
+                    _box[x]->update(_collisionMap);
                 }
             }
         }
@@ -193,14 +234,14 @@ if(_player!=NULL)_player->input();
             {
                 if(_powerUp[x]!=NULL)
                 {
-                    //if(_powerUp[x]->getErase())
-                    //{
-                    //    delete _powerUp[x];
-                    //    _powerUp[x]==NULL;
-                    //}
-                    //else{
+                    if(_powerUp[x]->getErase())
+                    {
+                        delete _powerUp[x];
+                        _powerUp[x]=NULL;
+                    }
+                    else{
                         _powerUp[x]->update();
-                    //}
+                    }
                 }
             }
         }
@@ -236,7 +277,7 @@ if(_player!=NULL)_player->input();
                 _bullet=NULL;
             }
             else{
-                _bullet->update();
+                _bullet->update(_collisionMap);
             }
         }
         else
@@ -282,6 +323,17 @@ if(_player!=NULL)_player->input();
                 }
             }
         }
+        
+        if(_HUD!=NULL&&_player!=NULL){
+            _HUD->update(_player->getHealth(),_player->getStamina(),
+                    _player->getColor().r, _player->getColor().g,
+            _player->getColor().b, _player->getColor().a);
+        }
+        
+
+        
+        
+        
         checkCollisions();
         _clock->clockRestart();    
     }
@@ -299,10 +351,7 @@ void World::checkCollisions()
     int y;
     
     //Colision Jugador con el entorno
-    
-    
 
-     
     
     //Colision Jugador - Cajas
     
@@ -323,29 +372,43 @@ void World::checkCollisions()
                     if(_player->getPlayer()->spriteIntersectsPixel(_box[x]->getSprite()->getSpriteSprite(),0))
                     {
                         
-                        //Si el jugador puede mover la caja
-                        if(_player->getColor()==sf::Color::Red)
-                        {
-                           sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                        //si la caja no se esta chocando contra la pared.
+                        if(_box[x]->getCollisionWithMap()==false){
+                        
+                            //Si el jugador puede mover la caja
+                            if(_player->getColor()==sf::Color::Red)
+                            {
+                               sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                        _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
+
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
+                                        _player->getPreviousSituation()->getPositionY());
+
+                                _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                            }
+                            //Si el jugador no puede mover la caja.
+                            else
+                            {
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                     _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
 
-                            _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
-                                    _player->getPreviousSituation()->getPositionY());
+                                _box[x]->setCollisionObject(true);                           
+                            }
+                        
+                        }
+                        else{
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _box[x]->setCollisionObject(true);    
                         }
-                        //Si el jugador no puede mover la caja.
-                        else
-                        {
-                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
-                                _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
                         
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
-                        
-                            _box[x]->setCollisionObject(true);                           
-                        }
                                         
                     }
                 }
@@ -399,7 +462,8 @@ void World::checkCollisions()
         }
     }
 
-    if(_player!=NULL&&_powerUp!=NULL)
+     //Colision Jugador - PowerUps
+   if(_player!=NULL&&_powerUp!=NULL)
     {
         for(x=0;x<_powerUpNumber;x++)
         {
@@ -416,6 +480,327 @@ void World::checkCollisions()
             }
         }
     }
+    
+    //Colision Jugador - Enemigos Stand
+    if(_player!=NULL&&_enemyStand!=NULL)
+    {
+        for(x=0;x<_enemyStandNumber;x++)
+        {
+            if(_enemyStand[x]!=NULL)
+            {
+                //choque con el enemigostand
+                if(_player->getPlayer()->spriteIntersectsBounds(_enemyStand[x]->getEnemySprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {         
+                        cout <<"Colision con el enemigo directamente"<<endl;
+                        
+                        sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                _player->getActualSituation(), _player->getSpeed(), _enemyStand[x]->getEnemySprite());
+                        
+                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                        _player->setCollisionEnemy(true, _enemyStand[x]->getEnemyDamage(),0.1f);
+                        
+                        _enemyStand[x]->setCollisionPlayer(true);
+                    }
+                }
+                //choque con su cono de vision
+                if(_player->getPlayer()->spriteIntersectsBounds(_enemyStand[x]->getConeSprite()))
+                {
+                    if(!_player->getHidden()){
+                        if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getConeSprite()->getSpriteSprite(),0))
+                        {                   
+                            cout <<"Colision con el CONO directamente"<<endl;
+                            _enemyStand[x]->setCollisionPlayerCone(true);
+
+                            _player->setCollisionCone(true, _enemyStand[x]->getEnemyDamage(), 0.1f);
+
+                        }                        
+                    }
+                }
+            }
+        }
+    }    
+    
+     //Colision Jugador - EnemyBounce
+    if(_player!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_enemyBounceNumber;x++)
+        {
+            if(_enemyBounce[x]!=NULL)
+            {
+                if(_player->getPlayer()->spriteIntersectsBounds(_enemyBounce[x]->getEnemySprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_enemyBounce[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {                       
+                        
+                        cout <<"Colision con el enemigo directamente"<<endl;
+                        
+
+                        sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[x]->getEnemySprite(),_enemyBounce[x]->getEnemyPreviousSituation(),
+                            _enemyBounce[x]->getEnemyActualSituation(), _enemyBounce[x]->getEnemySpeed(), _player->getPlayer());
+                        
+                        _enemyBounce[x]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                        _player->setCollisionEnemy(true, _enemyBounce[x]->getEnemyDamage(),0.2f);
+                        
+                        _enemyBounce[x]->setCollisionPlayer(true);
+                                                
+                        maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                _player->getActualSituation(), _player->getSpeed(), _enemyBounce[x]->getEnemySprite());
+                        
+                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                        _player->setCollisionEnemy(true, _enemyBounce[x]->getEnemyDamage(),0.2f);
+                        
+                        _player->setPushedBack(true, sf::Vector2f(6.0f*_enemyBounce[x]->getEnemyAxis().x,6.0f*_enemyBounce[x]->getEnemyAxis().y));
+                        
+
+                    }
+                }
+            }
+        }
+    }
+    
+    //Colision Player y Stairs.
+    if(_player!=NULL&&_stairs!=NULL)
+    {
+        if(_player->getPlayer()->spriteIntersectsBounds(_stairs->getSprite()))
+        {
+            if(_player->getPlayer()->spriteIntersectsPixel(_stairs->getSprite()->getSpriteSprite(),0))
+            {            
+                //PASAMOS AL SIGUIENTE NIVEL
+            }
+        }
+    }
+    
+    //Colision EnemyBounce - Cajas
+    if(_box!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_boxNumber;x++)
+        {
+            
+            if(_box[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(_enemyBounce[y]!=NULL)
+                    {
+                        
+                        _box[x]->getSprite()->setSpritePosition(sf::Vector2f(_box[x]->getActualSituation()->getPositionX(),
+                                _box[x]->getActualSituation()->getPositionY()));
+                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+                        
+                        if(_box[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                        {
+                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _box[x]->getSprite());
+                                
+                                _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                                _box[x]->setCollisionEnemy(true);
+                        
+                                _enemyBounce[y]->setCollisionObject(true);
+                        }
+                    }
+                }
+            }
+        }
+    }    
+    
+    /*
+    //Colision Enemy Bounce con otros Enemy bounce
+    if(_enemyBounce!=NULL)
+    {
+        for(x=0;x<_enemyBounceNumber;x++)
+        {
+            
+            if(_enemyBounce[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(x!=y){
+                        if(_enemyBounce[y]!=NULL)
+                        {
+
+                            _enemyBounce[x]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[x]->getEnemyActualSituation()->getPositionX(),
+                                    _enemyBounce[x]->getEnemyActualSituation()->getPositionY()));
+                            _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                    _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+
+                            if(_enemyBounce[x]->getEnemySprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                            {
+                                    sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                    _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _enemyBounce[x]->getEnemySprite());
+
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+
+                                    _enemyBounce[x]->setCollisionObject(true);
+
+                                    _enemyBounce[y]->setCollisionObject(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }  
+    */
+    //Colision EnemyBounce - EnemyStand
+    if(_enemyStand!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_enemyStandNumber;x++)
+        {
+            
+            if(_enemyStand[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(_enemyBounce[y]!=NULL)
+                    {
+                        _enemyStand[x]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyStand[x]->getEnemyActualSituation()->getPositionX(),
+                                _enemyStand[x]->getEnemyActualSituation()->getPositionY()));
+                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+                        
+                        if(_enemyStand[x]->getEnemySprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                        {
+                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _door[x]->getSprite());
+                                
+                                _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                                _enemyStand[x]->setCollisionObject(true);
+                        
+                                _enemyBounce[y]->setCollisionObject(true);
+                        }
+                    }
+                }
+            }
+        }
+    }  
+    
+    //Colision EnemyBounce - Puertas
+    if(_door!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_doorNumber;x++)
+        {
+            
+            if(_door[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(_enemyBounce[y]!=NULL)
+                    {
+                        
+                        _door[x]->getSprite()->setSpritePosition(sf::Vector2f(_door[x]->getActualSituation()->getPositionX(),
+                                _door[x]->getActualSituation()->getPositionY()));
+                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+                        
+                        if(_door[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                        {
+                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _door[x]->getSprite());
+                                
+                                _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                                _door[x]->setCollisionEnemy(true);
+                        
+                                _enemyBounce[y]->setCollisionObject(true);
+                        }
+                    }
+                }
+            }
+        }
+    }    
+    
+    
+    //Colision Balas - Puertas
+    if(_bullet!=NULL&&_door!=NULL)
+    {
+        for(x=0;x<_doorNumber;x++)
+        {
+            if(_door[x]!=NULL)
+            {
+                if(!_door[x]->getOpen()){
+                    if(_bullet->getSprite()->spriteIntersectsBounds(_door[x]->getSprite()))
+                    {
+                        if(_bullet->getSprite()->spriteIntersectsPixel(_door[x]->getSprite()->getSpriteSprite(),0))
+                        {              
+                            _bullet->impact();
+                        }
+                    }
+                }
+            }
+        }
+    }
+     
+
+    
+    //Colision Balas - Cajas
+    if(_bullet!=NULL&&_box!=NULL)
+    {
+        for(x=0;x<_boxNumber;x++)
+        {
+            if(_box[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_box[x]->getSprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_box[x]->getSprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    //Colision Balas - EnemyBounce
+    if(_enemyBounce!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyBounceNumber;x++)
+        {
+            if(_enemyBounce[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyBounce[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyBounce[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyBounce[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }
+     
+    
+    //Colision Balas - EnemyStand
+    if(_enemyStand!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyStandNumber;x++)
+        {
+            if(_enemyStand[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyStand[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyStand[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyStand[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }  
+        
+    
+    
+    
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
@@ -511,6 +896,9 @@ void World::checkCollisions()
             }
         }
     }
+    
+    
+    
 }
 
 //Metodo usado para calcular el maximo desplazamiento de un sprite frente a otro.
@@ -589,6 +977,11 @@ void World::render(RenderWindow* _renderWindow)
             if(_map[1][y][x] != NULL)
             _renderWindow->windowDraw(_map[1][y][x]);
         }
+    }
+    
+    if(_stairs!=NULL)
+    {
+        _renderWindow->windowDraw(_stairs->getSprite());
     }
     
 
@@ -673,23 +1066,26 @@ void World::render(RenderWindow* _renderWindow)
         {
             if(_enemyChase[x]!=NULL)
             {
+                
                 _renderWindow->windowInterpolateDraw(_enemyChase[x]->getEnemySprite(),_enemyChase[x]->getEnemyPreviousSituation(),_enemyChase[x]->getEnemyActualSituation());
             }
         }
     }
         
-    /*
+   
      if(_enemyStand!=NULL)
-     * {
-    for(x=0;x<_enemyStandNumber;x++)
-    {
-        if(_enemyStand[x]!=NULL)
-      {
-            _renderWindow->windowDraw(_enemyStandNumber[x]->getEnemySprite());
+     {
+        for(x=0;x<_enemyStandNumber;x++)
+        {
+            if(_enemyStand[x]!=NULL)
+            {
+                if(_enemyStand[x]->getConeSprite() != NULL)_renderWindow->windowInterpolateDraw(_enemyStand[x]->getConeSprite(),_enemyStand[x]->getEnemyPreviousSituation(),_enemyStand[x]->getEnemyActualSituation());
+                _renderWindow->windowInterpolateDraw(_enemyStand[x]->getEnemySprite(),_enemyStand[x]->getEnemyPreviousSituation(),_enemyStand[x]->getEnemyActualSituation());
+                
+            }
         }
-    }
      }
-    */
+    
     
     if(_bullet!=NULL)
     {
@@ -705,6 +1101,14 @@ void World::render(RenderWindow* _renderWindow)
             _renderWindow->windowDraw(_map[2][y][x]);
         }
     }
+    
+    
+    if(_HUD!=NULL){
+        _renderWindow->windowDraw(_HUD->getLife());
+        _renderWindow->windowDraw(_HUD->getRectangle());
+        _renderWindow->windowDraw(_HUD->getStamina());
+    }
+    
 }
 
 World::World(const World& orig)
@@ -863,11 +1267,22 @@ World::~World()
         _bullet=NULL;
     }
     
-    /*
+    if(_stairs!=NULL){
+        delete _stairs;
+        _stairs=NULL;
+    }
+    
+    if(_HUD!=NULL){
+        //delete _HUD; //?????????????????????
+        _HUD=NULL;
+    }
+    
+    
+    
     if(_player!=NULL){
-        delete _player; //??????????????????
+        //delete _player; //??????????????????
         _player=NULL;
-    }*/
+    }
     
     if(_pinstance!=NULL){
         delete _pinstance; //??????

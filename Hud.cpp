@@ -52,7 +52,7 @@ void Hud::update(float life, float stamina, int r, int g, int b, int a)
     _rectangle->setSpriteColor(r, g, b, a);
     
     _stamina->setSpriteColor(r, g, b, a);
-    _stamina->setSpriteScale(sf::Vector2f(float((stamina*165)/100),10));
+    _stamina->setSpriteScale(sf::Vector2f(float((stamina*165)/200),10));
 }
 
 void Hud::setSprites(Texture* texture)
