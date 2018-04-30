@@ -34,7 +34,26 @@ using namespace std;
 int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
-
+    
+    StateStart::Instance();
+    
+    int which = StateStart::Instance()->getStateNumber();
+    
+    while(window->windowIsOpen()){
+        
+        if(which == 1)
+        {
+            which = StateStart::Instance()->update(window);
+            
+        }else if(which == 2)
+        {   
+            which = StateGameLoop::Instance()->update(window);
+        }else{
+            which = StateGameOver::Instance()->update(window);
+        }
+        
+    }
+    
     Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
     /*
     bool dado = false;

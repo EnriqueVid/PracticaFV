@@ -28,7 +28,7 @@ public:
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void update(RenderWindow* window);
+    virtual int update(RenderWindow* window);
     
     static StateStart* Instance();
     

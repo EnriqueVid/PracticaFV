@@ -24,7 +24,7 @@ public:
     virtual void test() = 0;
     virtual State* getState() = 0;
     virtual int getStateNumber() = 0;
-    virtual void update(RenderWindow* window) = 0;
+    virtual int update(RenderWindow* window) = 0;
     //virtual ~State()
     
 };

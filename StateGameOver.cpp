@@ -33,6 +33,7 @@ StateGameOver::StateGameOver()
     _tgameover = new Texture("./textures/gameover.png");
     _sgameover = new Sprite();
     _sgameover->setSpriteTexture(_tgameover);
+    _sgameover->setSpriteOrigin(sf::Vector2f(_sgameover->getSpriteTexture().getSize().x/2.f, _sgameover->getSpriteTexture().getSize().y/2.f));
 }
 
 StateGameOver::StateGameOver(const StateGameOver & )
@@ -66,19 +67,26 @@ int  StateGameOver::getStateNumber()
     return 3;
 }
 
-void StateGameOver::update(RenderWindow* window)
+int StateGameOver::update(RenderWindow* window)
 {
+        std::cout<<"GAME OVER"<<endl;
   Input* input = Input::Instance();
   input->inputInput();
+  
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+      window->windowClose();
+      return 1;
+  }
+  
   if(input->inputCheck(12) || input->inputCheck(14))
   {
-    _pinstance->GetNextState(1);
-    _pinstance->~StateGameOver();
+    return 1;
   }else{
       window->windowClear();
       _sgameover->setSpritePosition(window->getWindowWindow()->getView().getCenter());
       window->windowDraw(_sgameover);
       window->windowDisplay();
+      return 3;
   }
 }
 

@@ -30,11 +30,30 @@ StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
     
-
+    _tstartbg = new Texture();
+    _tstartbutton = new Texture();
+    _sstartbg = new Sprite();
+    _sstartbutton = new Sprite();
+    _tpj1 = new Texture();
+    _tpj2 = new Texture();
+    _tpj3 = new Texture();
+    _tpj4 = new Texture();
+    
+    _spj1 = new Sprite();
+    _spj2 = new Sprite();
+    _spj3 = new Sprite();
+    _spj4 = new Sprite();
+    
     _tstartbg->textureLoadFromFile("./textures/startbg.png");
     _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
+  
     _sstartbg->setSpriteTexture(_tstartbg);
+    _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
+    _sstartbg->setSpritePosition(sf::Vector2f(400.f,400.f));
+    
     _sstartbutton->setSpriteTexture(_tstartbutton);
+    _sstartbutton->setSpriteOrigin(sf::Vector2f(_sstartbutton->getSpriteTexture().getSize().x/2.f, _sstartbutton->getSpriteTexture().getSize().y/2.f));
+    _sstartbutton->setSpritePosition(sf::Vector2f(400.f, 500.f));
     
     _tpj1->textureLoadFromFile("./textures/pjWhite.png");
     _tpj2->textureLoadFromFile("./textures/pjRed.png");
@@ -97,15 +116,17 @@ int  StateStart::getStateNumber()
     return 1;
 }
 
-void  StateStart::update(RenderWindow* window)
+int  StateStart::update(RenderWindow* window)
 {
-  
+    std::cout<<"START"<<endl;
   Input* input = Input::Instance();
   input->inputInput();
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+      return 2;
+  }
   if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
   {
-      
-    _pinstance->GetNextState(2);
+    return 2;
     
   }else{
       
@@ -134,7 +155,9 @@ void  StateStart::update(RenderWindow* window)
       window->windowDraw(_spj4);
       window->windowDisplay();
       
+      return 1;
   }
+  
 }
 
 StateStart::~StateStart()
