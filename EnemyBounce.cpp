@@ -21,17 +21,43 @@ EnemyBounce::EnemyBounce(Texture* tex, sf::Vector2f origin, sf::Vector2f positio
     _state = 0;
     setEnemySpeed(5);
     _stopClock = NULL;
+    
+    _collisionBullet=false;
 }
 
 EnemyBounce::EnemyBounce(const EnemyBounce& orig)
 {}
 
 EnemyBounce::~EnemyBounce() 
-{}
+{
+    //se llama al destructor de padre
+
+    if(_stopClock!=NULL)
+    {
+        delete _stopClock;
+        _stopClock=NULL;
+    }
+
+
+}
 
 void EnemyBounce::update(int** map)
 {
+    
+    setEnemyAxis(sf::Vector2i(getEnemyDirection().x,getEnemyDirection().y));
+    setEnemyDirection(sf::Vector2i(0,0));
+    
+    if(getCollisionPlayer()||getCollisionObject())
+    {
+        enemyBounceCollision();
+    }
+    
     setEnemyPreviousSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle());
+    
+    if(_collisionBullet)
+    {
+        _state = 1;
+    }
     
     if(_state == 0)
     {
@@ -42,6 +68,11 @@ void EnemyBounce::update(int** map)
         updateStateStop();
     }
     
+    setCollisionPlayer(false);
+    setCollisionObject(false);
+    
+    _collisionBullet=false;
+    
 }
 
 void EnemyBounce::updateStateIdle(int** map)
@@ -51,6 +82,10 @@ void EnemyBounce::updateStateIdle(int** map)
     switch(_pattern.at(_actualStep))
     {
         case 'u':
+            
+            setEnemyAxis(sf::Vector2i(0,-1));
+            setEnemyDirection(sf::Vector2i(0,-1));
+            
             if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
             {
                 enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
@@ -69,6 +104,10 @@ void EnemyBounce::updateStateIdle(int** map)
             break;
             
         case 'd':
+            
+            setEnemyAxis(sf::Vector2i(0,1));
+            setEnemyDirection(sf::Vector2i(0,1));
+            
             if(map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
             {
                 enemyMove(sf::Vector2f(0.0f, 1.0f), 0.0f);
@@ -87,6 +126,10 @@ void EnemyBounce::updateStateIdle(int** map)
             break;
             
         case 'l':
+            
+            setEnemyAxis(sf::Vector2i(-1,0));
+            setEnemyDirection(sf::Vector2i(-1,0));
+            
             if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2)
             {
                 enemyMove(sf::Vector2f(-1.0f, 0.0f), 90.0f);
@@ -105,6 +148,10 @@ void EnemyBounce::updateStateIdle(int** map)
             break;
             
         case 'r':
+            
+            setEnemyAxis(sf::Vector2i(1,0));
+            setEnemyDirection(sf::Vector2i(1,0));
+            
             if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2)
             {
                 enemyMove(sf::Vector2f(1.0f, 0.0f), 270.0f);
@@ -127,7 +174,7 @@ void EnemyBounce::updateStateIdle(int** map)
 void EnemyBounce::updateStateStop()
 {
     if(_stopClock == NULL) _stopClock = new Clock();
-    if(_stopClock != NULL && _stopClock->getClockAsSeconds() > 5)
+    if(_stopClock != NULL && _stopClock->getClockAsSeconds() > 4.5)
     {
         _state = 0;
         delete _stopClock;
@@ -135,9 +182,10 @@ void EnemyBounce::updateStateStop()
     }
 }
 
-void enemyBounceCollision()
+void EnemyBounce::enemyBounceCollision()
 {
-    //asdasdasdasdasdasd
+    
+    _actualStep++;
     
 }
 
@@ -154,5 +202,15 @@ void EnemyBounce::setEnemyBouncePattern(string pattern)
 string EnemyBounce::getEnemyBouncePattern()
 {
     return _pattern;
+}
+
+bool EnemyBounce::getCollisionBullet()
+{
+    return _collisionBullet;
+}
+
+void EnemyBounce::setCollisionBullet(bool b)
+{
+    _collisionBullet=b;
 }
 

@@ -40,12 +40,17 @@ public:
     void enemyBounceCollision();
     
     string getEnemyBouncePattern();
+
+    bool getCollisionBullet();
+    void setCollisionBullet(bool b);    
     
 private:
     string _pattern;
     int _actualStep;
     int _state;
     Clock* _stopClock;
+    
+    bool _collisionBullet;
 
 };
 

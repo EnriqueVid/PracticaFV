@@ -181,7 +181,7 @@ void Box::update(int** _collisionMap){
     float auxPrevX=_previousSituation->getPositionX();
     float auxPrevY=_previousSituation->getPositionY();
     
-    if(_collisionPlayer&&_collisionObject)
+    if((_collisionPlayer&&_collisionObject)||(_collisionPlayer&&_collisionEnemy)||(_collisionEnemy&&_collisionObject))
     {
         //cout <<"Colision con objeto Y JUGADOR"<<endl;
         _previousSituation->setPosition(auxPrevX,auxPrevY);
@@ -189,6 +189,8 @@ void Box::update(int** _collisionMap){
         _collisionObject=false;
         collision();
     }
+    
+    if(_collisionEnemy)impact(); //el impacto enemigo baja la vida de la caja.
     
     
     
@@ -218,7 +220,7 @@ void Box::update(int** _collisionMap){
         _ignoreCollisions=true;
         //avanzar los frames de la animacion acorde al reloj interno.
             //cuando la animacion haya acabado:
-            if(_clock->getClockAsSeconds()>10.0){
+            if(_clock->getClockAsSeconds()>0.2){
                     //std::cout << "La caja deberia borrarse" <<std::endl;
                 _erase=true;            
             }
@@ -228,6 +230,8 @@ void Box::update(int** _collisionMap){
     }
 
     checkMapCollisions(_collisionMap,_collisionDesplX,_collisionDesplY);
+    
+    _collisionEnemy=false;    
 
 }
 

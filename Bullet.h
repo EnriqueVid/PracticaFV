@@ -31,7 +31,7 @@ public:
     
     Bullet(const Bullet& orig);
     
-    void update(); //control del tiempo de la bala
+    void update(int** _collisionMap); //control del tiempo de la bala
     void render(RenderWindow* window, Clock* clock, float ups);
     void interpolate(float actualTime);
     
@@ -57,6 +57,9 @@ public:
     void setPreviousSituation(float x, float y, float g);
     void setActualSituation(float x, float y, float g);
     
+    void checkMapCollisions(int** _collisionMap);
+    
+    
     virtual ~Bullet();
     
 private:
@@ -77,6 +80,9 @@ private:
     Situation* _actualSituation;
     
     Clock* _clock;
+    
+    bool _collisionWithMap;
+
 };
 
 #endif /* BULLET_H */

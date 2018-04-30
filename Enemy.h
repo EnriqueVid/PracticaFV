@@ -55,6 +55,14 @@ public:
     sf::Vector2i getEnemyAxis();
     sf::Vector2i getEnemyDirection();
     
+    
+    bool getCollisionPlayer();
+    bool getCollisionObject();
+    
+    void setCollisionPlayer(bool b);
+    void setCollisionObject(bool b);
+    
+    
 private:
     Sprite* _sprite;
     Situation* _previousSituation;
@@ -68,6 +76,10 @@ private:
     
     sf::Vector2i _axis;
     sf::Vector2i _direction;
+    
+    bool _collisionPlayer;
+    bool _collisionObject;
+    
     
 };
 

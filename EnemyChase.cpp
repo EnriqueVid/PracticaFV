@@ -29,7 +29,30 @@ EnemyChase::EnemyChase(Texture* tex, sf::Vector2f origin, sf::Vector2f position,
 EnemyChase::EnemyChase(const EnemyChase& orig) {
 }
 
-EnemyChase::~EnemyChase() {
+EnemyChase::~EnemyChase() 
+{
+    //se llama al destructor de padre
+    if(_cone!=NULL)
+    {
+        delete _cone;
+        _cone=NULL;
+    }
+    if(_chaseClock!=NULL)
+    {
+        delete _chaseClock;
+        _chaseClock=NULL;
+    }
+    if(_loopClock!=NULL)
+    {
+        delete _loopClock;
+        _loopClock=NULL;
+    }
+    if(_stopClock!=NULL)
+    {
+        delete _stopClock;
+        _stopClock=NULL;
+    }
+    
 }
 
 void EnemyChase::update(int** map)

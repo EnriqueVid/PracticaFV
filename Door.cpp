@@ -111,7 +111,7 @@ void Door::update()
     }
     
     if(_opening||_closing){
-        if(!_collisionPlayer&&!_collisionObject){
+        if(!_collisionPlayer&&!_collisionObject&&!_collisionEnemy){
             if(_opening)
             {
                 cout <<"Abriendo"<<endl;
@@ -159,6 +159,7 @@ void Door::update()
 
             _collisionPlayer=false;
             _collisionObject=false;
+            _collisionEnemy=false;
         }
     }
 }
