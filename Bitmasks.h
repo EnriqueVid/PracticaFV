@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
+// Este metodo/clase utiliza fragmentos del codigo original de Nick Koirala (LittleMonkey LTD)
+// * Autor de la version original: Nick Koirala (original version), ahnonay (SFML2 compatibility)
+// * Collision Detection and handling class (c) 2009 - LittleMonkey Ltd
+
 /* 
  * File:   Bitmasks.h
  * Author: carlos
