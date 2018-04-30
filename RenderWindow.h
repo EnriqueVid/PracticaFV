@@ -41,6 +41,8 @@ public:
     void setWindowFramerateLimit(int fps);
     void setWindowView(View* view);
     
+    sf::Vector2i getWindowPosition();
+    
     
     View* getWindowView();
     sf::RenderWindow* getWindowWindow();

@@ -134,7 +134,7 @@ int  StateStart::update(RenderWindow* window)
 
     sf::Vector2f positionmouse = (sf::Vector2f)sf::Mouse::getPosition();
     
-  if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
+  if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains((float)sf::Mouse::getPosition().x + window->getWindowPosition().x, (float)sf::Mouse::getPosition().y + window->getWindowPosition().y))
   {
     return 2;
     

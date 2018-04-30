@@ -122,6 +122,11 @@ View* RenderWindow::getWindowView()
     return _view;
 }
 
+sf::Vector2i RenderWindow::getWindowPosition()
+{
+   return _window->getPosition();
+}
+
 sf::RenderWindow* RenderWindow::getWindowWindow()
 {
     return _window;
