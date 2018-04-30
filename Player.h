@@ -75,6 +75,24 @@ public:
     void checkMapCollisions(int** _collisionMap);
     bool getCollisionWithMap();
     
+    Clock* getClockDamage();
+    float getClockDamageLag();    
+    void setCollisionCone(bool b, int damage, float timeUntilNextHit);
+    bool getCollisionCone();
+    void setCollisionEnemy(bool b, int damage, float timeUntilNextHit);
+    bool getCollisionEnemy();
+    
+    void checkDamage();
+    void checkDamageAnimation();
+    
+    void forceDamageAnimation();
+    
+    bool getHidden();
+    void checkHidden(int** _collisionMap);
+    
+    bool getPushedBack();
+    void setPushedBack(bool b, sf::Vector2f pushedBackDistance);
+    
 protected:
     Player();
     Player(const Player& orig);
@@ -100,7 +118,11 @@ private:
     
     bool _idleAnimationStart;
     bool _movingAnimationStart;
+    
     bool _damage;
+    Clock* _clockDamageAnimation;
+    bool _forceDamageAnimation; //obliga a la animacion a mostrarse aun cuando no se nos hace danyo.
+    
     int _actualAnimation;
     
     bool _hability;
@@ -115,6 +137,23 @@ private:
     bool _changePowerUp;
     
     bool _collisionWithMap;
+    
+
+    Clock* _clockDamage; //tiempo que debe pasar hasta volver a recibir danyo.
+    float _clockDamageLag;
+    
+    bool _collisionCone;
+    int _collisionConeDamage; //danyo que hara el siguiente golpe.
+
+    bool _collisionEnemy; //danyo al chocar fisicamente con un enemigo.
+    int _collisionEnemyDamage;
+    
+    bool _hidden;
+    
+    bool _pushedBack;
+    sf::Vector2f _pushedBackDistance;
+    
+    
 
 };
 

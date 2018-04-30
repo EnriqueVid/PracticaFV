@@ -8,7 +8,7 @@
  * File:   Astar.h
  * Author: tuba
  *
- * Created on 29 de abril de 2018, 16:02
+ * Created on 30 de abril de 2018, 2:46
  */
 
 #ifndef ASTAR_H
@@ -23,8 +23,8 @@ public:
     Astar(int** map, int height, int width, int dir);
     Astar(const Astar& orig);
     virtual ~Astar();
-    bool priority(Node a, Node b);
     std::string pathfind(sf::Vector2i start, sf::Vector2i end);
+    void reordenar(std::vector<Node*> &list);
     
 private:
     int _height;

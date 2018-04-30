@@ -38,6 +38,9 @@ Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vecto
     _direction.x = 0;
     _direction.y = 0;
     _damage = 0;
+    
+    _collisionPlayer=false;
+    _collisionObject=false;
 }
 
 Enemy::Enemy(const Enemy& orig) 
@@ -46,6 +49,9 @@ Enemy::Enemy(const Enemy& orig)
 
 Enemy::~Enemy() 
 {
+    delete _sprite;
+    delete _previousSituation;
+    delete _actualSituation;
 }
 
 void Enemy::enemyMove(sf::Vector2f dir, float g)
@@ -172,3 +178,20 @@ sf::Vector2i Enemy::getEnemyDirection()
     return _direction;
 }
 
+bool Enemy::getCollisionPlayer()
+{
+    return _collisionPlayer;
+}
+
+bool Enemy::getCollisionObject()
+{
+    return _collisionObject;
+}
+void Enemy::setCollisionPlayer(bool b)
+{
+    _collisionPlayer=b;
+}
+void Enemy::setCollisionObject(bool b)
+{
+    _collisionObject=b;
+}

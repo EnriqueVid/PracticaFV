@@ -33,8 +33,13 @@ public:
     void enemyStandCollision();
     
     string getEnemyStandPattern();
-    
     Sprite* getConeSprite();
+    
+    bool getCollisionPlayerCone();
+    void setCollisionPlayerCone(bool b);
+    
+    bool getCollisionBullet();
+    void setCollisionBullet(bool b);    
     
 private:
     Sprite* _cone;
@@ -45,6 +50,9 @@ private:
     Clock* _chaseClock;
     Clock* _loopClock;
     Clock* _stopClock;
+    
+    bool _collisionPlayerCone;
+    bool _collisionBullet;
 
 };
 

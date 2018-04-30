@@ -48,6 +48,7 @@ Bullet::Bullet(bool playerBullet, bool generatedFromMouse,float posX, float posY
      
     _sprite = new Sprite(texture,sf::IntRect(0,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
 
+    _collisionWithMap=false;
 
     
     //creacion del sprite
@@ -59,10 +60,13 @@ float Bullet::degreesToRadians(float degree)
     return ((degree*PI)/180);
 }
 
-void Bullet::update()
+void Bullet::update(int** _collisionMap)
 {    
 
-    if(_clock->getClockAsSeconds()>_duration){
+    checkMapCollisions(_collisionMap);
+    
+    
+    if(_clock->getClockAsSeconds()>_duration||_collisionWithMap==true){
         _erase=true;
     }
     
@@ -74,8 +78,67 @@ void Bullet::update()
     
     newSituation(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y, _sprite->getSpriteRotation());
 
+    _collisionWithMap=false;
 
     //disparos->at(a)->getSprite()->setRotation(disparos->at(a)->getEstadoAnterior()->getGrados()+40); 
+}
+
+void Bullet::checkMapCollisions(int** _collisionMap)
+{
+    if(_direction.x>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+            }
+            _collisionWithMap=true;
+
+        }
+    }
+    else if(_direction.x<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+            }
+            _collisionWithMap=true;
+        }
+    }
+    
+    if(_direction.y>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+            }
+            _collisionWithMap=true;
+        }
+    }
+    else if(_direction.y<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+            }
+            _collisionWithMap=true;
+        }
+    }
 }
 
 void Bullet::render(RenderWindow* window, Clock* clock, float ups)

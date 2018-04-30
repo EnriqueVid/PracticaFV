@@ -32,8 +32,8 @@ Player::Player()
 {
     _maxHealth=256;
     _health=256;
-    _maxStamina=100;
-    _stamina=100;
+    _maxStamina=200;
+    _stamina=200;
     _sprite=new Sprite();
     _speed=8;
     _defaultSpeed=8;
@@ -56,7 +56,24 @@ Player::Player()
     
     _redUnlocked=false;
     _blueUnlocked=false;
-    _greenUnlocked=false;     
+    _greenUnlocked=false;    
+    
+    _collisionCone=false;
+    _collisionConeDamage=0;
+    _clockDamageLag=1.0f;
+    _clockDamage=NULL;
+    
+    _clockDamageAnimation=NULL;
+    _forceDamageAnimation=false;
+    
+    _collisionEnemy=false; //danyo al chocar fisicamente con un enemigo.
+    _collisionEnemyDamage=0;
+    
+    _hidden=false;
+    
+    _pushedBack=false;
+    _pushedBackDistance = sf::Vector2f(0.0f,0.0f);
+    
 }
 
 Player::Player(const Player& orig) 
@@ -67,15 +84,29 @@ Player::Player(const Player& orig)
 Player::~Player()
 {
     
-    if(_clockHability!=NULL){
+    if(_clockHability!=NULL)
+    {
         delete _clockHability;
         _clockHability=NULL;
     }
     
-    if(_clockChangeColor!=NULL){
+    if(_clockChangeColor!=NULL)
+    {
         delete _clockChangeColor;
         _clockChangeColor=NULL;
     }
+
+    if(_clockDamage!=NULL)
+    {
+        delete _clockDamage;
+        _clockDamage=NULL;
+    }
+    
+    if(_clockDamageAnimation!=NULL)
+    {
+        delete _clockDamageAnimation;
+        _clockDamageAnimation=NULL;
+    }    
     
     delete _sprite;
     _sprite = NULL;
@@ -206,7 +237,7 @@ void Player::input()
     
     if(input->inputCheck(8))
     {    
-        _damage=true; 
+        _forceDamageAnimation=true;
     }
     
     if(input->inputCheck(12))
@@ -255,11 +286,12 @@ void Player::keyReleased()
     _axis.x = 0;
     _axis.y = 0;
     _hability = false;
-    _damage = false;
 }
 
 void Player::checkMapCollisions(int** _collisionMap)
 {
+    
+    if(!_pushedBack){
     if(_axis.x>0)
     {
         if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
@@ -270,6 +302,8 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
+
         }
     }
     else if(_axis.x<0)
@@ -282,6 +316,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
         }
     }
     
@@ -295,6 +330,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
             }
+            _collisionWithMap=true;
         }
     }
     else if(_axis.y<0)
@@ -307,7 +343,67 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
             }
+            _collisionWithMap=true;
         }
+    }
+    
+    }
+    //Comprobacion si nos estan empujando.
+    else{
+    if(_pushedBackDistance.x>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+            }
+            _collisionWithMap=true;
+
+        }
+    }
+    else if(_pushedBackDistance.x<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+            }
+            _collisionWithMap=true;
+        }
+    }
+    
+    if(_pushedBackDistance.y>0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+            }
+            _collisionWithMap=true;
+        }
+    }
+    else if(_pushedBackDistance.y<0)
+    {
+        if(_collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        {
+            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+            
+            while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+            }
+            _collisionWithMap=true;
+        }
+    }        
     }
 }
 
@@ -317,6 +413,9 @@ bool Player::getCollisionWithMap(){
 
 void Player::update(int** _collisionMap)
 {
+    
+    checkDamageAnimation();
+    checkDamage();
     
     _collisionWithMap=false;
     _fireBullet=false;
@@ -370,21 +469,28 @@ void Player::update(int** _collisionMap)
     }
     
     sf::Vector2f moving(0,0);
-    
+
     moving.x = abs(_axis.x)*_speed*(sin(degreesToRadians(_sprite->getSpriteRotation())))*-1;
-    
+
     moving.y = abs(_axis.y)*_speed*(cos(degreesToRadians(_sprite->getSpriteRotation())));
-    
-    
-    
+
+
+
     //cout << "damage: " <<_damage << endl;
-    
+
     _sprite->spriteMove(moving);
-    
+
     _sprite->updateAnimation();
-    
-    _actualSituation->setPosition(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y);
-    _actualSituation->setAngle(_sprite->getSpriteRotation());
+        
+    if(!_pushedBack)
+    {
+        _actualSituation->setPosition(_sprite->getSpritePosition().x, _sprite->getSpritePosition().y);
+        _actualSituation->setAngle(_sprite->getSpriteRotation());
+    }
+    else{
+        _actualSituation->setPosition(_previousSituation->getPositionX()+_pushedBackDistance.x, _sprite->getSpritePosition().y+_pushedBackDistance.y);
+        _actualSituation->setAngle(_sprite->getSpriteRotation());        
+    }
     
 
     checkMapCollisions(_collisionMap); //puede afectar a la actual situation.
@@ -503,12 +609,20 @@ void Player::update(int** _collisionMap)
         _movingAnimationStart=false;
     }
     //*fin de control de animaciones
+        
+    
+    checkHidden(_collisionMap);
     
     //Ajustes finales:
     
     keyReleased(); //No influye al input, solo a variables de player relacionadas con ellos.
     _changePowerUp=false;
-    if(_stamina<_maxStamina) _stamina = _stamina + 1;
+    _forceDamageAnimation=false;
+    _pushedBack=false;
+    _pushedBackDistance = sf::Vector2f(0.0f,0.0f);
+    if(_stamina<_maxStamina) _stamina = _stamina + 3;
+    if(_stamina>_maxStamina)_stamina=_maxStamina;
+    
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
@@ -522,7 +636,6 @@ void Player::interpolate(float actualTime)
 {
     float x, y, g;
     
-    
     x = (((actualTime-0)*(_actualSituation->getPosition().x - _previousSituation->getPosition().x))/(1-0)) + _previousSituation->getPosition().x;
     
     y = (((actualTime-0)*(_actualSituation->getPosition().y - _previousSituation->getPosition().y))/(1-0)) + _previousSituation->getPosition().y;
@@ -532,7 +645,6 @@ void Player::interpolate(float actualTime)
     
     _sprite->setSpritePosition(sf::Vector2f(x,y));
     _sprite->setSpriteRotation(g);
-    
 }
 
 void Player::superSpeed()
@@ -675,7 +787,13 @@ void Player::setColor(sf::Color color)
         _fireBullet=false;
     }
     
-    _color = color;
+    //_color = color;
+    
+    _color.a = color.a;
+    _color.b = color.b;
+    _color.g = color.g;
+    _color.r = color.r;
+    
     _sprite->setSpriteColor(_color.r,_color.g,_color.b,_color.a);
 }
 
@@ -944,3 +1062,165 @@ void Player::changePowerUp()
         _clockChangeColor->clockRestart();
     }
 }
+
+void Player::setCollisionCone(bool b, int damage, float timeUntilNextHit)
+{
+    _collisionCone=b;
+    _collisionConeDamage=damage;
+    if(_clockDamage!=NULL)_clockDamageLag=timeUntilNextHit;
+    if(_collisionConeDamage<=0)_collisionConeDamage=1; //minimo danyo.
+}
+
+bool Player::getCollisionCone()
+{
+    return _collisionCone;
+}
+
+Clock* Player::getClockDamage()
+{
+    return _clockDamage;
+}
+
+float Player::getClockDamageLag()
+{
+    return _clockDamageLag;
+}
+
+void Player::setCollisionEnemy(bool b, int damage, float timeUntilNextHit)
+{
+    _collisionEnemy=b;
+    _collisionEnemyDamage=damage;
+    if(_clockDamage!=NULL)_clockDamageLag=timeUntilNextHit;
+    if(_collisionEnemyDamage<=0)_collisionEnemyDamage=1; //minimo danyo.
+}
+
+bool Player::getCollisionEnemy()
+{
+    return _collisionCone;
+}
+
+void Player::checkDamage()
+{
+    //danyo de los conos de vision
+ 
+    bool _collisionWithSomethingDangerous;
+    
+    if(_collisionCone||_forceDamageAnimation||_collisionEnemy){
+        _collisionWithSomethingDangerous = true;
+    }    
+    
+    int totalDamage = _collisionConeDamage + _collisionEnemyDamage;
+    
+    if(_clockDamage==NULL&&_collisionWithSomethingDangerous)
+    {
+        cout <<"ENTRO EN ESTE MOMENTO";
+        cout <<"tengo:" <<_health<<" vida. Me quita" << totalDamage <<endl;
+                
+        _clockDamage = new Clock();
+        setHealth(_health-totalDamage);
+    }
+    else{
+        if(_clockDamage!=NULL){
+            if(_clockDamage->getClockAsSeconds()>_clockDamageLag)
+            {
+                delete _clockDamage;
+                _clockDamage=NULL;
+                _collisionConeDamage=0;
+                _clockDamageLag=1.0;
+                _collisionEnemyDamage=0;
+            }            
+        }
+
+    }
+    
+    _collisionCone=false;
+    _collisionEnemy=false;
+}
+
+
+
+
+void Player::checkDamageAnimation()
+{
+    
+    bool _collisionWithSomethingDangerous;
+    
+    if(_collisionCone||_forceDamageAnimation||_collisionEnemy){
+        _collisionWithSomethingDangerous = true;
+    }
+    
+    
+    if(_collisionWithSomethingDangerous&&_clockDamageAnimation==NULL)
+    {
+        _clockDamageAnimation= new Clock();
+        _damage=true;
+    }
+    else if(_clockDamageAnimation!=NULL&&_collisionWithSomethingDangerous)
+    {
+        _clockDamageAnimation->clockRestart();
+        _damage=true;
+    }
+    else{
+        if(_clockDamageAnimation!=NULL)
+        {
+            if(_clockDamageAnimation->getClockAsSeconds()>2.0f)
+            {
+                delete _clockDamageAnimation;
+                _clockDamageAnimation=NULL;
+                _damage=false;
+            }
+        }
+    }
+    
+}
+
+//obliga a mostrar la animacion de danyo aunque no nos esten golpeando.
+void Player::forceDamageAnimation()
+{
+    _forceDamageAnimation=true;
+}
+
+
+bool Player::getHidden()
+{
+    return _hidden;
+}
+
+
+void Player::checkHidden(int** _collisionMap)
+{
+   if(_color==sf::Color::Red
+           && _collisionMap[int(_actualSituation->getPositionY())/32][int(_actualSituation->getPositionX())/32] == 4)
+   {
+       _hidden=true;
+   }
+   else if(_color==sf::Color::Cyan
+           && _collisionMap[int(_actualSituation->getPositionY())/32][int(_actualSituation->getPositionX())/32] == 3)
+   {
+       _hidden=true;
+   }
+   else if(_color==sf::Color::Green
+           && _collisionMap[int(_actualSituation->getPositionY())/32][int(_actualSituation->getPositionX())/32] == 5)
+   {
+       _hidden=true;
+   }
+   else{
+       _hidden=false;
+   }
+                    
+}
+
+
+bool Player::getPushedBack()
+{
+    return _pushedBack;
+}
+
+void Player::setPushedBack(bool b, sf::Vector2f pushedBackDistance)
+{
+    _pushedBack=b;
+    _pushedBackDistance.x = pushedBackDistance.x;
+    _pushedBackDistance.y = pushedBackDistance.y;
+}
+
+

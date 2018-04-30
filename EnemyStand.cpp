@@ -18,12 +18,14 @@ EnemyStand::EnemyStand(Texture* tex, sf::Vector2f origin, sf::Vector2f position,
     _pattern = pattern;
     _cone = new Sprite(tex, sf::IntRect(160, 112, 96, 144), sf::Vector2f(48.0f,0.0f), position, scale);
     _actualStep = 0;
-    _state = 2;
+    _state = 0;
     setEnemySpeed(0);
     _loop = loop;
     _stopClock = NULL;
     _chaseClock = NULL;
     _loopClock = new Clock();
+    _collisionPlayerCone=false;
+    _collisionBullet=false;
 }
 
 EnemyStand::EnemyStand(const EnemyStand& orig) 
@@ -33,11 +35,44 @@ EnemyStand::EnemyStand(const EnemyStand& orig)
 
 EnemyStand::~EnemyStand() 
 {
-    
+    //se llama al destructor de padre
+
+    if(_cone!=NULL)
+    {
+        delete _cone;
+        _cone=NULL;
+    }
+    if(_chaseClock!=NULL)
+    {
+        delete _chaseClock;
+        _chaseClock=NULL;
+    }
+    if(_loopClock!=NULL)
+    {
+        delete _loopClock;
+        _loopClock=NULL;
+    }
+    if(_stopClock!=NULL)
+    {
+        delete _stopClock;
+        _stopClock=NULL;
+    }
 }
 
 void EnemyStand::update(sf::Vector2f playerPos)
 {
+    if(_state!=2){
+        if(getCollisionPlayer()||_collisionPlayerCone)
+        {
+            _state = 1;
+        }
+    }
+    
+    if(_collisionBullet)
+    {
+        _state = 2;      
+    }
+    
     setEnemyPreviousSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle());
     
     if(_state == 0)
@@ -52,6 +87,10 @@ void EnemyStand::update(sf::Vector2f playerPos)
     {
         updateStateStop();
     }
+    
+    _collisionPlayerCone=false;
+    _collisionBullet=false;
+    setCollisionPlayer(false);
 }
 
 void EnemyStand::updateStateIdle()
@@ -90,7 +129,7 @@ void EnemyStand::updateStateIdle()
             }
             else
             {
-                cout<<getEnemyActualSituation()->getAngle()<<endl;
+                //cout<<getEnemyActualSituation()->getAngle()<<endl;
             }
             if(_loopClock->getClockAsSeconds()>=_loop)
             {
@@ -152,9 +191,20 @@ void EnemyStand::updateStateIdle()
 
 void EnemyStand::updateStateChase(sf::Vector2f playerPos)
 {
+    
+    _cone->setSpriteColor(255, 255, 255, 255);
+    
+    if(getCollisionPlayer()||_collisionPlayerCone)
+    {
+        if(_chaseClock!=NULL)
+        {
+            _chaseClock->clockRestart();
+        }
+    }    
+    
     if(_chaseClock == NULL) _chaseClock = new Clock;
     
-    if(_chaseClock->getClockAsSeconds() <= 60.0f)
+    if(_chaseClock->getClockAsSeconds() <= 0.85f)
     {
         float plX, plY, eX, eY, catC, catO, hipo, rot;
         plX = playerPos.x;
@@ -166,20 +216,20 @@ void EnemyStand::updateStateChase(sf::Vector2f playerPos)
         hipo = sqrt((catC*catC)+(catO*catO));
         rot = 0;
         
-        cout<<"catC: "<<catC<<endl;
-        cout<<"catO: "<<catO<<endl;
-        cout<<"hipo: "<<hipo<<endl;
+        //cout<<"catC: "<<catC<<endl;
+        //cout<<"catO: "<<catO<<endl;
+        //cout<<"hipo: "<<hipo<<endl;
         
         if(eY > plY)
         {
             rot =   (3.14159265359/2+acos(catC/hipo))*180/3.14159265359;
-            cout<<"rot = "<<rot<<endl;
+            //cout<<"rot = "<<rot<<endl;
             setEnemyActualSituation(getEnemyActualSituation()->getPosition(), rot);
         }
         else
         {
             rot =   (3.14159265359/2-acos(catC/hipo))*180/3.14159265359;
-            cout<<"rot = "<<rot<<endl;
+            //cout<<"rot = "<<rot<<endl;
             setEnemyActualSituation(getEnemyActualSituation()->getPosition(), rot);
         }
         
@@ -193,18 +243,20 @@ void EnemyStand::updateStateChase(sf::Vector2f playerPos)
         _chaseClock = NULL;
         _state = 0;
         setEnemyActualSituation(getEnemyActualSituation()->getPosition(), int(getEnemyActualSituation()->getAngle())/5*5);
-        cout<<int(getEnemyActualSituation()->getAngle())<<endl;
+        //cout<<int(getEnemyActualSituation()->getAngle())<<endl;
     }
 }
 
 void EnemyStand::updateStateStop()
 {
     if(_stopClock == NULL) _stopClock = new Clock();
-    if(_stopClock != NULL && _stopClock->getClockAsSeconds() > 15)
+    
+    if(_stopClock != NULL && _stopClock->getClockAsSeconds() > 4.5f)
     {
         _state = 0;
         delete _stopClock;
         _stopClock = NULL;
+        
         _cone->setSpriteColor(255, 255, 255, 255);
         
     }
@@ -212,6 +264,7 @@ void EnemyStand::updateStateStop()
     {
         _cone->setSpriteColor(255, 255, 255, 0);
     }
+    
 }
 
 void EnemyStand::enemyStandCollision()
@@ -224,7 +277,7 @@ void EnemyStand::setEnemyStandPattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyStand::setEnemyState(int s)
+void EnemyStand::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }
@@ -234,3 +287,22 @@ Sprite* EnemyStand::getConeSprite()
     return _cone;
 }
 
+bool EnemyStand::getCollisionPlayerCone()
+{
+    return _collisionPlayerCone;
+}
+    
+void EnemyStand::setCollisionPlayerCone(bool b)
+{
+    _collisionPlayerCone=b;
+}
+    
+bool EnemyStand::getCollisionBullet()
+{
+    return _collisionBullet;
+}
+
+void EnemyStand::setCollisionBullet(bool b)
+{
+    _collisionBullet=b;
+}

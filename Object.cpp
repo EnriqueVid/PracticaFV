@@ -153,7 +153,7 @@ void Object::interpolate(float actualTime)
     g = (((actualTime-0)*(_actualSituation->getAngle() - _previousSituation->getAngle()))/(1-0)) + _previousSituation->getAngle();
     
     
-    cout <<"Interpolando a: " <<x<<" , "<<y<<" , "<<g<<" , "<<endl;
+    //cout <<"Interpolando a: " <<x<<" , "<<y<<" , "<<g<<" , "<<endl;
     
     _sprite->setSpritePosition(sf::Vector2f(x,y));
     _sprite->setSpriteRotation(g);
