@@ -157,7 +157,7 @@ void World::buildTestObjects()
     sf::IntRect* square = new sf::IntRect(0,0,32,32);
     
     _player = Player::Instance();
-
+    
     //_player->setPlayer(_texture[0], square,sf::Vector2f(16,16), sf::Vector2f(200.0f,200.0f), sf::Vector2f(1,1));
     //_player->setColor(sf::Color::Cyan);
 

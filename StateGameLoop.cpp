@@ -30,9 +30,12 @@ StateGameLoop::StateGameLoop()
 {
     std::cout<<"Creado el state GAMELOOP"<<std::endl;
     
-    
+    _t1 = new Texture("./textures/startbg.png");
+    _s1 = new Sprite();
+    _s1->setSpriteTexture(_t1);
+    _s1->setSpriteOrigin(sf::Vector2f(_s1->getSpriteTexture().getSize().x/2.f, _s1->getSpriteTexture().getSize().y/2.f));
+    _s1->setSpritePosition(sf::Vector2f(400.f, 400.f));
     //FALTA INICIALIZAR WORLD
-    
     
 }
 
@@ -68,15 +71,31 @@ int  StateGameLoop::getStateNumber()
 {
     return 2;
 }
-void  StateGameLoop::update(RenderWindow* window)
+int  StateGameLoop::update(RenderWindow* window)
 {
-  Input* input = Input::Instance();
-  input->inputInput();
-  if(Player::Instance()->getHealth() == 0 || input->inputCheck(10))
-  {
-    _pinstance->GetNextState(3);
+    std::cout<<"GAME LOOP"<<endl;
+    Input* input = Input::Instance();
+    input->inputInput();
+  
     
+    if(Player::Instance()->getHealth() == 0 || input->inputCheck(10))
+    {
+        _pinstance->GetNextState(3);
+        return 3;
     //HACER DELETE DE TODO;
-  }
+    }else{
+     
+        //window->windowClear();
+        //window->windowDraw(_s1);
+        //window->windowDisplay();
+        
+        return 2;
+    }
+    
 }
 
+StateGameLoop::~StateGameLoop()
+{
+    delete _pinstance;
+    _pinstance = NULL;
+}
