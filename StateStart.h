@@ -20,6 +20,7 @@
 #include <iostream>
 #include "StateGameOver.h"
 #include "StateGameLoop.h"
+#include <SFML/Graphics.hpp>
 
 class StateStart : public State {
 public:

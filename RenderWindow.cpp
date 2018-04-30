@@ -19,8 +19,8 @@ RenderWindow::RenderWindow(int width, int height, std::string title)
 {
     _window = new sf::RenderWindow(sf::VideoMode(width, height), title);
     _percentTick = 1;
-    //_view = new View();
-    //_view->setViewView(_window->getView());
+    _view = new View();
+    _view->setViewView(_window->getView());
 }
 
 RenderWindow::RenderWindow(const RenderWindow& orig) 
