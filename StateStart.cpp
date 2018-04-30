@@ -30,11 +30,30 @@ StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
     
-
+    _tstartbg = new Texture();
+    _tstartbutton = new Texture();
+    _sstartbg = new Sprite();
+    _sstartbutton = new Sprite();
+    _tpj1 = new Texture();
+    _tpj2 = new Texture();
+    _tpj3 = new Texture();
+    _tpj4 = new Texture();
+    
+    _spj1 = new Sprite();
+    _spj2 = new Sprite();
+    _spj3 = new Sprite();
+    _spj4 = new Sprite();
+    
     _tstartbg->textureLoadFromFile("./textures/startbg.png");
     _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
+  
     _sstartbg->setSpriteTexture(_tstartbg);
+    _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
+
+    
     _sstartbutton->setSpriteTexture(_tstartbutton);
+    _sstartbutton->setSpriteOrigin(sf::Vector2f(_sstartbutton->getSpriteTexture().getSize().x/2.f, _sstartbutton->getSpriteTexture().getSize().y/2.f));
+    
     
     _tpj1->textureLoadFromFile("./textures/pjWhite.png");
     _tpj2->textureLoadFromFile("./textures/pjRed.png");
@@ -43,22 +62,18 @@ StateStart::StateStart()
     
     _spj1->setSpriteTexture(_tpj1);
     _spj1->setSpriteOrigin(sf::Vector2f(_spj1->getSpriteTexture().getSize().x/2.f, _spj1->getSpriteTexture().getSize().y/2.f));
-    _spj1->setSpritePosition(sf::Vector2f(400.f,350.f));
     _spj1->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj2->setSpriteTexture(_tpj2);
     _spj2->setSpriteOrigin(sf::Vector2f(_spj2->getSpriteTexture().getSize().x/2.f, _spj2->getSpriteTexture().getSize().y/2.f));
-    _spj2->setSpritePosition(sf::Vector2f(200.f,700.f));
     _spj2->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj3->setSpriteTexture(_tpj3);
     _spj3->setSpriteOrigin(sf::Vector2f(_spj3->getSpriteTexture().getSize().x/2.f, _spj3->getSpriteTexture().getSize().y/2.f));    
-    _spj3->setSpritePosition(sf::Vector2f(400.f,700.f));
     _spj3->setSpriteScale(sf::Vector2f(2.5,2.5));
     
     _spj4->setSpriteTexture(_tpj4);
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
-    _spj4->setSpritePosition(sf::Vector2f(600.f,700.f));
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
 }
@@ -97,44 +112,67 @@ int  StateStart::getStateNumber()
     return 1;
 }
 
-void  StateStart::update(RenderWindow* window)
+int  StateStart::update(RenderWindow* window)
 {
-  
+    //COLOCAR LOS SPRITES
+    
+        _sstartbg->setSpritePosition(window->getWindowView()->getViewCenter());
+        _sstartbutton->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x, window->getWindowView()->getViewCenter().y+100.f));
+        _spj1->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x,window->getWindowView()->getViewCenter().y+100.f-150.f));
+        _spj2->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x-200.f,window->getWindowView()->getViewCenter().y+300.f));
+        _spj3->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x,window->getWindowView()->getViewCenter().y+300.f));
+        _spj4->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x+200.f,window->getWindowView()->getViewCenter().y+300.f));
+        
+     //PROSEGUIR
+    
+    //std::cout<<"START"<<endl;
   Input* input = Input::Instance();
   input->inputInput();
-  if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
-  {
-      
-    _pinstance->GetNextState(2);
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+      return 2;
+  }
+
+    sf::Vector2i positionmouse = sf::Mouse::getPosition();
     
-  }else{
+    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x,sf::Mouse::getPosition().y - window->getWindowPosition().y), window->getWindowView());
+    
+    if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c))
+    {
+        return 2;
+    }else{
       
-      if(input->inputCheck(13) && _spj1->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
+      if(input->inputCheck(13) && _spj1->getGlobalBounds().contains(p2c))
       {
-          _spj1->setSpriteRotation(90.f);
+          _spj1->setSpriteRotation(_spj1->getSpriteRotation()+90.f);
       }
-      if(input->inputCheck(13) && _spj1->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
+      if(input->inputCheck(13) && _spj2->getGlobalBounds().contains(p2c))
       {
-          _spj2->setSpriteRotation(90.f);
+          _spj2->setSpriteRotation(_spj2->getSpriteRotation()+90.f);
       }
-      if(input->inputCheck(13) && _spj1->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
+      if(input->inputCheck(13) && _spj3->getGlobalBounds().contains(p2c))
       {
-          _spj3->setSpriteRotation(90.f);
+          _spj3->setSpriteRotation(_spj3->getSpriteRotation()+90.f);
       }
-      if(input->inputCheck(13) && _spj1->getGlobalBounds().contains((float)sf::Mouse::getPosition().x, (float)sf::Mouse::getPosition().y))
+      if(input->inputCheck(13) && _spj4->getGlobalBounds().contains(p2c))
       {
-          _spj4->setSpriteRotation(90.f);
+          _spj4->setSpriteRotation(_spj4->getSpriteRotation()+90.f);
       }
+      
       window->windowClear();
+      
       window->windowDraw(_sstartbg);
       window->windowDraw(_sstartbutton);
       window->windowDraw(_spj1);
       window->windowDraw(_spj2);
       window->windowDraw(_spj3);
       window->windowDraw(_spj4);
+      
       window->windowDisplay();
       
+      return 1;
   }
+  
+
 }
 
 StateStart::~StateStart()

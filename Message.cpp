@@ -62,14 +62,60 @@ Message::Message(int number,Font* font, Texture* texturebg, sf::FloatRect pjboun
                 
                 break;
                 
+            case 4:
+                message1 = "Acabas de descubrir el color Rojo, este color te otorga la habilidad de mover y destruir cajas. Tal vez te pueda ser útil para seguir avanzando.";
+                _text->setString(message1); 
+                
+                break;
+                
+            case 5:
+                message1 = "Recuerda que el color rojo te puede ayudar a mover cajas sobre interruptores.";
+                _text->setString(message1); 
+                
+                break;
+                
+                
+            case 6:
+                message1 = "¡Atención! Tienes a un guardia de clase C enfrente tuyo, si te ve te absorberá pigmento. Evita que tu pigmento llegue a cero.";
+                _text->setString(message1); 
+                
+                break;
+                
+            case 7:
+                message1 = "Eso que ves de rojo es una zona de Tinta Roja. Si posees el poder del rojo te podrás ocultar de la visión de los guardias en las zonas de tu color, además de que recuperas maná.";
+                _text->setString(message1); 
+                
+                break;            
+                
+            case 8:
+                message1 = "¡Enhorabuena adalid! Nos vemos en el siguiente nivel.";
+                _text->setString(message1); 
+                
+                break;
+                
+            case 9:
+                message1 = "¡Enhorabuena! Acabas de conseguir el color Azul, este color te otorga la habilidad de moverte a grandes velocidades durante un corta fracción de tiempo. Tal vez te pueda ser útil para seguir avanzando.";
+                _text->setString(message1); 
+                
+                break;
+                
+            case 10:
+                message1 = "Como puedes ver, al entrar en zonas de tinta azul, recargas pigmento azul, lo cual te permite volver a utilizar tu habilidad.";
+                _text->setString(message1); 
+                
+                break;
+                
+            case 11:
+                message1 = "Atención, solo te camuflas en las zonas del tinte de tu color.";
+                _text->setString(message1); 
+                
+                break;
+                
             default:
                 break;                
         }
-        
-        
-
-
 }
+
 
 Text* Message::getTextMessage()
 {

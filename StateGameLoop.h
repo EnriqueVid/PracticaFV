@@ -23,15 +23,16 @@ class StateGameLoop : public State {
 public:
     //StateGameLoop();
     //StateGameLoop(const StateGameLoop& orig);
-    //virtual ~StateGameLoop();
+    
     virtual State* GetNextState(int i);
     virtual void test();
     virtual State* getState();
     virtual int getStateNumber();
-    virtual void update(RenderWindow* window);
+    virtual int update(RenderWindow* window);
     
     static StateGameLoop* Instance();
     protected:
+        virtual ~StateGameLoop();
         StateGameLoop();
         StateGameLoop(const StateGameLoop & );
         StateGameLoop &operator= (const StateGameLoop & ){};
@@ -40,6 +41,8 @@ public:
     private:
 
     static StateGameLoop* _pinstance;
+    Texture* _t1;
+    Sprite* _s1;
     
 };
 

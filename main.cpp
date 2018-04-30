@@ -34,7 +34,36 @@ using namespace std;
 int main()
 {
     RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
-
+    
+    StateStart::Instance();
+    
+    int which = StateStart::Instance()->getStateNumber();
+    /*
+    while(window->windowIsOpen()){
+        
+        Event* event;
+        while(window->windowPollEvent(event))
+        {
+            if(event->getEventType() == 1)
+            {
+                window->windowClose();
+            }
+        }
+        
+        if(which == 1)
+        {
+            which = StateStart::Instance()->update(window);
+            
+        }else if(which == 2)
+        {   
+            which = StateGameLoop::Instance()->update(window);
+        }else{
+            which = StateGameOver::Instance()->update(window);
+        }
+        
+    }
+    */
+    
     Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
     
     bool dado = false;
@@ -158,6 +187,17 @@ int main()
             }
         }
         
+        if(which == 1)
+        {
+            which = StateStart::Instance()->update(window);
+            
+        }else if(which == 2)
+        {   
+            
+            
+            which = StateGameLoop::Instance()->update(window);
+            
+            
         world->update();
         
 
@@ -203,7 +243,57 @@ int main()
         
         
         window->windowDisplay();
+            
+        }else{
+            which = StateGameOver::Instance()->update(window);
+        }
+        /*
+        world->update();
         
+
+        window->windowClear();
+        
+        
+        
+        world->render(window);
+
+        
+        window->windowInterpolateDraw(enemyChase->getConeSprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
+        window->windowInterpolateDraw(enemyChase->getEnemySprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
+
+        if(in->inputCheck(12) && !dado)
+        {
+            dado=true;
+            cout<<"Revisando A* al pulsar espacio"<<endl;
+            
+            
+            map[start.y][start.x] = 3;
+            map[end.y][end.x] = 3;
+            map[2][2] = 2;
+            for(int i=0;i<height;i++)
+            {
+                for(int j=0;j<width;j++)
+                {
+                    cout<<map[i][j];
+                }
+                cout<<endl;
+            }
+            
+            cout<<meh<<endl;
+            for(int i=0;i<meh.size();i++)
+            {
+                cout<<camino[i].x<<", "<<camino[i].y<<endl;
+            }
+        }
+
+        
+        window->windowDraw(hud->getLife());
+        window->windowDraw(hud->getRectangle());
+        window->windowDraw(hud->getStamina());
+        
+        
+        window->windowDisplay();
+        */
     }
     return 0;
 }
