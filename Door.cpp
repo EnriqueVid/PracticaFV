@@ -248,8 +248,11 @@ Clock* Door::getClock(){
 //LAS PUERTAS SE BORRAN AL BORRARSE EL SWITCH QUE LAS TIENE ASIGNADAS
 Door::~Door() 
 {
-    delete _clock;
-    _clock=NULL;
-    //el destructor del padre se encarga de destruir el resto de punteros.
+    if(_clock != NULL)
+    {
+        delete _clock;
+        _clock=NULL;
+    }
+        //el destructor del padre se encarga de destruir el resto de punteros.
 }
 

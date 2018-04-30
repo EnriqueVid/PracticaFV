@@ -256,8 +256,9 @@ void EnemyStand::updateStateStop()
         _state = 0;
         delete _stopClock;
         _stopClock = NULL;
-        
+        setEnemyActualSituation(getEnemyActualSituation()->getPosition(), int(getEnemyActualSituation()->getAngle())/5*5);
         _cone->setSpriteColor(255, 255, 255, 255);
+        
         
     }
     else

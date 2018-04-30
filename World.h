@@ -105,6 +105,8 @@ private:
     int _mapHeight;
     int _mapLayers;
     
+    
+    bool _destroytheworld;
 };
 
 #endif /* WORLD_H */

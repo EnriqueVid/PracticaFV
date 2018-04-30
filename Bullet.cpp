@@ -46,7 +46,7 @@ Bullet::Bullet(bool playerBullet, bool generatedFromMouse,float posX, float posY
     _erase=false;
     
      
-    _sprite = new Sprite(texture,sf::IntRect(0,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
+    _sprite = new Sprite(texture,sf::IntRect(96,32,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(-100.0f,-100.0f),sf::Vector2f(1.0f,1.0f));
 
     _collisionWithMap=false;
 

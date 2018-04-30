@@ -45,6 +45,23 @@ Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vecto
 
 Enemy::Enemy(const Enemy& orig) 
 {
+    if(_sprite != NULL)
+    {
+        delete _sprite;
+        _sprite = NULL;
+    }
+    
+    if(_previousSituation != NULL)
+    {
+        delete _previousSituation;
+        _previousSituation = NULL;
+    }
+        
+    if(_actualSituation != NULL)
+    {
+        delete _actualSituation;
+        _actualSituation = NULL;
+    } 
 }
 
 Enemy::~Enemy() 

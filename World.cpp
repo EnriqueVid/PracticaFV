@@ -55,16 +55,64 @@ World::World()
     _HUD=NULL;
     _stairs=NULL;
     
+    _destroytheworld = false;
     //cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
 {
     
-    buildTestObjects();
-    //LevelFactory::Instance();
-    //_box = lvl.getBox
-    //_door = lvl.getDoor...    
+    //buildTestObjects();
+    
+    _levelFactory = LevelFactory::Instance();
+    _levelFactory->setLevelFactoryStates(lvlNumber);
+    
+    _mapWidth = _levelFactory->getLevelFactoryWidth();
+    _mapHeight = _levelFactory->getLevelFactoryHeight();
+    _mapLayers = _levelFactory->getLevelFactoryNumLayers();
+    
+    _collisionMap = _levelFactory->getLevelFactoryCollisionMap();
+    _map = _levelFactory->getLevelFactoryTileMapSprite();
+    
+    if(_clock != NULL) delete _clock;
+    _clock = new Clock();
+    _input = Input::Instance();
+    
+    _texture = new Texture*[4];
+    _texture[0] = _levelFactory->getPlayerTexture();
+    _texture[1] = _levelFactory->getTileSetTexture();
+    _texture[2] = _levelFactory->getObjectTexture();
+    _texture[3] = _levelFactory->getEnemyTexture();
+     
+    
+    _boxNumber = _levelFactory->getBoxNumber();
+    _doorNumber = _levelFactory->getDoorNumber();
+    _powerUpNumber = _levelFactory->getPowerUpNumber();
+    _switchNumber = _levelFactory->getSwitchNumber();
+    _messageNumber = 0;
+    
+    _enemyBounceNumber = _levelFactory->getEnemyBounceNumber();
+    _enemyChaseNumber = _levelFactory->getEnemyChaseNumber();
+    _enemyStandNumber = _levelFactory->getEnemyStandnumber();
+    
+    _box = _levelFactory->getLevelFactoryBox();
+    _switch = _levelFactory->getLevelFactorySwitch();
+    _door = _levelFactory->getLevelFactoryDoor();
+    _powerUp = _levelFactory->getLevelFactoryPowerUp();
+    _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
+    _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
+    _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
+    _stairs = _levelFactory->getLevelFactoryStairs();
+    
+    _player = Player::Instance();
+    _player->unlockAllPowerUps();
+    
+    _HUD = Hud::Instance();
+    _HUD->setSprites(_texture[0]);
+    
+    _enemyBounceNumber=1;
+    _enemyBounce = new EnemyBounce*[1];
+    _enemyBounce[0] = new EnemyBounce(_texture[3], sf::Vector2f(16.0f,16.0f), sf::Vector2f (224.0f,384.0f), sf::Vector2f(1.0f,1.0f), "uldr");
 }
 
 void World::buildTestObjects()
@@ -116,26 +164,26 @@ void World::buildTestObjects()
     
     _boxNumber = 1;
     
-    _box = _levelFactory->getLevelFactoryBox();
+    //_box = _levelFactory->getLevelFactoryBox();
 
     //_box[0] = new Box(1, 160.0, 384.0, 0.0, false, _texture[2],
     //                   1, 2, 16.0);
     //_box[1] = new Box(1, 128.0, 300.0, 0.0, false, _texture[2],1, 2, 16.0);
     //_box[2] = new Box(1, 224.0, 260.0, 0.0, false, _texture[2],1, 2, 16.0);    
 
-    _doorNumber = 2;
-    _door = _levelFactory->getLevelFactoryDoor();
+    //_doorNumber = 2;
+    //_door = _levelFactory->getLevelFactoryDoor();
     //_door[0] = new Door(1, 352.0, 320.0+64, 0.0, false, _texture[2], 0, 4.5, 1.0);
     //_door[1] = new Door(1, 352.0, 352.0+64, 0.0, false, _texture[2],1, 4.5, 1.0);
     
-    _switchNumber = 1;
-    _switch = _levelFactory->getLevelFactorySwitch();
+    //_switchNumber = 1;
+    //_switch = _levelFactory->getLevelFactorySwitch();
     //_switch[0] = new Switch(1, 160.0, 200.0, 0.0, false, _texture[2], 1);
     
     //_switch[0]->setDoor(_door[0],_door[1]);
     
-    _powerUpNumber = 1;
-    _powerUp = _levelFactory->getLevelFactoryPowerUp();
+    //_powerUpNumber = 1;
+    //_powerUp = _levelFactory->getLevelFactoryPowerUp();
     
     /*
     _powerUp = new PowerUp*[_powerUpNumber];
@@ -157,14 +205,14 @@ void World::buildTestObjects()
                         3);        
     */
     
-    _enemyStandNumber = 1;
-    _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
+    //_enemyStandNumber = 1;
+    //_enemyStand = _levelFactory->getLevelFactoryEnemyStand();
     
     
     
-    _HUD = Hud::Instance();
+    //_HUD = Hud::Instance();
     
-    _HUD->setSprites(_texture[0]);
+    //_HUD->setSprites(_texture[0]);
     
     
     
@@ -174,17 +222,15 @@ void World::buildTestObjects()
             1,2);
     
      */ 
-    _stairs = _levelFactory->getlevelFactoryStairs();
-    _player->unlockAllPowerUps();
+    //_stairs = _levelFactory->getlevelFactoryStairs();
+    //_player->unlockAllPowerUps();
     
-    _enemyBounceNumber=1;
-    _enemyBounce = new EnemyBounce*[1];
+    //_enemyBounceNumber=1;
+    //_enemyBounce = new EnemyBounce*[1];
     
-    _enemyBounce[0] = new EnemyBounce
-            (_texture[3], sf::Vector2f(16.0f,16.0f), sf::Vector2f (224.0f,384.0f), sf::Vector2f(1.0f,1.0f), "uldr");
+    //_enemyBounce[0] = new EnemyBounce
+    //            (_texture[3], sf::Vector2f(16.0f,16.0f), sf::Vector2f (224.0f,384.0f), sf::Vector2f(1.0f,1.0f), "uldr");
 
-    
-    
     }
 
 
@@ -205,8 +251,27 @@ if(_player!=NULL)_player->input();
         if(_input->inputCheck(1));
         if(_input->inputCheck(2));
         if(_input->inputCheck(3));
-        //if(_input->inputCheck(10)) _renderWindow->windowClose();
-        
+        if(_input->inputCheck(10))
+        {
+            if(_destroytheworld == false){
+                _destroytheworld = true;
+                _levelFactory->levelFactoryClear();
+                _levelFactory->setLevelFactoryStates(0);
+                
+                _collisionMap = _levelFactory->getLevelFactoryCollisionMap();
+                _map = _levelFactory->getLevelFactoryTileMapSprite();
+                
+                _box = _levelFactory->getLevelFactoryBox();
+                _switch = _levelFactory->getLevelFactorySwitch();
+                _door = _levelFactory->getLevelFactoryDoor();
+                _powerUp = _levelFactory->getLevelFactoryPowerUp();
+                _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
+                _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
+                _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
+                _stairs = _levelFactory->getLevelFactoryStairs();
+                _destroytheworld = false;
+            }
+        }
         if(_player!=NULL){
             _player->update(_collisionMap);
         }
@@ -287,7 +352,7 @@ if(_player!=NULL)_player->input();
                 _bullet = new Bullet(true,false, _player->getPreviousSituation()->getPositionX(),
                         _player->getPreviousSituation()->getPositionY(),
                         _player->getPreviousSituation()->getAngle(),
-                        11.0f, 3.5f, 1, _texture[1]);
+                        11.0f, 3.5f, 1, _texture[2]);
             }
         }        
 

@@ -39,6 +39,8 @@ public:
     static LevelFactory* Instance();
     void setLevelFactoryStates(int i);
     
+    void levelFactoryClear();
+    
     Sprite**** getLevelFactoryTileMapSprite();
     int** getLevelFactoryCollisionMap();
     int getLevelFactoryNumLayers();
@@ -49,9 +51,25 @@ public:
     PowerUp** getLevelFactoryPowerUp();
     EnemyChase** getLevelFactoryEnemyChase();
     EnemyStand** getLevelFactoryEnemyStand();
+    EnemyBounce** getLevelFactoryEnemyBounce();
     Switch** getLevelFactorySwitch();
     Door** getLevelFactoryDoor();
-    Stairs* getlevelFactoryStairs();
+    Stairs* getLevelFactoryStairs();
+    Texture* getTileSetTexture();
+    Texture* getPlayerTexture();
+    Texture* getEnemyTexture();
+    Texture* getObjectTexture();
+    
+    int getEnemyStandnumber();
+    int getEnemyBounceNumber();
+    int getEnemyChaseNumber();
+    int getBoxNumber();
+    int getSwitchNumber();
+    int getDoorNumber();
+    int getPowerUpNumber();
+    int getStairsNumber();
+    
+    
     
     
 protected:

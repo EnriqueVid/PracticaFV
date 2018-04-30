@@ -96,7 +96,7 @@ int main()
     
     World* world = World::Instance();
     
-    world->buildTestObjects();
+    world->buildWorld(0);
     
     //enemyBounce->update();
     
