@@ -8,7 +8,7 @@
  * File:   Astar.cpp
  * Author: tuba
  * 
- * Created on 29 de abril de 2018, 16:02
+ * Created on 30 de abril de 2018, 2:46
  */
 
 
@@ -129,15 +129,10 @@ Astar::~Astar()
     _dirY = NULL;
 }
 
-bool Astar::priority(Node a, Node b)
-{
-    return a.getPriority() > b.getPriority();
-}
-
 std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
 {
     //¡Plis end mai laif!
-    std::priority_queue<Node*> pq[2]; // Nodos a los que puedo ir, pero no he pasado por ellos.
+    std::vector<Node*> pq[2]; // Nodos a los que puedo ir, pero no he pasado por ellos.
     int pqi; // Índice de la lista de prioridad
     Node* n0;
     Node* m0;
@@ -159,19 +154,19 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
     //Creamos el nodo en el que empezamos y lo añadimos a la lista de prioridad
     n0=new Node(start, 0, 0);
     n0->updatePriority(end);
-    pq[pqi].push(n0);
+    pq[pqi].push_back(n0);
     _openNodes[start.x][start.y]=n0->getPriority(); // Marcamos el nodo en el mapa de nodos que podemos visitar pero no hemos pasado aún
     
     // A* search
     while(!pq[pqi].empty())
     {
         // Obtener el nodo con la mayor prioridad de la lista de los Nodos aún no visitados
-        n0=new Node(pq[pqi].top()->getPos(),pq[pqi].top()->getLevel(), pq[pqi].top()->getPriority());
+        n0=new Node(pq[pqi].back()->getPos(),pq[pqi].back()->getLevel(), pq[pqi].back()->getPriority());
 
         x=n0->getPos().x;
         y=n0->getPos().y;
 
-        pq[pqi].pop(); 
+        pq[pqi].pop_back(); 
         
         // Quitarlo de los nodos aún por visitar
         _openNodes[x][y]=0;
@@ -201,7 +196,7 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
             // empty the leftover nodes ?¿?¿?¿?¿?
             while(!pq[pqi].empty())
             {
-                pq[pqi].pop();
+                pq[pqi].pop_back();
             }
             
             return path;
@@ -220,11 +215,13 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                 m0->nextLevel(i, _dir);
                 m0->updatePriority(end);
                 
+                
+                
                 // if it is not in the open list then add into that
                 if(_openNodes[xdx][ydy]==0)
                 {
                     _openNodes[xdx][ydy]=m0->getPriority();
-                    pq[pqi].push(m0);
+                    pq[pqi].push_back(m0);
                     
                     // mark its parent node direction
                     _directions[xdx][ydy]=(i + (_dir/2))%_dir;
@@ -240,12 +237,12 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                     // by emptying one pq to the other one
                     // except the node to be replaced will be ignored
                     // and the new node will be pushed in instead
-                    while(!(pq[pqi].top()->getPos().x==xdx && pq[pqi].top()->getPos().y==ydy))
+                    while(!(pq[pqi].back()->getPos().x==xdx && pq[pqi].back()->getPos().y==ydy))
                     {                
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();
+                        pq[1-pqi].push_back(pq[pqi].back());
+                        pq[pqi].pop_back();
                     }
-                    pq[pqi].pop(); // remove the wanted node
+                    pq[pqi].pop_back(); // remove the wanted node
                     
                     // empty the larger size pq to the smaller one
                     if(pq[pqi].size()>pq[1-pqi].size())
@@ -254,11 +251,11 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                     }
                     while(!pq[pqi].empty())
                     {                
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();
+                        pq[1-pqi].push_back(pq[pqi].back());
+                        pq[pqi].pop_back();
                     }
                     pqi=1-pqi;
-                    pq[pqi].push(m0); // add the better node instead
+                    pq[pqi].push_back(m0); // add the better node instead
                 }
                 else
                 {
@@ -266,9 +263,30 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                 }
             }
         }
+        reordenar(pq[0]);
+        reordenar(pq[1]);
         delete n0;
     }
     return "";
 }
 
 
+void Astar::reordenar(std::vector<Node*> &list)
+{
+    //Ordenación en burbuja de los vectores
+    int tam = list.size();
+    Node* nodo;
+    
+    for(int i=0;i<tam;i++)
+    {
+        for(int j=0;j<tam-1;j++)
+        {
+            if(list.at(j)->getPriority()<list.at(j+1)->getPriority())
+            {
+                nodo = new Node(list.at(j)->getPos(), list.at(j)->getLevel(), list.at(j)->getPriority());
+                list.insert(list.begin()+j+2,nodo);
+                list.erase(list.begin()+j);
+            }
+        }
+    }
+}
