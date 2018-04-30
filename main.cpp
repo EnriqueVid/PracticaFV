@@ -71,7 +71,7 @@ int main()
     
     Player* pl = Player::Instance();
     
-    EnemyChase* enemyChase = new EnemyChase(enemyTex, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(300.0f, 370.0f), sf::Vector2f(1.0f, 1.0f), "usds", 4.0f);
+    
     
     /*
     Hud* hud = Hud::Instance();
@@ -111,21 +111,13 @@ int main()
         
         world->update();
         
-        if(clc->getClockAsSeconds() > float(1.0f/15.0f))
-        {
-            enemyChase->update(lf->getLevelFactoryCollisionMap());
-            clc->clockRestart();
-        }
 
         window->windowClear();
         
         
         
         world->render(window);
-        
-        window->windowInterpolateDraw(enemyChase->getConeSprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
-        window->windowInterpolateDraw(enemyChase->getEnemySprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
-        
+         
         /*
         if(in->inputCheck(12) && !dado)
         {

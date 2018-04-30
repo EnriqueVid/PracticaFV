@@ -238,7 +238,7 @@ void EnemyChase::setEnemyChasePattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyChase::setEnemyState(int s)
+void EnemyChase::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }

@@ -18,8 +18,7 @@
 
 class Switch : public Object {
 public:
-    Switch(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture,
-            int switchType);
+    Switch(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture, int switchType);
     Switch(const Switch& orig);
     virtual ~Switch();
     

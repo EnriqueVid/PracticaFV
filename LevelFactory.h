@@ -29,6 +29,7 @@
 #include "Switch.h"
 #include "Door.h"
 #include "PowerUp.h"
+#include "Stairs.h"
 
 using namespace tinyxml2;
 
@@ -46,7 +47,11 @@ public:
     
     Box** getLevelFactoryBox();
     PowerUp** getLevelFactoryPowerUp();
-    
+    EnemyChase** getLevelFactoryEnemyChase();
+    EnemyStand** getLevelFactoryEnemyStand();
+    Switch** getLevelFactorySwitch();
+    Door** getLevelFactoryDoor();
+    Stairs* getlevelFactoryStairs();
     
     
 protected:
@@ -77,6 +82,7 @@ private:
     Switch** _oSwitch;
     Door** _oDoor;
     PowerUp** _oPowerUp;
+    Stairs** _oStairs;
     
     
     
@@ -89,13 +95,16 @@ private:
     int _numbox;
     int _numbutton;
     int _numpowerup;
+    int _numstairs;
     
     int _countenemystand;
     int _countenemybounce;
     int _countenemychase;
     int _countbox;
     int _countbutton;
+    int _countdoor;
     int _countpowerup;
+    int _countstairs;
     
     int _height;
     int _width;

@@ -18,7 +18,7 @@ EnemyStand::EnemyStand(Texture* tex, sf::Vector2f origin, sf::Vector2f position,
     _pattern = pattern;
     _cone = new Sprite(tex, sf::IntRect(160, 112, 96, 144), sf::Vector2f(48.0f,0.0f), position, scale);
     _actualStep = 0;
-    _state = 2;
+    _state = 0;
     setEnemySpeed(0);
     _loop = loop;
     _stopClock = NULL;
@@ -224,7 +224,7 @@ void EnemyStand::setEnemyStandPattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyStand::setEnemyState(int s)
+void EnemyStand::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }

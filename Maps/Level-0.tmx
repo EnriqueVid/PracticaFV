@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="36">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="38">
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="Collisions" width="25" height="25">
   <data>
@@ -1899,9 +1899,18 @@
   <object id="30" gid="198" x="512" y="288" width="32" height="32">
    <properties>
     <property name="pattern" value="luld"/>
+    <property name="timer" type="float" value="10"/>
    </properties>
   </object>
-  <object id="31" gid="225" x="144" y="208" width="32" height="32"/>
+  <object id="31" gid="225" x="144" y="208" width="32" height="32">
+   <properties>
+    <property name="cordX" type="float" value="336"/>
+    <property name="cordY" type="float" value="368"/>
+    <property name="direction" type="int" value="0"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="timer" type="float" value="1"/>
+   </properties>
+  </object>
   <object id="34" gid="256" x="144" y="304" width="32" height="32"/>
  </objectgroup>
 </map>

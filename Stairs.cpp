@@ -21,8 +21,8 @@ Stairs::Stairs()
 Stairs::Stairs(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture *texture,
             int actualLevel, int nextLevel)
 {
-    _sprite = new Sprite(texture,sf::IntRect(96,0,32,32),sf::Vector2f(16.0f,16.0f),
-            sf::Vector2f(initialPosX,initialPosY),sf::Vector2f(1.0f,1.0f));
+
+    _sprite = new Sprite(texture,sf::IntRect(128,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(initialPosX,initialPosY),sf::Vector2f(1.0f,1.0f));
     _actualLevel=actualLevel;
     _nextLevel = nextLevel;
     
