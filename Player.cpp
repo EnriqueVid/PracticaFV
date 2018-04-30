@@ -32,8 +32,8 @@ Player::Player()
 {
     _maxHealth=256;
     _health=256;
-    _maxStamina=100;
-    _stamina=100;
+    _maxStamina=200;
+    _stamina=200;
     _sprite=new Sprite();
     _speed=8;
     _defaultSpeed=8;
@@ -67,12 +67,14 @@ Player::Player(const Player& orig)
 Player::~Player()
 {
     
-    if(_clockHability!=NULL){
+    if(_clockHability!=NULL)
+    {
         delete _clockHability;
         _clockHability=NULL;
     }
     
-    if(_clockChangeColor!=NULL){
+    if(_clockChangeColor!=NULL)
+    {
         delete _clockChangeColor;
         _clockChangeColor=NULL;
     }
@@ -270,6 +272,8 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
+
         }
     }
     else if(_axis.x<0)
@@ -282,6 +286,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
             }
+            _collisionWithMap=true;
         }
     }
     
@@ -295,6 +300,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
             }
+            _collisionWithMap=true;
         }
     }
     else if(_axis.y<0)
@@ -307,6 +313,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
             }
+            _collisionWithMap=true;
         }
     }
 }
@@ -508,7 +515,9 @@ void Player::update(int** _collisionMap)
     
     keyReleased(); //No influye al input, solo a variables de player relacionadas con ellos.
     _changePowerUp=false;
-    if(_stamina<_maxStamina) _stamina = _stamina + 1;
+    if(_stamina<_maxStamina) _stamina = _stamina + 3;
+    if(_stamina>_maxStamina)_stamina=_maxStamina;
+    
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
@@ -532,7 +541,6 @@ void Player::interpolate(float actualTime)
     
     _sprite->setSpritePosition(sf::Vector2f(x,y));
     _sprite->setSpriteRotation(g);
-    
 }
 
 void Player::superSpeed()
@@ -675,7 +683,13 @@ void Player::setColor(sf::Color color)
         _fireBullet=false;
     }
     
-    _color = color;
+    //_color = color;
+    
+    _color.a = color.a;
+    _color.b = color.b;
+    _color.g = color.g;
+    _color.r = color.r;
+    
     _sprite->setSpriteColor(_color.r,_color.g,_color.b,_color.a);
 }
 

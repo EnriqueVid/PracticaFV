@@ -1,0 +1,4 @@
+0 - Neutro (nada) sprite blanco.
+1 - Rojo
+2 - Azul
+3 - Verde

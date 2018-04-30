@@ -43,6 +43,7 @@ LevelFactory::LevelFactory()
     _oSwitch = NULL;
     _oDoor = NULL;
     _oPowerUp = NULL;
+    _oStairs = NULL;
     
     _countenemystand = 0;
     _countenemybounce = 0;
@@ -51,6 +52,7 @@ LevelFactory::LevelFactory()
     _countbutton = 0;
     _countpowerup = 0;
     _countdoor = 0;
+    _countstairs = 0;
     
 }
 
@@ -267,6 +269,7 @@ void LevelFactory::levelFactoryMapCreator()
     _numenemychase = 0;
     _numbox = 0;
     _numbutton = 0;
+    _numstairs = 0;
     
     XMLElement *obj = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     while(obj)
@@ -303,6 +306,7 @@ void LevelFactory::levelFactoryMapCreator()
                 
             case 237:// NextLevel
                 cout<<"NextLevel"<<endl;
+                _numstairs++;
                 break;
                 
             case 238:// Help
@@ -345,6 +349,7 @@ void LevelFactory::levelFactoryMapCreator()
     cout<<"numenemychase: "<<_numenemychase<<endl;
     cout<<"numbox: "<<_numbox<<endl;
     cout<<"numbutton: "<<_numbutton<<endl;
+    cout<<"numstairs: "<<_numstairs<<endl;
     
     _player = Player::Instance();
     if(_numenemybounce > 0)_eBounce = new EnemyBounce*[_numenemybounce];
@@ -354,6 +359,7 @@ void LevelFactory::levelFactoryMapCreator()
     if(_numbutton > 0)_oSwitch = new Switch*[_numbutton];
     if(_numbutton > 0)_oDoor = new Door*[_numbutton*2];
     if(_numpowerup > 0)_oPowerUp = new PowerUp*[_numpowerup];
+    if(_numstairs > 0)_oStairs = new Stairs*[_numstairs];
     
     XMLElement *object = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     for(int i=0; i<_numobjects; i++)
@@ -467,6 +473,13 @@ void LevelFactory::levelFactoryMapCreator()
                 
             case 237:// NextLevel
                 cout<<"NextLevel"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                doorPos = object->FirstChildElement("properties")->FirstChildElement("property")->IntAttribute("value");
+                _oStairs[_countstairs] = new Stairs(5, oX, oY, 0, false, _objectTexture, 0, doorPos);
+                _countstairs++;
                 break;
                 
             case 238:// Help
@@ -579,6 +592,11 @@ Switch** LevelFactory::getLevelFactorySwitch()
 Door** LevelFactory::getLevelFactoryDoor()
 {
     return _oDoor;
+}
+
+Stairs*  LevelFactory::getlevelFactoryStairs()
+{
+    return _oStairs[0];
 }
 
 

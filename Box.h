@@ -30,7 +30,7 @@ public:
     void interact();
     void breakBox(); //cuando el jugador decide romper una caja.
     void impact(); //cuando recibe un disparo enemigo
-    void update(); 
+    void update(int** _collisionMap); 
     
     void collision();
     
@@ -45,6 +45,10 @@ public:
     bool getBreakAnimation(); //si devuelve true, se esta ejecutando la animacion de romperse.
     int getBreakAnimationFrame();
     Clock* getClock();
+    
+    
+    void checkMapCollisions(int** _collisionMap, int axisX, int axisY);
+    bool getCollisionWithMap();
     
     virtual ~Box();
     
@@ -68,6 +72,12 @@ private:
     //el cual no se hace false hasta la siguiente iteracion.
     bool _collisionLastUpdate; //indica si en el UPDATE anterior YA se estaba chocando. Esto evita dobles desplazamientos.
         //Otra manera de decirlo: ¿Colisionó mi caja en la iteración anterior? Por tanto, ¿está el personaje CHOCANDO CONMIGO?
+    
+    float axisXLastUpdate;
+    float axisYLastUpdate; //hacia donde deberia salir empujada la caja?
+    
+    
+    bool _collisionWithMap;
 
     
 };

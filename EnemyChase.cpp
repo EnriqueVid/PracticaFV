@@ -70,7 +70,7 @@ void EnemyChase::updateStateIdle(int** map)
                 if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
                 {
                     enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
-                    cout<<"Me traslado"<<endl;
+                    //cout<<"Me traslado"<<endl;
                 }
                 else
                 {
@@ -238,7 +238,7 @@ void EnemyChase::setEnemyChasePattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyChase::setEnemyState(int s)
+void EnemyChase::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }

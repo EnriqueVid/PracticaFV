@@ -138,6 +138,12 @@ void EnemyBounce::updateStateStop()
 void enemyBounceCollision()
 {
     //asdasdasdasdasdasd
+    
+}
+
+void EnemyBounce::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Paralizado;
+{
+    _state = s;
 }
 
 void EnemyBounce::setEnemyBouncePattern(string pattern)

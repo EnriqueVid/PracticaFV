@@ -90,7 +90,7 @@ void EnemyStand::updateStateIdle()
             }
             else
             {
-                cout<<getEnemyActualSituation()->getAngle()<<endl;
+                //cout<<getEnemyActualSituation()->getAngle()<<endl;
             }
             if(_loopClock->getClockAsSeconds()>=_loop)
             {
@@ -166,20 +166,20 @@ void EnemyStand::updateStateChase(sf::Vector2f playerPos)
         hipo = sqrt((catC*catC)+(catO*catO));
         rot = 0;
         
-        cout<<"catC: "<<catC<<endl;
-        cout<<"catO: "<<catO<<endl;
-        cout<<"hipo: "<<hipo<<endl;
+        //cout<<"catC: "<<catC<<endl;
+        //cout<<"catO: "<<catO<<endl;
+        //cout<<"hipo: "<<hipo<<endl;
         
         if(eY > plY)
         {
             rot =   (3.14159265359/2+acos(catC/hipo))*180/3.14159265359;
-            cout<<"rot = "<<rot<<endl;
+            //cout<<"rot = "<<rot<<endl;
             setEnemyActualSituation(getEnemyActualSituation()->getPosition(), rot);
         }
         else
         {
             rot =   (3.14159265359/2-acos(catC/hipo))*180/3.14159265359;
-            cout<<"rot = "<<rot<<endl;
+            //cout<<"rot = "<<rot<<endl;
             setEnemyActualSituation(getEnemyActualSituation()->getPosition(), rot);
         }
         
@@ -193,7 +193,7 @@ void EnemyStand::updateStateChase(sf::Vector2f playerPos)
         _chaseClock = NULL;
         _state = 0;
         setEnemyActualSituation(getEnemyActualSituation()->getPosition(), int(getEnemyActualSituation()->getAngle())/5*5);
-        cout<<int(getEnemyActualSituation()->getAngle())<<endl;
+        //cout<<int(getEnemyActualSituation()->getAngle())<<endl;
     }
 }
 
@@ -224,7 +224,7 @@ void EnemyStand::setEnemyStandPattern(string pattern)
     _pattern = pattern;
 }
 
-void EnemyStand::setEnemyState(int s)
+void EnemyStand::setEnemyState(int s)// s=0 ==> Idle; s=1 ==> Mirar; s=2 ==> Paralizado
 {
     _state = s;
 }

@@ -69,17 +69,18 @@ int main()
 
     LevelFactory* lf = LevelFactory::Instance();
     
-    
     Player* pl = Player::Instance();
     
     
     
+    /*
     Hud* hud = Hud::Instance();
     
     hud->setSprites(playerTex);
     
     hud->update(256,100, 0, 255, 255, 255);
     
+     */ 
     //astar = new Astar(map, width, height, 8);
     
     //string meh = astar->pathfind(start, end);
@@ -134,9 +135,11 @@ int main()
             cout<<meh<<endl;
         }
         */
+        /**
         window->windowDraw(hud->getLife());
         window->windowDraw(hud->getRectangle());
         window->windowDraw(hud->getStamina());
+         */ 
         
         window->windowDisplay();
         

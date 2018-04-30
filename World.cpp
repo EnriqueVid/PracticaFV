@@ -16,6 +16,8 @@
 #include "EnemyBounce.h"
 #include "Input.h"
 #include "Bullet.h"
+#include "Hud.h"
+#include "Stairs.h"
 
 
 World* World::_pinstance = 0;
@@ -50,7 +52,10 @@ World::World()
     _collisionMap=NULL;
     _advancedCollisionMap=NULL;
     
-    cout <<"World created."<<endl;
+    _HUD=NULL;
+    _stairs=NULL;
+    
+    //cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
@@ -76,7 +81,7 @@ void World::buildTestObjects()
     
     _input = Input::Instance();
     
-    cout <<" Build test objects."<<endl;
+    //cout <<" Build test objects."<<endl;
     
     int x;
     
@@ -143,11 +148,35 @@ void World::buildTestObjects()
                         2);
 
     _powerUp[2] = new PowerUp(1, 230.0, 384.0, 0.0, false, _texture[2],
+                        3);  
+    
+    
+    _box[0]->setActualSituation(_box[x]->getActualSituation()->getPositionX(),400.0f,_box[x]->getActualSituation()->getAngle());
+
+
                         3);        
     */
     
     _enemyStandNumber = 1;
     _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
+    
+    
+    
+    _HUD = Hud::Instance();
+    
+    _HUD->setSprites(_texture[0]);
+    
+    
+    
+    //COMANDOS DE PRUEBA
+    /*
+    _stairs = new Stairs(1, 320.0+16.0, 128.0+16.0, 0.0, false, _texture[2],
+            1,2);
+    
+     */ 
+    _stairs = _levelFactory->getlevelFactoryStairs();
+    _player->unlockAllPowerUps();
+    
     }
 
 
@@ -164,10 +193,10 @@ if(_player!=NULL)_player->input();
         
         _input->inputInput();
 
-        if(_input->inputCheck(0)) cout<<"UP"<<endl;
-        if(_input->inputCheck(1)) cout<<"DOWN"<<endl;
-        if(_input->inputCheck(2)) cout<<"LEFT"<<endl;
-        if(_input->inputCheck(3)) cout<<"RIGHT"<<endl;
+        if(_input->inputCheck(0));
+        if(_input->inputCheck(1));
+        if(_input->inputCheck(2));
+        if(_input->inputCheck(3));
         //if(_input->inputCheck(10)) _renderWindow->windowClose();
         
         if(_player!=NULL){
@@ -186,7 +215,7 @@ if(_player!=NULL)_player->input();
                     _box[x]==NULL;
                 }
                 else{
-                    _box[x]->update();
+                    _box[x]->update(_collisionMap);
                 }
             }
         }
@@ -197,14 +226,14 @@ if(_player!=NULL)_player->input();
             {
                 if(_powerUp[x]!=NULL)
                 {
-                    //if(_powerUp[x]->getErase())
-                    //{
-                    //    delete _powerUp[x];
-                    //    _powerUp[x]==NULL;
-                    //}
-                    //else{
+                    if(_powerUp[x]->getErase())
+                    {
+                        delete _powerUp[x];
+                        _powerUp[x]=NULL;
+                    }
+                    else{
                         _powerUp[x]->update();
-                    //}
+                    }
                 }
             }
         }
@@ -286,6 +315,17 @@ if(_player!=NULL)_player->input();
                 }
             }
         }
+        
+        if(_HUD!=NULL&&_player!=NULL){
+            _HUD->update(_player->getHealth(),_player->getStamina(),
+                    _player->getColor().r, _player->getColor().g,
+            _player->getColor().b, _player->getColor().a);
+        }
+        
+
+        
+        
+        
         checkCollisions();
         _clock->clockRestart();    
     }
@@ -303,10 +343,7 @@ void World::checkCollisions()
     int y;
     
     //Colision Jugador con el entorno
-    
-    
 
-     
     
     //Colision Jugador - Cajas
     
@@ -327,29 +364,43 @@ void World::checkCollisions()
                     if(_player->getPlayer()->spriteIntersectsPixel(_box[x]->getSprite()->getSpriteSprite(),0))
                     {
                         
-                        //Si el jugador puede mover la caja
-                        if(_player->getColor()==sf::Color::Red)
-                        {
-                           sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                        //si la caja no se esta chocando contra la pared.
+                        if(_box[x]->getCollisionWithMap()==false){
+                        
+                            //Si el jugador puede mover la caja
+                            if(_player->getColor()==sf::Color::Red)
+                            {
+                               sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                        _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
+
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
+                                        _player->getPreviousSituation()->getPositionY());
+
+                                _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                            }
+                            //Si el jugador no puede mover la caja.
+                            else
+                            {
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                     _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
 
-                            _player->getActualSituation()->setPosition(_player->getPreviousSituation()->getPositionX(),
-                                    _player->getPreviousSituation()->getPositionY());
+                                _box[x]->setCollisionObject(true);                           
+                            }
+                        
+                        }
+                        else{
+                                sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
 
-                            _box[x]->setCollisionPlayerDirection(true, _player->getDirection().x, _player->getDirection().y);                            
+                                _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                                _box[x]->setCollisionObject(true);    
                         }
-                        //Si el jugador no puede mover la caja.
-                        else
-                        {
-                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
-                                _player->getActualSituation(), _player->getSpeed(), _box[x]->getSprite());
                         
-                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
-                        
-                            _box[x]->setCollisionObject(true);                           
-                        }
                                         
                     }
                 }
@@ -595,6 +646,11 @@ void World::render(RenderWindow* _renderWindow)
         }
     }
     
+    if(_stairs!=NULL)
+    {
+        _renderWindow->windowDraw(_stairs->getSprite());
+    }
+    
 
     if(_switch!=NULL)
     {
@@ -712,6 +768,14 @@ void World::render(RenderWindow* _renderWindow)
             _renderWindow->windowDraw(_map[2][y][x]);
         }
     }
+    
+    
+    if(_HUD!=NULL){
+        _renderWindow->windowDraw(_HUD->getLife());
+        _renderWindow->windowDraw(_HUD->getRectangle());
+        _renderWindow->windowDraw(_HUD->getStamina());
+    }
+    
 }
 
 World::World(const World& orig)
@@ -870,11 +934,22 @@ World::~World()
         _bullet=NULL;
     }
     
-    /*
+    if(_stairs!=NULL){
+        delete _stairs;
+        _stairs=NULL;
+    }
+    
+    if(_HUD!=NULL){
+        //delete _HUD; //?????????????????????
+        _HUD=NULL;
+    }
+    
+    
+    
     if(_player!=NULL){
-        delete _player; //??????????????????
+        //delete _player; //??????????????????
         _player=NULL;
-    }*/
+    }
     
     if(_pinstance!=NULL){
         delete _pinstance; //??????
