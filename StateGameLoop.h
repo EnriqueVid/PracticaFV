@@ -43,6 +43,7 @@ public:
     static StateGameLoop* _pinstance;
     Texture* _t1;
     Sprite* _s1;
+    int _aux;
     
 };
 

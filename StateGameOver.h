@@ -41,7 +41,6 @@ public:
     static StateGameOver* _pinstance;
     Texture* _tgameover;
     Sprite* _sgameover;
-    
 };
 #endif /* STATEGAMEOVER_H */
 
