@@ -190,7 +190,7 @@ void Box::update(int** _collisionMap){
         collision();
     }
     
-    if(_collisionEnemy)impact(); //el impacto enemigo baja la vida de la caja.
+    //if(_collisionEnemy)impact(); //el impacto enemigo baja la vida de la caja.
     
     
     
