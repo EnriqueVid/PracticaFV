@@ -28,7 +28,7 @@ StateGameLoop* StateGameLoop::Instance()
 
 StateGameLoop::StateGameLoop()
 {
-    std::cout<<"Creado el state GAMELOOP"<<std::endl;
+    //std::cout<<"Creado el state GAMELOOP"<<std::endl;
     
     _t1 = new Texture("./textures/startbg.png");
     _s1 = new Sprite();
@@ -61,7 +61,7 @@ State* StateGameLoop::GetNextState(int which)
 }
 void  StateGameLoop::test()
 {
-    std::cout <<"Juego en Marcha" << std::endl;
+    //std::cout <<"Juego en Marcha" << std::endl;
 }
 State*  StateGameLoop::getState()
 {
@@ -73,7 +73,7 @@ int  StateGameLoop::getStateNumber()
 }
 int  StateGameLoop::update(RenderWindow* window)
 {
-    std::cout<<"GAME LOOP"<<endl;
+    //std::cout<<"GAME LOOP"<<endl;
     Input* input = Input::Instance();
     input->inputInput();
   
