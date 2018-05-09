@@ -160,7 +160,7 @@ int main()
     
     World* world = World::Instance();
     
-    world->buildWorld(1);
+    world->buildWorld(0);
     
     //enemyBounce->update();
     
