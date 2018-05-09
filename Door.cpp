@@ -46,8 +46,6 @@ PUERTAS HORIZONTALES
      */
     
     
-    if(_doorType==0)_doorType=2;
-    if(_doorType==1)_doorType=3;
     
     if(_doorType==0)
     {
@@ -57,7 +55,7 @@ PUERTAS HORIZONTALES
     }
     else if(_doorType==1)
     {
-        _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _sprite = new Sprite(texture,sf::IntRect(64,32,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
         _initialPosition=initialPosY;
         _maxPosition=initialPosY+32;
     }
