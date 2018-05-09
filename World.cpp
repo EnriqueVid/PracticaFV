@@ -105,14 +105,12 @@ void World::buildWorld(int lvlNumber)
     _stairs = _levelFactory->getLevelFactoryStairs();
     
     _player = Player::Instance();
-    _player->unlockAllPowerUps();
+    //_player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
     
-    _enemyBounceNumber=1;
-    _enemyBounce = new EnemyBounce*[1];
-    _enemyBounce[0] = new EnemyBounce(_texture[3], sf::Vector2f(16.0f,16.0f), sf::Vector2f (224.0f,384.0f), sf::Vector2f(1.0f,1.0f), "uldr");
+    
 }
 
 void World::buildTestObjects()
@@ -318,6 +316,7 @@ if(_player!=NULL)_player->input();
                 if(_door[x]!=NULL)
                 {
                     _door[x]->update();
+                    cout<<"puerta-------"<<endl;
                 }
             }
         }

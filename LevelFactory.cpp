@@ -80,6 +80,10 @@ void LevelFactory::levelFactoryMapSelector()
         case 0:
             _mapName = "./Maps/Level-0.tmx";
             break;
+        
+        case 1:
+            _mapName = "./Maps/Level-1.tmx";
+            break;
             
         default:
             _mapName = "";
@@ -379,6 +383,7 @@ void LevelFactory::levelFactoryMapCreator()
         
         switch(gid)
         {
+            
             case 161://Player
                 cout<<"Player"<<endl;
                 object->QueryFloatAttribute("x", &oX);
@@ -387,6 +392,7 @@ void LevelFactory::levelFactoryMapCreator()
                 oY -= 16;
                 rect = new sf::IntRect(0, 0, 32, 32);
                 _player->setPlayer(_playerTexture, rect, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f));
+                cout<<"Player x,y: "<<oX<<", "<<oY<<endl;
                 break;
             
             case 182:// EnemyBounce
