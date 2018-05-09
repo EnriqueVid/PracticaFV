@@ -80,7 +80,11 @@ int StateGameOver::update(RenderWindow* window)
   
   if(input->inputCheck(12) || input->inputCheck(14))
   {
+      
+    Player* pj = Player::Instance();
+    pj->setHealth(200.f);
     return 1;
+    
   }else{
       window->windowClear();
       _sgameover->setSpritePosition(window->getWindowWindow()->getView().getCenter());
