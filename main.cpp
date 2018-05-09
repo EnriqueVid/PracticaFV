@@ -160,7 +160,8 @@ int main()
     
     World* world = World::Instance();
     
-    world->buildWorld(0);
+    world->buildWorld(-1);
+
     
     //enemyBounce->update();
     
@@ -181,11 +182,11 @@ int main()
         }else if(which == 2)
         {   
             
-            
-            which = StateGameLoop::Instance()->update(window);
-            
-            
         world->update();
+            
+        which = StateGameLoop::Instance()->update(window);
+            
+            
         
 
         window->windowClear();

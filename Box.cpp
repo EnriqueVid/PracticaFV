@@ -275,7 +275,7 @@ Box::~Box() {
     std::cout <<"Deleting Box" << std::endl;
 
     if(_clock!=NULL){
-    delete _clock;
+        delete _clock;
     _clock = NULL;        
     }
 

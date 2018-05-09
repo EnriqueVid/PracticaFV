@@ -282,6 +282,7 @@ if(_player!=NULL)_player->input();
             {
                 if(_box[x]->getErase())
                 {
+                    
                     delete _box[x];
                     _box[x]==NULL;
                 }
@@ -393,11 +394,6 @@ if(_player!=NULL)_player->input();
                     _player->getColor().r, _player->getColor().g,
             _player->getColor().b, _player->getColor().a);
         }
-        
-
-        
-        
-        
         checkCollisions();
         _clock->clockRestart();    
     }

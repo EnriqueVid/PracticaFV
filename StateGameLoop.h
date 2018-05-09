@@ -17,6 +17,7 @@
 #include "Texture.h"
 #include "StateStart.h"
 #include "Player.h"
+#include "World.h"
 #include <iostream>
 
 class StateGameLoop : public State {

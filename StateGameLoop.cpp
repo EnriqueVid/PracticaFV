@@ -12,6 +12,7 @@
  */
 
 #include "StateGameLoop.h"
+#include "World.h"
 
 
 StateGameLoop* StateGameLoop::_pinstance = 0;
@@ -77,7 +78,8 @@ int  StateGameLoop::update(RenderWindow* window)
     //std::cout<<"GAME LOOP"<<endl;
     Input* input = Input::Instance();
     input->inputInput();
-  
+
+
     
     if(Player::Instance()->getHealth() <= 0 || input->inputCheck(10))
     {   
@@ -98,6 +100,7 @@ int  StateGameLoop::update(RenderWindow* window)
         
         return 2;
     }
+    
     
 }
 
