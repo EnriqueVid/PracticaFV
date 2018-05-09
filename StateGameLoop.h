@@ -17,6 +17,7 @@
 #include "Texture.h"
 #include "StateStart.h"
 #include "Player.h"
+#include "World.h"
 #include <iostream>
 
 class StateGameLoop : public State {
@@ -43,6 +44,7 @@ public:
     static StateGameLoop* _pinstance;
     Texture* _t1;
     Sprite* _s1;
+    int _aux;
     
 };
 

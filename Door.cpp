@@ -45,17 +45,37 @@ PUERTAS HORIZONTALES
 3 - Parte derecha de una puerta
      */
     
-    if(doorType==0)
+    
+    if(_doorType==0)_doorType=2;
+    if(_doorType==1)_doorType=3;
+    
+    if(_doorType==0)
     {
         _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));
         _initialPosition=initialPosY;
         _maxPosition=initialPosY-32;
     }
-    else if(doorType==1)
+    else if(_doorType==1)
     {
-        _sprite = new Sprite(texture,sf::IntRect(64,32,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
         _initialPosition=initialPosY;
         _maxPosition=initialPosY+32;
+    }
+    else if(_doorType==2)
+    {
+        _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _initialPosition=initialPosX;
+        _maxPosition=initialPosX-32;
+        _previousSituation->setAngle(270);
+        _actualSituation->setAngle(270);
+    }
+    else if(_doorType==3)
+    {
+        _sprite = new Sprite(texture,sf::IntRect(64,0,32,32),sf::Vector2f(32.0f,32.0f),sf::Vector2f(340.0f,340.0f),sf::Vector2f(1.0f,1.0f));    
+        _initialPosition=initialPosX;
+        _maxPosition=initialPosX+32;
+        _previousSituation->setAngle(90);
+        _actualSituation->setAngle(90);
     }
     else
     {
@@ -94,6 +114,7 @@ void Door::update()
 {
         
     newSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY(),_actualSituation->getAngle());
+    
     
     _sprite->setSpritePosition(_actualSituation->getPosition());
     _sprite->setSpriteRotation(_actualSituation->getAngle());
@@ -172,6 +193,12 @@ void Door::move(){
         else if(_doorType==1){
             setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()+_speed,_actualSituation->getAngle());            
         }
+        else if(_doorType==2){
+            setActualSituation(_actualSituation->getPositionX()-_speed,_actualSituation->getPositionY(),_actualSituation->getAngle());            
+        }
+        else if(_doorType==3){
+            setActualSituation(_actualSituation->getPositionX()+_speed,_actualSituation->getPositionY(),_actualSituation->getAngle());            
+        }
     }
     else if(_closing){
         if(_doorType==0){
@@ -180,6 +207,12 @@ void Door::move(){
         else if(_doorType==1){
             setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()-_speed,_actualSituation->getAngle());            
         }        
+        else if(_doorType==2){
+            setActualSituation(_actualSituation->getPositionX()+_speed,_actualSituation->getPositionY(),_actualSituation->getAngle());            
+        }
+        else if(_doorType==3){
+            setActualSituation(_actualSituation->getPositionX()-_speed,_actualSituation->getPositionY(),_actualSituation->getAngle());            
+        }
     }
 }
 
@@ -192,6 +225,16 @@ bool Door::checkMaxPositionOpening()
     }
     else if(_doorType==1){
         if(_actualSituation->getPositionY()>=_maxPosition){
+            return true;
+        }
+    }
+    else if(_doorType==2){
+        if(_actualSituation->getPositionX()<=_maxPosition){
+            return true;
+        }
+    }
+    else if(_doorType==3){
+        if(_actualSituation->getPositionX()>=_maxPosition){
             return true;
         }
     }
@@ -210,12 +253,25 @@ bool Door::checkMaxPositionClosing()
             return true;
         }
     }
+    else if(_doorType==2){
+        if(_actualSituation->getPositionX()>=_initialPosition){
+            return true;
+        }
+    }
+    else if(_doorType==3){
+        if(_actualSituation->getPositionX()<=_initialPosition){
+            return true;
+        }
+    }
     return false;
 }
 
 void Door::fixPositionClosing(){
     if(_doorType==0||_doorType==1){
         setActualSituation(_actualSituation->getPositionX(), _initialPosition, _actualSituation->getAngle());
+    }
+    else if(_doorType==2||_doorType==3){
+        setActualSituation( _initialPosition,_actualSituation->getPositionY(), _actualSituation->getAngle());
     }
 }
 

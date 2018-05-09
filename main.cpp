@@ -181,11 +181,11 @@ int main()
         }else if(which == 2)
         {   
             
-            
-            which = StateGameLoop::Instance()->update(window);
-            
-            
         world->update();
+            
+        which = StateGameLoop::Instance()->update(window);
+            
+            
         
 
         window->windowClear();

@@ -29,50 +29,53 @@ StateStart* StateStart::Instance()
 StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
-    
+    _sview = new View();
     _tstartbg = new Texture();
     _tstartbutton = new Texture();
-    _sstartbg = new Sprite();
-    _sstartbutton = new Sprite();
     _tpj1 = new Texture();
     _tpj2 = new Texture();
     _tpj3 = new Texture();
     _tpj4 = new Texture();
-    
-    _spj1 = new Sprite();
-    _spj2 = new Sprite();
-    _spj3 = new Sprite();
-    _spj4 = new Sprite();
-    
-    _tstartbg->textureLoadFromFile("./textures/startbg.png");
-    _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
-  
-    _sstartbg->setSpriteTexture(_tstartbg);
-    _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
-
-    
-    _sstartbutton->setSpriteTexture(_tstartbutton);
-    _sstartbutton->setSpriteOrigin(sf::Vector2f(_sstartbutton->getSpriteTexture().getSize().x/2.f, _sstartbutton->getSpriteTexture().getSize().y/2.f));
     
     
     _tpj1->textureLoadFromFile("./textures/pjWhite.png");
     _tpj2->textureLoadFromFile("./textures/pjRed.png");
     _tpj3->textureLoadFromFile("./textures/pjGreen.png");
     _tpj4->textureLoadFromFile("./textures/pjBlue.png");
+    _tstartbg->textureLoadFromFile("./textures/startbg.png");
+    _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
     
-    _spj1->setSpriteTexture(_tpj1);
-    _spj1->setSpriteOrigin(sf::Vector2f(_spj1->getSpriteTexture().getSize().x/2.f, _spj1->getSpriteTexture().getSize().y/2.f));
+    //INTRECTS
+    sf::IntRect irbg(0,0, 800, 800);
+    sf::IntRect irbutton(0, 0 , 343, 147);
+    sf::IntRect irpj(0, 0 , 32, 32);
+    
+    
+    _sstartbg = new Sprite(_tstartbg, irbg);
+    _sstartbutton = new Sprite(_tstartbutton, irbutton);
+    _spj1 = new Sprite(_tpj1, irpj);
+    _spj2 = new Sprite(_tpj2, irpj);
+    _spj3 = new Sprite(_tpj3, irpj);
+    _spj4 = new Sprite(_tpj4, irpj);
+    
+
+  
+    _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
+
+
+    _sstartbutton->setSpriteOrigin(sf::Vector2f(_sstartbutton->getSpriteTexture().getSize().x/2.f, _sstartbutton->getSpriteTexture().getSize().y/2.f));
+
+    
+    _spj1->setSpriteOrigin(sf::Vector2f(_spj1->getGlobalBounds().width/2.f, _spj1->getGlobalBounds().height/2.f));
     _spj1->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    _spj2->setSpriteTexture(_tpj2);
+
     _spj2->setSpriteOrigin(sf::Vector2f(_spj2->getSpriteTexture().getSize().x/2.f, _spj2->getSpriteTexture().getSize().y/2.f));
     _spj2->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    _spj3->setSpriteTexture(_tpj3);
     _spj3->setSpriteOrigin(sf::Vector2f(_spj3->getSpriteTexture().getSize().x/2.f, _spj3->getSpriteTexture().getSize().y/2.f));    
     _spj3->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    _spj4->setSpriteTexture(_tpj4);
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
@@ -115,23 +118,23 @@ int  StateStart::getStateNumber()
 int  StateStart::update(RenderWindow* window)
 {
     //COLOCAR LOS SPRITES
-    
-        _sstartbg->setSpritePosition(window->getWindowView()->getViewCenter());
-        _sstartbutton->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x, window->getWindowView()->getViewCenter().y+100.f));
-        _spj1->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x,window->getWindowView()->getViewCenter().y+100.f-150.f));
-        _spj2->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x-200.f,window->getWindowView()->getViewCenter().y+300.f));
-        _spj3->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x,window->getWindowView()->getViewCenter().y+300.f));
-        _spj4->setSpritePosition(sf::Vector2f(window->getWindowView()->getViewCenter().x+200.f,window->getWindowView()->getViewCenter().y+300.f));
+        _sview = window->getWindowView();
+        _sstartbg->setSpritePosition(_sview->getViewCenter());
+        _sstartbutton->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x, _sview->getViewCenter().y+100.f));
+        _spj1->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,_sview->getViewCenter().y+100.f-150.f));
+        _spj2->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x-200.f,_sview->getViewCenter().y+300.f));
+        _spj3->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,window->getWindowView()->getViewCenter().y+300.f));
+        _spj4->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x+200.f,_sview->getViewCenter().y+300.f));
         
      //PROSEGUIR
     
     //std::cout<<"START"<<endl;
   Input* input = Input::Instance();
   input->inputInput();
-
-    sf::Vector2i positionmouse = sf::Mouse::getPosition();
+  
+    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38), _sview);
     
-    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x,sf::Mouse::getPosition().y - window->getWindowPosition().y), window->getWindowView());
+    std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     
     if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c))
     {
@@ -165,6 +168,7 @@ int  StateStart::update(RenderWindow* window)
       window->windowDraw(_spj4);
       
       window->windowDisplay();
+      
       
       return 1;
   }
