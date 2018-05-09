@@ -54,5 +54,6 @@ public:
     Sprite* _spj2;
     Sprite* _spj3;
     Sprite* _spj4;
+    View* _sview;
 };
 #endif /* STATESTART_H */

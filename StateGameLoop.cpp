@@ -28,8 +28,9 @@ StateGameLoop* StateGameLoop::Instance()
 
 StateGameLoop::StateGameLoop()
 {
-    //std::cout<<"Creado el state GAMELOOP"<<std::endl;
-    
+    std::cout<<"Creado el state GAMELOOP"<<std::endl;
+    _aux = 0;
+
     _t1 = new Texture("./textures/startbg.png");
     _s1 = new Sprite();
     _s1->setSpriteTexture(_t1);
@@ -78,10 +79,16 @@ int  StateGameLoop::update(RenderWindow* window)
     input->inputInput();
   
     
-    if(Player::Instance()->getHealth() == 0 || input->inputCheck(10))
-    {
-        _pinstance->GetNextState(3);
-        return 3;
+    if(Player::Instance()->getHealth() <= 0 || input->inputCheck(10))
+    {   
+        if(_aux == 3){
+          _pinstance->GetNextState(3);
+            return 3;    
+        }else
+        {
+            _aux = _aux +1;
+            return 2;
+        }
     //HACER DELETE DE TODO;
     }else{
      
