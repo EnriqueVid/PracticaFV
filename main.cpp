@@ -56,13 +56,12 @@ int main()
         }else if(which == 2)
         {   
             which = StateGameLoop::Instance()->update(window);
-            window->windowClear();
             StateGameLoop::Instance()->render(window);
-            window->windowDisplay();  
         }
         else
         {
             which = StateGameOver::Instance()->update(window);
+            
         }
     }
     return 0;

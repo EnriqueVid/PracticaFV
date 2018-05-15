@@ -190,7 +190,6 @@ sf::Vector2f RenderWindow::getViewCenter()
 
 void RenderWindow::resetView()
 {
-    setViewCenter(sf::Vector2f(640, 360));
-    setViewZoom(1);
-    
+    sf::View view = _window->getDefaultView();
+    _window->setView(view);
 }

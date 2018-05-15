@@ -38,9 +38,9 @@ StateGameLoop::StateGameLoop()
     _s1->setSpriteOrigin(sf::Vector2f(_s1->getSpriteTexture().getSize().x/2.f, _s1->getSpriteTexture().getSize().y/2.f));
     _s1->setSpritePosition(sf::Vector2f(400.f, 400.f));
     //FALTA INICIALIZAR WORLD
+    _window = RenderWindow::Instance();
     _world = World::Instance();
     _world->buildWorld(0);
-    _window = RenderWindow::Instance();
     
 }
 
@@ -74,7 +74,6 @@ State*  StateGameLoop::getState()
 }
 int  StateGameLoop::getStateNumber()
 {
-    RenderWindow::Instance()->resetView();
     return 2;
 }
 int  StateGameLoop::update(RenderWindow* window)
@@ -88,13 +87,12 @@ int  StateGameLoop::update(RenderWindow* window)
     if(Player::Instance()->getHealth() <= 0 || input->inputCheck(10))
     {   
         if(_aux == 3){
-          _pinstance->GetNextState(3);
-            RenderWindow::Instance()->resetView();
+            _window->resetView();
+            _pinstance->GetNextState(3);
             return 3;    
         }else
         {
             _aux = _aux +1;
-            RenderWindow::Instance()->resetView();
             return 2;
         }
     //HACER DELETE DE TODO;
@@ -103,7 +101,6 @@ int  StateGameLoop::update(RenderWindow* window)
         //window->windowClear();
         //window->windowDraw(_s1);
         //window->windowDisplay();
-        RenderWindow::Instance()->resetView();
         return 2;
     }
     

@@ -92,13 +92,13 @@ State* StateStart::GetNextState(int which)
 {
     if(which == 2)
     {
-        //RenderWindow::Instance()->resetView();
+        RenderWindow::Instance()->resetView();
         StateGameLoop* stateLoop = StateGameLoop::Instance();
         return stateLoop;
     
     }else if(which == 3)
     {
-        //RenderWindow::Instance()->resetView();
+        RenderWindow::Instance()->resetView();
         StateGameOver* stateover = StateGameOver::Instance();
         return stateover;     
     }
@@ -122,7 +122,6 @@ int  StateStart::getStateNumber()
 int  StateStart::update(RenderWindow* window)
 {
     //COLOCAR LOS SPRITES
-        window->setViewZoom(1);
         _sstartbg->setSpritePosition(window->getViewCenter());
         _sstartbutton->setSpritePosition(sf::Vector2f(window->getViewCenter().x, window->getViewCenter().y+100.f));
         _spj1->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+100.f-150.f));
@@ -140,8 +139,11 @@ int  StateStart::update(RenderWindow* window)
     
     std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     
-    if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c))
+    if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) || input->inputCheck(11))
     {
+        
+        RenderWindow::Instance()->setViewZoom(0.45);
+        RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
         return 2;
     }else{
       
