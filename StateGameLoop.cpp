@@ -80,9 +80,9 @@ int  StateGameLoop::update(RenderWindow* window)
   
     if(Player::Instance()->getHealth() == 0 || input->inputCheck(10) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-    _pinstance->GetNextState(3);
-    return 3;
-    //HACER DELETE DE TODO;
+        //HACER DELETE DE TODO;
+        _pinstance->GetNextState(3);
+        return 3;
     }else{
      
         //window->windowClear();

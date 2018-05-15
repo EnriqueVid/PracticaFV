@@ -21,6 +21,16 @@ Astar::Astar(int** map, int height, int width, int dir)
     _height = height;
     _width = width;
     
+    _path = NULL;
+    
+    _start.x = 0;
+    _start.y = 0;
+    
+    _end.x = 0;
+    _end.y = 0;
+    
+    _meh = "";
+    
     _dir = dir;
     if(_dir == 8)
     {
@@ -127,6 +137,11 @@ Astar::~Astar()
     
     delete[] _dirY;
     _dirY = NULL;
+    
+    if(_path !=NULL){
+        delete[] _path;
+        _path = NULL;
+    }
 }
 
 std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
@@ -140,6 +155,12 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
     char c;
     
     pqi=0;
+    
+    _start.x = start.x;
+    _start.y = start.y;
+    
+    _end.x = end.x;
+    _end.y = end.y;
     
     //Inicializamos todos los nodos posibles a 0
     for(y=0;y<_height;y++)
@@ -180,12 +201,12 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
         {
             // generate the path from finish to start
             // by following the directions
-            std::string path="";
+            _meh="";
             while(!(x==start.x && y==start.y))
             {
                 j=_directions[x][y];
                 c='0'+(j+_dir/2)%_dir;
-                path=c+path;
+                _meh=c+_meh;
                 x+=_dirX[j];
                 y+=_dirY[j];
             }
@@ -198,8 +219,7 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
             {
                 pq[pqi].pop_back();
             }
-            
-            return path;
+            return _meh;
         }
         
         // generate moves (child nodes) in all possible directions
@@ -267,7 +287,8 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
         reordenar(pq[1]);
         delete n0;
     }
-    return "";
+    _meh = "";
+    return _meh;
 }
 
 
@@ -289,4 +310,24 @@ void Astar::reordenar(std::vector<Node*> &list)
             }
         }
     }
+}
+
+sf::Vector2i* Astar::getAbsoluto(std::string path)
+{
+    _path = new sf::Vector2i[path.size()];
+    for(int i=0;i<path.size();i++)
+    {
+        if(i==0)
+        {
+            int m = path.at(i);
+            std::cout<<m<<std::endl;
+            _path[i].x = _dirX[path.at(i)-48] + _start.x;
+            _path[i].y = _dirY[path.at(i)-48] + _start.y;
+        }else
+        {
+            _path[i].x = _dirX[path.at(i)-48] + _path[i-1].x;
+            _path[i].y = _dirY[path.at(i)-48] + _path[i-1].y;
+        }
+    }
+    return _path;
 }
