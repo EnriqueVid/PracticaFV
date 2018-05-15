@@ -1229,3 +1229,9 @@ void Player::setPushedBack(bool b, sf::Vector2f pushedBackDistance)
 }
 
 
+sf::Vector2i Player::getAxis()
+{
+    return _axis;
+}
+
+

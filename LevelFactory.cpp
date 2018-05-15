@@ -469,9 +469,9 @@ void LevelFactory::levelFactoryMapCreator()
                 }
                 else // Horizontal
                 {
-                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 2, timer, doorVel);
+                    _oDoor[_countdoor] = new Door(3, oX, oY-32, 0, false, _objectTexture, 2, timer, doorVel);
                     _countdoor++;
-                    _oDoor[_countdoor] = new Door(3, oX+32, oY, 0, false, _objectTexture, 3, timer, doorVel);
+                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 3, timer, doorVel);
                     _oSwitch[_countbutton]->setDoor(_oDoor[_countdoor-1], _oDoor[_countdoor]);
                     _countdoor++;
                 }
