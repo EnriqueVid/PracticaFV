@@ -23,12 +23,13 @@
 class RenderWindow 
 {
 public:
-    RenderWindow(int width, int height, std::string title);
-    RenderWindow(const RenderWindow& orig);
     
+    
+    static RenderWindow* Instance();
     void windowClear();
     void windowDraw(Sprite* sprite);
     void windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual);
+    void windowInterpolateDrawView(Sprite* sprite, Situation* prev, Situation* actual);
     void windowDraw(Message* message);
     void windowDisplay();
     void windowClose();
@@ -44,13 +45,24 @@ public:
     sf::Vector2i getWindowPosition();
     
     
-    View* getWindowView();
     sf::RenderWindow* getWindowWindow();
     
+    void setViewCenter(sf::Vector2f pos);
+    void setViewZoom(float zoom);
+    sf::Vector2f getViewCenter();
+    
+    void resetView();
+    
     virtual ~RenderWindow();
+    
+protected:
+    RenderWindow();
+    RenderWindow(int width, int height, std::string title);
+    RenderWindow(const RenderWindow& orig);
+    
 private:
+    static RenderWindow* _pinstance;
     sf::RenderWindow* _window;
-    View* _view;
     float _percentTick;
 };
 

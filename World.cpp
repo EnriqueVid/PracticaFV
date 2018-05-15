@@ -110,7 +110,8 @@ void World::buildWorld(int lvlNumber)
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
     
-    
+    RenderWindow::Instance()->setViewZoom(0.45);
+    RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
 }
 
 void World::buildTestObjects()
@@ -1025,6 +1026,7 @@ void World::render(RenderWindow* _renderWindow)
         
     
     _renderWindow->updatePercentTick(_percentTick);
+    RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
 
         
     int x;
@@ -1052,12 +1054,13 @@ void World::render(RenderWindow* _renderWindow)
             if(_switch[x]!=NULL)
             {
                 _renderWindow->windowDraw(_switch[x]->getSprite());
+                
             }
         }
     }
     
     if(_player!=NULL){
-        _renderWindow->windowInterpolateDraw(_player->getPlayer(),_player->getPreviousSituation(),_player->getActualSituation());
+        _renderWindow->windowInterpolateDrawView(_player->getPlayer(),_player->getPreviousSituation(),_player->getActualSituation());
     }
     
     if(_bullet!=NULL){
@@ -1168,6 +1171,8 @@ void World::render(RenderWindow* _renderWindow)
         _renderWindow->windowDraw(_HUD->getRectangle());
         _renderWindow->windowDraw(_HUD->getStamina());
     }
+    
+    
     
 }
 

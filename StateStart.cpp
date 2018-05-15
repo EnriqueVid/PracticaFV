@@ -79,6 +79,8 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
+    
+    
 }
 
 StateStart::StateStart(const StateStart & )
@@ -90,11 +92,13 @@ State* StateStart::GetNextState(int which)
 {
     if(which == 2)
     {
+        //RenderWindow::Instance()->resetView();
         StateGameLoop* stateLoop = StateGameLoop::Instance();
         return stateLoop;
     
     }else if(which == 3)
     {
+        //RenderWindow::Instance()->resetView();
         StateGameOver* stateover = StateGameOver::Instance();
         return stateover;     
     }
@@ -118,13 +122,13 @@ int  StateStart::getStateNumber()
 int  StateStart::update(RenderWindow* window)
 {
     //COLOCAR LOS SPRITES
-        _sview = window->getWindowView();
-        _sstartbg->setSpritePosition(_sview->getViewCenter());
-        _sstartbutton->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x, _sview->getViewCenter().y+100.f));
-        _spj1->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,_sview->getViewCenter().y+100.f-150.f));
-        _spj2->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x-200.f,_sview->getViewCenter().y+300.f));
-        _spj3->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,window->getWindowView()->getViewCenter().y+300.f));
-        _spj4->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x+200.f,_sview->getViewCenter().y+300.f));
+        window->setViewZoom(1);
+        _sstartbg->setSpritePosition(window->getViewCenter());
+        _sstartbutton->setSpritePosition(sf::Vector2f(window->getViewCenter().x, window->getViewCenter().y+100.f));
+        _spj1->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+100.f-150.f));
+        _spj2->setSpritePosition(sf::Vector2f(window->getViewCenter().x-200.f,window->getViewCenter().y+300.f));
+        _spj3->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+300.f));
+        _spj4->setSpritePosition(sf::Vector2f(window->getViewCenter().x+200.f,window->getViewCenter().y+300.f));
         
      //PROSEGUIR
     

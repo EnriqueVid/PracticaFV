@@ -33,138 +33,12 @@ using namespace std;
 
 int main()
 {
-    RenderWindow* window = new RenderWindow(800, 800, "Esto es una prueba");
+    RenderWindow* window = RenderWindow::Instance();
     
     StateStart::Instance();
     
     int which = StateStart::Instance()->getStateNumber();
-    /*
-    while(window->windowIsOpen()){
-        
-        Event* event;
-        while(window->windowPollEvent(event))
-        {
-            if(event->getEventType() == 1)
-            {
-                window->windowClose();
-            }
-        }
-        
-        if(which == 1)
-        {
-            which = StateStart::Instance()->update(window);
-            
-        }else if(which == 2)
-        {   
-            which = StateGameLoop::Instance()->update(window);
-        }else{
-            which = StateGameOver::Instance()->update(window);
-        }
-        
-    }
-    */
-    
-    Texture* enemyTex = new Texture("./textures/EnemyTiles.png");
-    
-    bool dado = false;
-    
-    Astar* astar;
-    
-    int** map;
-    
-    int width = 25;
-    int height = 25;
-    
-    int* _dirX;
-    int* _dirY;
-    
-    sf::Vector2i start;
-    sf::Vector2i end;
-    sf::Vector2i* camino;
-    
-        _dirX = new int[8];
-        _dirY = new int[8];
-        
-        _dirX[0] = 1;
-        _dirY[0] = 0;
-        
-        _dirX[1] = 1;
-        _dirY[1] = 1;
-        
-        _dirX[2] = 0;
-        _dirY[2] = 1;
-        
-        _dirX[3] = -1;
-        _dirY[3] = 1;
-        
-        _dirX[4] = -1;
-        _dirY[4] = 0;
-        
-        _dirX[5] = -1;
-        _dirY[5] = -1;
-        
-        _dirX[6] = 0;
-        _dirY[6] = -1;
-        
-        _dirX[7] = 1;
-        _dirY[7] = -1;
-    
-    start.x = 1;
-    start.y = 1;
-    
-    end.x = 10;
-    end.y = 10;
-    
-    map = new int*[height];
-    for(int i=0;i<height;i++)
-    {
-        map[i] = new int[width];
-        for(int j=0;j<width;j++)
-        {
-            map[i][j] = 1;
-        }
-    }
-    
-
-    
-    map[2][2] = 2;
-
-    astar = new Astar(map, width, height, 8);
-    
-    string meh = astar->pathfind(start, end);
-    
-    camino = new sf::Vector2i[meh.size()];
-    
-    for(int i=0;i<meh.size();i++)
-    {
-        if(i==0)
-        {
-            int m = meh.at(i);
-            cout<<m<<endl;
-            camino[i].x = _dirX[meh.at(i)-48] + start.x;
-            camino[i].y = _dirY[meh.at(i)-48] + start.y;
-        }else
-        {
-            camino[i].x = _dirX[meh.at(i)-48] + camino[i-1].x;
-            camino[i].y = _dirY[meh.at(i)-48] + camino[i-1].y;
-        }
-    }
-    
     Event* ev = new Event();
-    Input* in = Input::Instance();
-    Clock* clc = new Clock();
-    
-    window->setWindowFramerateLimit(60);
-    
-    std::cout<<"Checkpoint 1"<<endl;
-    
-    World* world = World::Instance();
-    
-    world->buildWorld(-1);
-
-    
-    //enemyBounce->update();
-    
     while(window->windowIsOpen())
     {
         while(window->windowPollEvent(ev))
@@ -181,101 +55,15 @@ int main()
             
         }else if(which == 2)
         {   
-            
-        world->update();
-            
-        which = StateGameLoop::Instance()->update(window);
-            
-            
-        
-
-        window->windowClear();
-        
-        
-        
-        world->render(window);
-
-
-        if(in->inputCheck(12) && !dado)
-        {
-            dado=true;
-            cout<<"Revisando A* al pulsar espacio"<<endl;
-            
-            
-            map[start.y][start.x] = 3;
-            map[end.y][end.x] = 3;
-            map[2][2] = 2;
-            for(int i=0;i<height;i++)
-            {
-                for(int j=0;j<width;j++)
-                {
-                    cout<<map[i][j];
-                }
-                cout<<endl;
-            }
-            
-            cout<<meh<<endl;
-            for(int i=0;i<meh.size();i++)
-            {
-                cout<<camino[i].x<<", "<<camino[i].y<<endl;
-            }
+            which = StateGameLoop::Instance()->update(window);
+            window->windowClear();
+            StateGameLoop::Instance()->render(window);
+            window->windowDisplay();  
         }
-
-        
-        
-        
-        window->windowDisplay();
-            
-        }else{
+        else
+        {
             which = StateGameOver::Instance()->update(window);
         }
-        /*
-        world->update();
-        
-
-        window->windowClear();
-        
-        
-        
-        world->render(window);
-
-        
-        window->windowInterpolateDraw(enemyChase->getConeSprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
-        window->windowInterpolateDraw(enemyChase->getEnemySprite(), enemyChase->getEnemyPreviousSituation(), enemyChase->getEnemyActualSituation());
-
-        if(in->inputCheck(12) && !dado)
-        {
-            dado=true;
-            cout<<"Revisando A* al pulsar espacio"<<endl;
-            
-            
-            map[start.y][start.x] = 3;
-            map[end.y][end.x] = 3;
-            map[2][2] = 2;
-            for(int i=0;i<height;i++)
-            {
-                for(int j=0;j<width;j++)
-                {
-                    cout<<map[i][j];
-                }
-                cout<<endl;
-            }
-            
-            cout<<meh<<endl;
-            for(int i=0;i<meh.size();i++)
-            {
-                cout<<camino[i].x<<", "<<camino[i].y<<endl;
-            }
-        }
-
-        
-        window->windowDraw(hud->getLife());
-        window->windowDraw(hud->getRectangle());
-        window->windowDraw(hud->getStamina());
-        
-        
-        window->windowDisplay();
-        */
     }
     return 0;
 }

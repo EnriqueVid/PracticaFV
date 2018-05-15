@@ -44,11 +44,13 @@ State* StateGameOver::GetNextState(int which)
 {
     if(which == 1)
     {
+        //RenderWindow::Instance()->resetView();
         StateStart* statestart = StateStart::Instance();
         return statestart;
         
     }else if(which == 2)
     {
+        //RenderWindow::Instance()->resetView();
         StateGameLoop* stateloop = StateGameLoop::Instance();
         return stateloop;     
     }
