@@ -35,8 +35,8 @@ public:
     void windowClose();
     bool windowIsOpen();
     bool windowPollEvent(Event* ev);
-    sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position, View* view);
-    sf::Vector2f windowMapPixelToCoords(sf::Vector2i position, View* view);
+    sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position);
+    sf::Vector2f windowMapPixelToCoords(sf::Vector2i position);
     void updatePercentTick(float pt);
     
     void setWindowFramerateLimit(int fps);
@@ -49,6 +49,7 @@ public:
     
     void setViewCenter(sf::Vector2f pos);
     void setViewZoom(float zoom);
+    void setViewRotate(float rot);
     sf::Vector2f getViewCenter();
     
     void resetView();

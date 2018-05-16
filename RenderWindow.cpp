@@ -14,6 +14,7 @@
 #include "RenderWindow.h"
 #include "Event.h"
 #include "Message.h"
+#include "Hud.h"
 
 RenderWindow* RenderWindow::_pinstance = 0;
 RenderWindow* RenderWindow::Instance()
@@ -112,6 +113,7 @@ void RenderWindow::windowInterpolateDrawView(Sprite* sprite, Situation* prev, Si
     sprite->setSpriteRotation(g);
     
     setViewCenter(sf::Vector2f(x, y));
+    Hud::Instance()->setPosition();
     
     _window->draw(sprite->getSpriteSprite());
 }
@@ -132,14 +134,14 @@ bool RenderWindow::windowPollEvent(Event* ev)
     return _window->pollEvent(*ev->getEventEvent());
 }
 
-sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position, View* view)
+sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position)
 {
-    return _window->mapCoordsToPixel(position,view->getViewView());
+    return _window->mapCoordsToPixel(position,_window->getView());
 }
 
-sf::Vector2f RenderWindow::windowMapPixelToCoords(sf::Vector2i position, View* view)
+sf::Vector2f RenderWindow::windowMapPixelToCoords(sf::Vector2i position)
 {
-    return _window->mapPixelToCoords(position,view->getViewView());
+    return _window->mapPixelToCoords(position,_window->getView());
 }
 
 void RenderWindow::updatePercentTick(float pt)
@@ -179,6 +181,14 @@ void RenderWindow::setViewZoom(float zoom)
 {
     sf::View view= _window->getView();
     view.zoom(zoom);
+    
+    _window->setView(view);
+} 
+
+void RenderWindow::setViewRotate(float rot)
+{
+    sf::View view= _window->getView();
+    view.rotate(rot);
     
     _window->setView(view);
 } 

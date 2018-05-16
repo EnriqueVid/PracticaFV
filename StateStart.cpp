@@ -122,7 +122,7 @@ int  StateStart::getStateNumber()
 int  StateStart::update(RenderWindow* window)
 {
     //COLOCAR LOS SPRITES
-        window->setViewZoom(1);
+        //window->setViewZoom(1);
         _sstartbg->setSpritePosition(window->getViewCenter());
         _sstartbutton->setSpritePosition(sf::Vector2f(window->getViewCenter().x, window->getViewCenter().y+100.f));
         _spj1->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+100.f-150.f));
@@ -136,7 +136,7 @@ int  StateStart::update(RenderWindow* window)
   Input* input = Input::Instance();
   input->inputInput();
   
-    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38), _sview);
+    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38));
     
     std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     

@@ -56,6 +56,9 @@ World::World()
     _stairs=NULL;
     
     _destroytheworld = false;
+    _nextLevel = false;
+    _nextLevelCount = 0;
+    _levelDone = false;
     //cout <<"World created."<<endl;
 }
 
@@ -111,7 +114,7 @@ void World::buildWorld(int lvlNumber)
     _HUD->setSprites(_texture[0]);
     
     RenderWindow::Instance()->setViewZoom(0.45);
-    RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
 }
 
 void World::buildTestObjects()
@@ -632,6 +635,8 @@ void World::checkCollisions()
             if(_player->getPlayer()->spriteIntersectsPixel(_stairs->getSprite()->getSpriteSprite(),0))
             {            
                 //PASAMOS AL SIGUIENTE NIVEL
+                cout<<"Hola"<<endl;
+                _nextLevel = true;
             }
         }
     }
@@ -1025,12 +1030,28 @@ void World::render(RenderWindow* _renderWindow)
     //RENDER DE TODOS LOS OBJETOS
         
     
+    
     _renderWindow->updatePercentTick(_percentTick);
-    RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
 
-        
+    
+
+    
     int x;
     
+    if(_nextLevel == true)
+    {
+        if(_nextLevelCount < 1000)
+        {
+            _renderWindow->setViewZoom(1.005);
+            _renderWindow->setViewRotate(0.3);
+            _nextLevelCount++;
+        }
+        else
+        {
+            _levelDone = true;
+        }
+    }
 
     for (int y=0; y<_mapHeight; y++)
     {
@@ -1359,3 +1380,7 @@ World::~World()
 
 }
 
+bool World::getLevelDone()
+{
+    return _levelDone;
+}
