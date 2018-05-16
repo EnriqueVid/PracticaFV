@@ -108,7 +108,7 @@ void World::buildWorld(int lvlNumber)
     _stairs = _levelFactory->getLevelFactoryStairs();
     
     _player = Player::Instance();
-    _player->unlockAllPowerUps();
+    //_player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
