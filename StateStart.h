@@ -30,11 +30,11 @@ public:
     virtual State* getState();
     virtual int getStateNumber();
     virtual int update(RenderWindow* window);
-    
+    virtual ~StateStart();
     static StateStart* Instance();
     
     protected:
-        virtual ~StateStart();
+        
         StateStart();
         StateStart(const StateStart & );
         StateStart &operator= (const StateStart & ){};
@@ -54,5 +54,6 @@ public:
     Sprite* _spj2;
     Sprite* _spj3;
     Sprite* _spj4;
+    View* _sview;
 };
 #endif /* STATESTART_H */

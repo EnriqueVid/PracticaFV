@@ -17,6 +17,7 @@
 #include "Texture.h"
 #include "StateStart.h"
 #include "Player.h"
+#include "World.h"
 #include <iostream>
 
 class StateGameLoop : public State {
@@ -29,10 +30,12 @@ public:
     virtual State* getState();
     virtual int getStateNumber();
     virtual int update(RenderWindow* window);
+    virtual void render(RenderWindow* window);
+    virtual ~StateGameLoop();
     
     static StateGameLoop* Instance();
     protected:
-        virtual ~StateGameLoop();
+        
         StateGameLoop();
         StateGameLoop(const StateGameLoop & );
         StateGameLoop &operator= (const StateGameLoop & ){};
@@ -43,6 +46,9 @@ public:
     static StateGameLoop* _pinstance;
     Texture* _t1;
     Sprite* _s1;
+    int _aux;
+    World* _world;
+    RenderWindow* _window;
     
 };
 

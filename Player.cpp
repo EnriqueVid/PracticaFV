@@ -127,6 +127,10 @@ void Player::setPlayer(Texture* texture, sf::IntRect* box, sf::Vector2f origin, 
     
     _sprite = new Sprite(texture,getAnimation(0),origin,position,scale,_animationNumFrames,_animationTime);
    //_sprite = new Sprite(texture, *box, origin, position, scale);
+    
+
+    
+    
 }
 
 void Player::input()
@@ -989,6 +993,7 @@ void Player::unlockAllPowerUps()
     _redUnlocked=true;
     _blueUnlocked=true;
     _greenUnlocked=true;
+    _color=sf::Color::White;
 }
     
 void Player::lockAllPowerUps()
@@ -1221,6 +1226,12 @@ void Player::setPushedBack(bool b, sf::Vector2f pushedBackDistance)
     _pushedBack=b;
     _pushedBackDistance.x = pushedBackDistance.x;
     _pushedBackDistance.y = pushedBackDistance.y;
+}
+
+
+sf::Vector2i Player::getAxis()
+{
+    return _axis;
 }
 
 

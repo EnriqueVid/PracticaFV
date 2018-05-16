@@ -86,20 +86,20 @@ void EnemyBounce::updateStateIdle(int** map)
             setEnemyAxis(sf::Vector2i(0,-1));
             setEnemyDirection(sf::Vector2i(0,-1));
             
-            if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
-            {
-                enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
-            }
-            else
+            if(map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] == 2 || map[int(getEnemyActualSituation()->getPosition().y-16-getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] == 2)
             {
                 sf::Vector2f aux;
-                while(map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+                while(map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 && map[int(getEnemyActualSituation()->getPosition().y-17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
                 {
                     aux.x = getEnemyActualSituation()->getPosition().x;
                     aux.y = getEnemyActualSituation()->getPosition().y-1;
                     setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
                 }
                 _actualStep++;
+            }
+            else
+            {
+                enemyMove(sf::Vector2f(0.0f, -1.0f), 180.0f);
             }
             break;
             
@@ -108,20 +108,20 @@ void EnemyBounce::updateStateIdle(int** map)
             setEnemyAxis(sf::Vector2i(0,1));
             setEnemyDirection(sf::Vector2i(0,1));
             
-            if(map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
-            {
-                enemyMove(sf::Vector2f(0.0f, 1.0f), 0.0f);
-            }
-            else
+            if(map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x-16)/32] == 2 || map[int(getEnemyActualSituation()->getPosition().y+16+getEnemySpeed())/32][int(getEnemyActualSituation()->getPosition().x+16)/32] == 2)
             {
                 sf::Vector2f aux;
-                while(map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
+                while(map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x-16)/32] != 2 && map[int(getEnemyActualSituation()->getPosition().y+17)/32][int(getEnemyActualSituation()->getPosition().x+16)/32] != 2)
                 {
                     aux.x = getEnemyActualSituation()->getPosition().x;
                     aux.y = getEnemyActualSituation()->getPosition().y+1;
                     setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
                 }
                 _actualStep++;
+            }
+            else
+            {
+                enemyMove(sf::Vector2f(0.0f, 1.0f), 0.0f);
             }
             break;
             
@@ -130,20 +130,20 @@ void EnemyBounce::updateStateIdle(int** map)
             setEnemyAxis(sf::Vector2i(-1,0));
             setEnemyDirection(sf::Vector2i(-1,0));
             
-            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] != 2)
-            {
-                enemyMove(sf::Vector2f(-1.0f, 0.0f), 90.0f);
-            }
-            else
+            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] == 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-16-getEnemySpeed())/32] == 2)
             {
                 sf::Vector2f aux;
-                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2)
+                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2 && map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x-17)/32] != 2)
                 {
                     aux.x = getEnemyActualSituation()->getPosition().x-1;
                     aux.y = getEnemyActualSituation()->getPosition().y;
                     setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
                 }
                 _actualStep++;
+            }
+            else
+            {
+                enemyMove(sf::Vector2f(-1.0f, 0.0f), 90.0f);
             }
             break;
             
@@ -152,20 +152,20 @@ void EnemyBounce::updateStateIdle(int** map)
             setEnemyAxis(sf::Vector2i(1,0));
             setEnemyDirection(sf::Vector2i(1,0));
             
-            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] != 2)
-            {
-                enemyMove(sf::Vector2f(1.0f, 0.0f), 270.0f);
-            }
-            else
+            if(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] == 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+16+getEnemySpeed())/32] == 2)
             {
                 sf::Vector2f aux;
-                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2 || map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2)
+                while(map[int(getEnemyActualSituation()->getPosition().y+16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2 && map[int(getEnemyActualSituation()->getPosition().y-16)/32][int(getEnemyActualSituation()->getPosition().x+17)/32] != 2)
                 {
                     aux.x = getEnemyActualSituation()->getPosition().x+1;
                     aux.y = getEnemyActualSituation()->getPosition().y;
                     setEnemyActualSituation(aux, getEnemyActualSituation()->getAngle());
                 }
                 _actualStep++;
+            }
+            else
+            {
+                enemyMove(sf::Vector2f(1.0f, 0.0f), 270.0f);
             }
             break;
     }

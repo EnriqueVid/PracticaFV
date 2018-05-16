@@ -23,6 +23,7 @@ public:
     
     void update(float life, float stamina, int r, int g, int b, int a);
     void setSprites(Texture* texture);
+    void setPosition();
     
     Sprite* getLife();
     Sprite* getRectangle();

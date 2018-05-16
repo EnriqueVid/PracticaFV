@@ -77,8 +77,15 @@ void LevelFactory::levelFactoryMapSelector()
 {
     switch(_numMap)
     {
+        case -1:
+            _mapName = "./Maps/Level-P.tmx";
+            break;
         case 0:
             _mapName = "./Maps/Level-0.tmx";
+            break;
+        
+        case 1:
+            _mapName = "./Maps/Level-1.tmx";
             break;
             
         default:
@@ -379,6 +386,7 @@ void LevelFactory::levelFactoryMapCreator()
         
         switch(gid)
         {
+            
             case 161://Player
                 cout<<"Player"<<endl;
                 object->QueryFloatAttribute("x", &oX);
@@ -387,6 +395,7 @@ void LevelFactory::levelFactoryMapCreator()
                 oY -= 16;
                 rect = new sf::IntRect(0, 0, 32, 32);
                 _player->setPlayer(_playerTexture, rect, sf::Vector2f(16.0f, 16.0f), sf::Vector2f(oX, oY), sf::Vector2f(1.0f, 1.0f));
+                cout<<"Player x,y: "<<oX<<", "<<oY<<endl;
                 break;
             
             case 182:// EnemyBounce
@@ -460,9 +469,9 @@ void LevelFactory::levelFactoryMapCreator()
                 }
                 else // Horizontal
                 {
-                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 2, timer, doorVel);
+                    _oDoor[_countdoor] = new Door(3, oX, oY-32, 0, false, _objectTexture, 2, timer, doorVel);
                     _countdoor++;
-                    _oDoor[_countdoor] = new Door(3, oX+32, oY, 0, false, _objectTexture, 3, timer, doorVel);
+                    _oDoor[_countdoor] = new Door(3, oX, oY, 0, false, _objectTexture, 3, timer, doorVel);
                     _oSwitch[_countbutton]->setDoor(_oDoor[_countdoor-1], _oDoor[_countdoor]);
                     _countdoor++;
                 }
@@ -536,9 +545,178 @@ void LevelFactory::levelFactoryMapCreator()
         
     }
     
+}
+
+void LevelFactory::levelFactoryClear()
+{
+    if(_tilesetSprite != NULL)
+    {
+        delete _tilesetSprite;
+        _tilesetSprite = NULL;
+    }
+    
+    if(_player != NULL)
+    {
+        _player = NULL;
+    }
+    
+    for(int i=0; i<_numenemybounce; i++)
+    {
+        if(_eBounce[i] != NULL)
+        {
+            delete _eBounce[i];
+            _eBounce[i] = NULL;
+        }
+    }
+    delete[] _eBounce;
+    _eBounce = NULL;
+    
+    for(int i=0; i<_numenemystand; i++)
+    {
+        if(_eStand[i] != NULL)
+        {
+            delete _eStand[i];
+            _eStand[i] = NULL;
+        }
+    }
+    delete[] _eStand;
+    _eStand = NULL;
+    
+    for(int i=0; i<_numenemychase; i++)
+    {
+        if(_eChase[i] != NULL)
+        {
+            delete _eChase[i];
+            _eChase[i] = NULL;
+        }
+    }
+    delete[] _eChase;
+    _eChase = NULL;
+    
+    for(int i=0; i<_numbox; i++)
+    {
+        if(_oBox[i] != NULL)
+        {
+            delete _oBox[i];
+            _oBox[i] = NULL;
+        }
+    }
+    delete[] _oBox;
+    _oBox = NULL;
+    
+    for(int i=0; i<_numbutton; i++)
+    {
+        if(_oSwitch[i] != NULL)
+        {
+            delete _oSwitch[i];
+            _oSwitch[i] = NULL;
+        }
+    }
+    delete[] _oSwitch;
+    _oSwitch = NULL;
+    
+    for(int i=0; i<_numpowerup; i++)
+    {
+        if(_oPowerUp[i] != NULL)
+        {
+            delete _oPowerUp[i];
+            _oPowerUp[i] = NULL;
+        }
+    }
+    delete[] _oPowerUp;
+    _oPowerUp = NULL;
+    
+    for(int i=0; i<_numstairs; i++)
+    {
+        if(_oStairs[i] != NULL)
+        {
+            delete _oStairs[i];
+            _oStairs[i] = NULL;
+        }
+    }
+    delete[] _oStairs;
+    _oStairs = NULL;
+    
+    for(int l=0; l<_numlayers; l++)
+    {
+        for(int y=0; y<_height; y++)
+        {
+            for(int x=0; x<_width; x++)
+            {
+                if(_tileMapSprite[l][y][x] != NULL)
+                {
+                    delete _tileMapSprite[l][y][x];
+                    _tileMapSprite[l][y][x] = NULL;
+                }
+            }
+            if(_tileMapSprite[l][y] != NULL)
+                {
+                    delete[] _tileMapSprite[l][y];
+                    _tileMapSprite[l][y] = NULL;
+                }
+        }
+        if(_tileMapSprite[l] != NULL)
+        {
+            delete[] _tileMapSprite[l];
+            _tileMapSprite[l] = NULL;
+        }
+    }
+    if(_tileMapSprite != NULL)
+    {
+        delete[] _tileMapSprite;
+        _tileMapSprite = NULL;
+    }
     
     
+    for(int l=0; l<_numlayers; l++)
+    {
+        for(int y=0; y<_height; y++)
+        {
+            if(_tileMap[l][y] != NULL)
+                {
+                    delete[] _tileMap[l][y];
+                    _tileMap[l][y] = NULL;
+                }
+        }
+        if(_tileMap[l] != NULL)
+        {
+            delete[] _tileMap[l];
+            _tileMap[l] = NULL;
+        }
+    }
+    if(_tileMap != NULL)
+    {
+        delete[] _tileMap;
+        _tileMap = NULL;
+    }
     
+    _numMap = 0;
+    _mapName = "";
+    _numlayers = 0;
+    _numobjects = 0;
+    
+    _numenemystand = 0;
+    _numenemybounce = 0;
+    _numenemychase = 0;
+    _numbox = 0;
+    _numbutton = 0;
+    _numpowerup = 0;
+    _numstairs = 0;
+    
+    _countenemystand = 0;
+    _countenemybounce = 0;
+    _countenemychase = 0;
+    _countbox = 0;
+    _countbutton = 0;
+    _countdoor = 0;
+    _countpowerup = 0;
+    _countstairs = 0;
+    
+    _height = 0;
+    _width = 0;
+    _tileheight = 0;
+    _tilewidth = 0;
+    _numtiles = 0;
     
 }
 
@@ -585,6 +763,11 @@ EnemyStand** LevelFactory::getLevelFactoryEnemyStand()
     return _eStand;
 }
 
+EnemyBounce** LevelFactory::getLevelFactoryEnemyBounce()
+{
+    return _eBounce;
+}
+
 Switch** LevelFactory::getLevelFactorySwitch()
 {
     return _oSwitch;
@@ -595,9 +778,67 @@ Door** LevelFactory::getLevelFactoryDoor()
     return _oDoor;
 }
 
-Stairs*  LevelFactory::getlevelFactoryStairs()
+Stairs*  LevelFactory::getLevelFactoryStairs()
 {
     return _oStairs[0];
 }
 
+Texture* LevelFactory::getTileSetTexture()
+{
+    return _tilesetTexture;
+}
 
+Texture* LevelFactory::getPlayerTexture()
+{
+    return _playerTexture;
+}
+
+Texture* LevelFactory::getEnemyTexture()
+{
+    return _enemyTexture;
+}
+
+Texture* LevelFactory::getObjectTexture()
+{
+    return _objectTexture;
+}
+    
+int LevelFactory::getEnemyStandnumber()
+{
+    return _numenemystand;
+}
+
+int LevelFactory::getEnemyBounceNumber()
+{
+    return _numenemybounce;
+}
+
+int LevelFactory::getEnemyChaseNumber()
+{
+    return _numenemychase;
+}
+
+int LevelFactory::getBoxNumber()
+{
+    return _numbox;
+}
+
+int LevelFactory::getSwitchNumber()
+{
+    return _numbutton;
+}
+
+int LevelFactory::getDoorNumber()
+{
+    return _numbutton*2;
+}
+
+int LevelFactory::getPowerUpNumber()
+{
+    return _numpowerup;
+}
+
+int LevelFactory::getStairsNumber()
+{
+    return _numstairs;
+}

@@ -93,6 +93,8 @@ public:
     bool getPushedBack();
     void setPushedBack(bool b, sf::Vector2f pushedBackDistance);
     
+    sf::Vector2i getAxis();
+    
 protected:
     Player();
     Player(const Player& orig);

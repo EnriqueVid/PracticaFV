@@ -54,6 +54,8 @@ public:
         
     void render(RenderWindow* _renderWindow); //ejecuta el render de todos los objetos
     
+    bool getLevelDone();
+    
 protected:
     World();
     World(const World& orig);
@@ -105,6 +107,12 @@ private:
     int _mapHeight;
     int _mapLayers;
     
+    
+    bool _destroytheworld;
+    bool _nextLevel;
+    bool _levelDone;
+    
+    int _nextLevelCount;
 };
 
 #endif /* WORLD_H */

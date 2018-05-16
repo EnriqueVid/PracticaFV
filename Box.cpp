@@ -190,7 +190,7 @@ void Box::update(int** _collisionMap){
         collision();
     }
     
-    if(_collisionEnemy)impact(); //el impacto enemigo baja la vida de la caja.
+    //if(_collisionEnemy)impact(); //el impacto enemigo baja la vida de la caja.
     
     
     
@@ -275,7 +275,7 @@ Box::~Box() {
     std::cout <<"Deleting Box" << std::endl;
 
     if(_clock!=NULL){
-    delete _clock;
+        delete _clock;
     _clock = NULL;        
     }
 
