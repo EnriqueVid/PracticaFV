@@ -86,6 +86,7 @@ int  StateGameLoop::update(RenderWindow* window)
     
     if(World::Instance()->getLevelDone() == true)
     {
+        RenderWindow::Instance()->resetView();
         return 1;
     }
     
