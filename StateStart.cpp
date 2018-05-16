@@ -150,19 +150,19 @@ int  StateStart::update(RenderWindow* window)
       
       if(input->inputCheck(13) && _spj1->getGlobalBounds().contains(p2c))
       {
-          _spj1->setSpriteRotation(_spj1->getSpriteRotation()+90.f);
+          _spj1->setSpriteRotation(_spj1->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj2->getGlobalBounds().contains(p2c))
       {
-          _spj2->setSpriteRotation(_spj2->getSpriteRotation()+90.f);
+          _spj2->setSpriteRotation(_spj2->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj3->getGlobalBounds().contains(p2c))
       {
-          _spj3->setSpriteRotation(_spj3->getSpriteRotation()+90.f);
+          _spj3->setSpriteRotation(_spj3->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj4->getGlobalBounds().contains(p2c))
       {
-          _spj4->setSpriteRotation(_spj4->getSpriteRotation()+90.f);
+          _spj4->setSpriteRotation(_spj4->getSpriteRotation()+5.f);
       }
       
       window->windowClear();
