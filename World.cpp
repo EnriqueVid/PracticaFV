@@ -113,8 +113,9 @@ void World::buildWorld(int lvlNumber)
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
     
-    RenderWindow::Instance()->setViewZoom(0.45);
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    
+    RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
 }
 
 void World::buildTestObjects()
@@ -1029,10 +1030,10 @@ void World::render(RenderWindow* _renderWindow)
 {
     //RENDER DE TODOS LOS OBJETOS
         
-    
-    
+ 
     _renderWindow->updatePercentTick(_percentTick);
-    //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition())
+    _renderWindow->windowClear();
 
     
 
@@ -1193,7 +1194,7 @@ void World::render(RenderWindow* _renderWindow)
         _renderWindow->windowDraw(_HUD->getStamina());
     }
     
-    
+    _renderWindow->windowDisplay();
     
 }
 

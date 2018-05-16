@@ -38,7 +38,9 @@ StateGameLoop::StateGameLoop()
     _s1->setSpriteOrigin(sf::Vector2f(_s1->getSpriteTexture().getSize().x/2.f, _s1->getSpriteTexture().getSize().y/2.f));
     _s1->setSpritePosition(sf::Vector2f(400.f, 400.f));
     //FALTA INICIALIZAR WORLD
+    _window = RenderWindow::Instance();
     _world = World::Instance();
+
     _world->buildWorld(1);
     _window = RenderWindow::Instance();
     
@@ -93,8 +95,8 @@ int  StateGameLoop::update(RenderWindow* window)
     if(Player::Instance()->getHealth() <= 0 || input->inputCheck(10))
     {   
         if(_aux == 3){
-          _pinstance->GetNextState(3);
-            //RenderWindow::Instance()->resetView();
+            _window->resetView();
+            _pinstance->GetNextState(3);
             return 3;    
         }else
         {
