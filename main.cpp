@@ -35,6 +35,8 @@ int main()
 {
     RenderWindow* window = RenderWindow::Instance();
     
+    window->setWindowFramerateLimit(60);
+    
     StateStart::Instance();
     
     int which = StateStart::Instance()->getStateNumber();

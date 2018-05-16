@@ -42,9 +42,12 @@ public:
     bool getOpening();
     bool getClosing();
     
+    bool getJustClosed();
+    
 private:
     bool _open;
     bool _close;
+    bool _justClosed; //indica que ACABA de cerrarse en esa iteracion.
     int _doorType; //1: horizontal, 2: Vertical
     float _maxTimeOpen;
     Clock* _clock;

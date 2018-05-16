@@ -26,6 +26,8 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     _open = false;
     _close=true;
     
+    _justClosed=false;
+    
     _opening =false;
     _closing = false;
         
@@ -110,7 +112,12 @@ void Door::close()
     
 void Door::update()
 {
+    //CONTROL PARA COMPROBAR SI LA PUERTA SE ACABA DE CERRAR EN LA ITERACION ANTERIOR (AYUDA PARA COLISIONES)
+    if(_justClosed)_justClosed=false;
+    if(_close)_justClosed=true;
+    
         
+    
     newSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY(),_actualSituation->getAngle());
     
     
@@ -184,7 +191,8 @@ void Door::update()
 }
 
 void Door::move(){
-    if(_opening){
+    if(_opening)
+    {
         if(_doorType==0){
             setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()-_speed,_actualSituation->getAngle());
         }
@@ -198,7 +206,8 @@ void Door::move(){
             setActualSituation(_actualSituation->getPositionX()+_speed,_actualSituation->getPositionY(),_actualSituation->getAngle());            
         }
     }
-    else if(_closing){
+    else if(_closing)
+    {
         if(_doorType==0){
             setActualSituation(_actualSituation->getPositionX(),_actualSituation->getPositionY()+_speed,_actualSituation->getAngle());            
         }
@@ -298,6 +307,12 @@ bool Door::getClosing(){
 Clock* Door::getClock(){
     return _clock;
 }
+
+bool Door::getJustClosed()
+{
+    return _justClosed;
+}
+
 
 //LAS PUERTAS SE BORRAN AL BORRARSE EL SWITCH QUE LAS TIENE ASIGNADAS
 Door::~Door() 

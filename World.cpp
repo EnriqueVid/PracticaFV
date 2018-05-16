@@ -585,16 +585,30 @@ void World::checkCollisions()
                 if(_player->getPlayer()->spriteIntersectsBounds(_door[x]->getSprite()))
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_door[x]->getSprite()->getSpriteSprite(),0))
-                    {                        
-                        
+                    {        
+                        if(_door[x]->getOpening()==false || _door[x]->getJustClosed()==true){
 
-                        sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
-                                _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
-                        
-                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
-                        
-                        _door[x]->setCollisionPlayer(true);
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
 
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                                    _door[x]->getPreviousSituation()->getPositionY(),
+                                    _door[x]->getPreviousSituation()->getAngle());
+
+
+                            if(_door[x]->getClosing()){
+                                _player->setHealth(_player->getHealth()-10);                            
+                            }
+                        
+                        }
+                        else{
+                            
+                        }
+                        
+                        
                     }
                 }
             }
