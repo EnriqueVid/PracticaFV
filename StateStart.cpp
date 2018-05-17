@@ -29,6 +29,11 @@ StateStart* StateStart::Instance()
 StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
+    
+    sf::Font fmes;
+    fmes.loadFromFile("./textures/Pixeled.ttf");
+    
+    
     _sview = new View();
     _tstartbg = new Texture();
     _tstartbutton = new Texture();
@@ -36,6 +41,9 @@ StateStart::StateStart()
     _tpj2 = new Texture();
     _tpj3 = new Texture();
     _tpj4 = new Texture();
+    _texit = new Texture();
+    _thelp = new Texture();
+    _tmes = new Texture();
     
     
     _tpj1->textureLoadFromFile("./textures/pjWhite.png");
@@ -44,8 +52,13 @@ StateStart::StateStart()
     _tpj4->textureLoadFromFile("./textures/pjBlue.png");
     _tstartbg->textureLoadFromFile("./textures/startbg.png");
     _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
+    _texit->textureLoadFromFile("./textures/pjWhite.png");
+    _thelp->textureLoadFromFile("./textures/pjWhite.png");
+    _tmes->textureLoadFromFile("./textures/fondotexto.png");
+    
     
     //INTRECTS
+    
     sf::IntRect irbg(0,0, 800, 800);
     sf::IntRect irbutton(0, 0 , 343, 147);
     sf::IntRect irpj(0, 0 , 32, 32);
@@ -57,8 +70,12 @@ StateStart::StateStart()
     _spj2 = new Sprite(_tpj2, irpj);
     _spj3 = new Sprite(_tpj3, irpj);
     _spj4 = new Sprite(_tpj4, irpj);
+    _shelp  = new Sprite(_thelp, irpj);
+    _sexit = new Sprite(_texit, irpj);
     
-
+    _shelp->setSpriteOrigin(sf::Vector2f(_shelp->getGlobalBounds().width/2.f, _shelp->getGlobalBounds().height/2.f));
+    _sexit->setSpriteOrigin(sf::Vector2f(_sexit->getGlobalBounds().width/2.f, _sexit->getGlobalBounds().height/2.f));
+    
   
     _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
 
@@ -79,6 +96,10 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
+    _mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
+    
+    _snmes = 0;
+    
 }
 
 StateStart::StateStart(const StateStart & )
@@ -90,11 +111,13 @@ State* StateStart::GetNextState(int which)
 {
     if(which == 2)
     {
+        RenderWindow::Instance()->resetView();
         StateGameLoop* stateLoop = StateGameLoop::Instance();
         return stateLoop;
     
     }else if(which == 3)
     {
+        RenderWindow::Instance()->resetView();
         StateGameOver* stateover = StateGameOver::Instance();
         return stateover;     
     }
@@ -118,44 +141,61 @@ int  StateStart::getStateNumber()
 int  StateStart::update(RenderWindow* window)
 {
     //COLOCAR LOS SPRITES
-        _sview = window->getWindowView();
-        _sstartbg->setSpritePosition(_sview->getViewCenter());
-        _sstartbutton->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x, _sview->getViewCenter().y+100.f));
-        _spj1->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,_sview->getViewCenter().y+100.f-150.f));
-        _spj2->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x-200.f,_sview->getViewCenter().y+300.f));
-        _spj3->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x,window->getWindowView()->getViewCenter().y+300.f));
-        _spj4->setSpritePosition(sf::Vector2f(_sview->getViewCenter().x+200.f,_sview->getViewCenter().y+300.f));
-        
+        //window->setViewZoom(1);
+        _sstartbg->setSpritePosition(window->getViewCenter());
+        _sstartbutton->setSpritePosition(sf::Vector2f(window->getViewCenter().x, window->getViewCenter().y+100.f));
+        _spj1->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+100.f-150.f));
+        _spj2->setSpritePosition(sf::Vector2f(window->getViewCenter().x-200.f,window->getViewCenter().y+300.f));
+        _spj3->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+300.f));
+        _spj4->setSpritePosition(sf::Vector2f(window->getViewCenter().x+200.f,window->getViewCenter().y+300.f));
+        _shelp->setSpritePosition(sf::Vector2f(window->getViewCenter().x + 50.f, window->getViewCenter().y+200.f));
+        _sexit->setSpritePosition(sf::Vector2f(window->getViewCenter().x - 50.f, window->getViewCenter().y+200.f));
+              
      //PROSEGUIR
     
     //std::cout<<"START"<<endl;
   Input* input = Input::Instance();
   input->inputInput();
   
-    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38), _sview);
+    sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38));
     
     std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     
-    if(input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c))
+    if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) || input->inputCheck(11))
     {
+        
+        RenderWindow::Instance()->setViewZoom(0.45);
+        RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
         return 2;
     }else{
       
       if(input->inputCheck(13) && _spj1->getGlobalBounds().contains(p2c))
       {
-          _spj1->setSpriteRotation(_spj1->getSpriteRotation()+90.f);
+          _spj1->setSpriteRotation(_spj1->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj2->getGlobalBounds().contains(p2c))
       {
-          _spj2->setSpriteRotation(_spj2->getSpriteRotation()+90.f);
+          _spj2->setSpriteRotation(_spj2->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj3->getGlobalBounds().contains(p2c))
       {
-          _spj3->setSpriteRotation(_spj3->getSpriteRotation()+90.f);
+          _spj3->setSpriteRotation(_spj3->getSpriteRotation()+5.f);
       }
       if(input->inputCheck(13) && _spj4->getGlobalBounds().contains(p2c))
       {
-          _spj4->setSpriteRotation(_spj4->getSpriteRotation()+90.f);
+          _spj4->setSpriteRotation(_spj4->getSpriteRotation()+5.f);
+      }
+      if(input->inputCheck(13) && _sexit->getGlobalBounds().contains(p2c))
+      {
+          window->windowClose();
+      }
+      if(input->inputCheck(13) && _shelp->getGlobalBounds().contains(p2c))
+      {        
+          _snmes = 1;
+      }
+      if(input->inputCheck(13) && !_shelp->getGlobalBounds().contains(p2c))
+      {        
+          _snmes = 0;
       }
       
       window->windowClear();
@@ -166,6 +206,16 @@ int  StateStart::update(RenderWindow* window)
       window->windowDraw(_spj2);
       window->windowDraw(_spj3);
       window->windowDraw(_spj4);
+      window->windowDraw(_shelp);
+      window->windowDraw(_sexit);
+      
+      if(_snmes == 1)
+      {
+      window->windowDraw(_mehelp);
+      }
+
+      
+      
       
       window->windowDisplay();
       

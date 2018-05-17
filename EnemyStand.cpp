@@ -17,6 +17,7 @@ EnemyStand::EnemyStand(Texture* tex, sf::Vector2f origin, sf::Vector2f position,
 {
     _pattern = pattern;
     _cone = new Sprite(tex, sf::IntRect(160, 112, 96, 144), sf::Vector2f(48.0f,0.0f), position, scale);
+    _cone->setSpriteColor(255,255,255,100);
     _actualStep = 0;
     _state = 0;
     setEnemySpeed(0);
@@ -183,17 +184,13 @@ void EnemyStand::updateStateIdle()
     if(getEnemyActualSituation()->getAngle() < 0) setEnemyActualSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle() + 360);
     if(getEnemyActualSituation()->getAngle() > 360) setEnemyActualSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle() - 360);
     
-    
     //Probar una cosa
     //_cone->setSpritePosition(getEnemyActualSituation()->getPosition());
     //_cone->setSpriteRotation(getEnemyActualSituation()->getAngle());
 }
 
 void EnemyStand::updateStateChase(sf::Vector2f playerPos)
-{
-    
-    _cone->setSpriteColor(255, 255, 255, 255);
-    
+{   
     if(getCollisionPlayer()||_collisionPlayerCone)
     {
         if(_chaseClock!=NULL)

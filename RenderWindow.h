@@ -23,19 +23,20 @@
 class RenderWindow 
 {
 public:
-    RenderWindow(int width, int height, std::string title);
-    RenderWindow(const RenderWindow& orig);
     
+    
+    static RenderWindow* Instance();
     void windowClear();
     void windowDraw(Sprite* sprite);
     void windowInterpolateDraw(Sprite* sprite, Situation* prev, Situation* actual);
+    void windowInterpolateDrawView(Sprite* sprite, Situation* prev, Situation* actual);
     void windowDraw(Message* message);
     void windowDisplay();
     void windowClose();
     bool windowIsOpen();
     bool windowPollEvent(Event* ev);
-    sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position, View* view);
-    sf::Vector2f windowMapPixelToCoords(sf::Vector2i position, View* view);
+    sf::Vector2i windowMapCoordsToPixel(sf::Vector2f position);
+    sf::Vector2f windowMapPixelToCoords(sf::Vector2i position);
     void updatePercentTick(float pt);
     
     void setWindowFramerateLimit(int fps);
@@ -44,13 +45,25 @@ public:
     sf::Vector2i getWindowPosition();
     
     
-    View* getWindowView();
     sf::RenderWindow* getWindowWindow();
     
+    void setViewCenter(sf::Vector2f pos);
+    void setViewZoom(float zoom);
+    void setViewRotate(float rot);
+    sf::Vector2f getViewCenter();
+    
+    void resetView();
+    
     virtual ~RenderWindow();
+    
+protected:
+    RenderWindow();
+    RenderWindow(int width, int height, std::string title);
+    RenderWindow(const RenderWindow& orig);
+    
 private:
+    static RenderWindow* _pinstance;
     sf::RenderWindow* _window;
-    View* _view;
     float _percentTick;
 };
 

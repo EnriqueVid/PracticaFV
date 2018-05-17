@@ -358,6 +358,7 @@ void LevelFactory::levelFactoryMapCreator()
     cout<<"numbox: "<<_numbox<<endl;
     cout<<"numbutton: "<<_numbutton<<endl;
     cout<<"numstairs: "<<_numstairs<<endl;
+    cout<<"numpowerup: "<<_numpowerup<<endl;
     
     _player = Player::Instance();
     if(_numenemybounce > 0)_eBounce = new EnemyBounce*[_numenemybounce];
@@ -507,6 +508,7 @@ void LevelFactory::levelFactoryMapCreator()
                 oX += 16;
                 oY -= 16;
                 _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 2);
+                _countpowerup++;
                 break;
                 
             case 254:// PowerUpGreen
@@ -516,6 +518,7 @@ void LevelFactory::levelFactoryMapCreator()
                 oX += 16;
                 oY -= 16;
                 _oPowerUp[_countpowerup] = new PowerUp(4, oX, oY, 0, true, _objectTexture, 3);
+                _countpowerup++;
                 break;
                 
             case 255:// PowerUpRed

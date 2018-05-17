@@ -37,7 +37,7 @@ Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vecto
     _axis.y = 0;
     _direction.x = 0;
     _direction.y = 0;
-    _damage = 0;
+    _damage = 20;
     
     _collisionPlayer=false;
     _collisionObject=false;

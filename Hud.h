@@ -23,10 +23,12 @@ public:
     
     void update(float life, float stamina, int r, int g, int b, int a);
     void setSprites(Texture* texture);
+    void setPosition();
     
     Sprite* getLife();
     Sprite* getRectangle();
     Sprite* getStamina();
+    Sprite* getHUDBOX();
     
 protected:
     Hud();
@@ -37,9 +39,11 @@ private:
     
     static Hud* _pinstance;
     
+    Texture* _thudbox;
     Sprite* _life;
     Sprite* _rectangle;
     Sprite* _stamina;
+    Sprite* _shudbox;
 };
 
 #endif /* HUD_H */

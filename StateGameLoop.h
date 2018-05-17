@@ -30,10 +30,12 @@ public:
     virtual State* getState();
     virtual int getStateNumber();
     virtual int update(RenderWindow* window);
+    virtual void render(RenderWindow* window);
+    virtual ~StateGameLoop();
     
     static StateGameLoop* Instance();
     protected:
-        virtual ~StateGameLoop();
+        
         StateGameLoop();
         StateGameLoop(const StateGameLoop & );
         StateGameLoop &operator= (const StateGameLoop & ){};
@@ -45,6 +47,8 @@ public:
     Texture* _t1;
     Sprite* _s1;
     int _aux;
+    World* _world;
+    RenderWindow* _window;
     
 };
 

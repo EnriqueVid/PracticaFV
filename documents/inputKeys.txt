@@ -14,7 +14,7 @@
 11	Return
 12	Space
 13	Mouse.Left
-14	Enter
+14	Insert
 15	
 16	
 17	

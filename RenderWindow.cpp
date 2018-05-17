@@ -14,13 +14,28 @@
 #include "RenderWindow.h"
 #include "Event.h"
 #include "Message.h"
+#include "Hud.h"
+
+RenderWindow* RenderWindow::_pinstance = 0;
+RenderWindow* RenderWindow::Instance()
+{
+    if(_pinstance == 0)
+    {
+        _pinstance = new RenderWindow;
+    }
+    return _pinstance;
+}
+
+RenderWindow::RenderWindow()
+{
+    _window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Color of Fate");
+    _percentTick = 1;
+}
 
 RenderWindow::RenderWindow(int width, int height, std::string title)
 {
     _window = new sf::RenderWindow(sf::VideoMode(width, height), title);
     _percentTick = 1;
-    _view = new View();
-    _view->setViewView(_window->getView());
 }
 
 RenderWindow::RenderWindow(const RenderWindow& orig) 
@@ -76,10 +91,37 @@ void RenderWindow::windowInterpolateDraw(Sprite* sprite, Situation* prev, Situat
     _window->draw(sprite->getSpriteSprite());
 }
 
+void RenderWindow::windowInterpolateDrawView(Sprite* sprite, Situation* prev, Situation* actual)
+{
+    float x = prev->getPositionX()*(1-_percentTick) + actual->getPositionX()*_percentTick;
+    float y = prev->getPositionY()*(1-_percentTick) + actual->getPositionY()*_percentTick;
+    float degPrev = prev->getAngle();
+    float degActu = actual->getAngle();
+    
+    if((degActu >= 0 && degActu <= 90) && degPrev > (degActu + 180))
+    {
+        degPrev -= 360;
+    }
+    if((degActu <360 && degActu >= 270) && degPrev < (degActu - 180))
+    {
+        degPrev += 360;
+    }
+    
+    float g = (((_percentTick-0)*(degActu - degPrev))/(1-0)) + degPrev;
+    
+    sprite->setSpritePosition(sf::Vector2f(x, y));
+    sprite->setSpriteRotation(g);
+    
+    setViewCenter(sf::Vector2f(x, y));
+    Hud::Instance()->setPosition();
+    
+    _window->draw(sprite->getSpriteSprite());
+}
+
 void RenderWindow::windowDraw(Message* message)
 {
     _window->draw(message->getSpriteMessage()->getSpriteSprite());
-    _window->draw(message->getTextMessage()->getText());
+    _window->draw(*message->getTextMessage());
 }
 
 bool RenderWindow::windowIsOpen()
@@ -92,14 +134,14 @@ bool RenderWindow::windowPollEvent(Event* ev)
     return _window->pollEvent(*ev->getEventEvent());
 }
 
-sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position, View* view)
+sf::Vector2i RenderWindow::windowMapCoordsToPixel(sf::Vector2f position)
 {
-    return _window->mapCoordsToPixel(position,view->getViewView());
+    return _window->mapCoordsToPixel(position,_window->getView());
 }
 
-sf::Vector2f RenderWindow::windowMapPixelToCoords(sf::Vector2i position, View* view)
+sf::Vector2f RenderWindow::windowMapPixelToCoords(sf::Vector2i position)
 {
-    return _window->mapPixelToCoords(position,view->getViewView());
+    return _window->mapPixelToCoords(position,_window->getView());
 }
 
 void RenderWindow::updatePercentTick(float pt)
@@ -117,11 +159,6 @@ void RenderWindow::setWindowView(View* view)
     _window->setView(view->getViewView());
 }
 
-View* RenderWindow::getWindowView()
-{
-    return _view;
-}
-
 sf::Vector2i RenderWindow::getWindowPosition()
 {
    return _window->getPosition();
@@ -130,4 +167,39 @@ sf::Vector2i RenderWindow::getWindowPosition()
 sf::RenderWindow* RenderWindow::getWindowWindow()
 {
     return _window;
+}
+
+void RenderWindow::setViewCenter(sf::Vector2f pos)
+{
+    sf::View view= _window->getView();
+    view.setCenter(pos.x, pos.y);
+    
+    _window->setView(view);
+}   
+
+void RenderWindow::setViewZoom(float zoom)
+{
+    sf::View view= _window->getView();
+    view.zoom(zoom);
+    
+    _window->setView(view);
+} 
+
+void RenderWindow::setViewRotate(float rot)
+{
+    sf::View view= _window->getView();
+    view.rotate(rot);
+    
+    _window->setView(view);
+} 
+
+sf::Vector2f RenderWindow::getViewCenter()
+{
+    return _window->getView().getCenter();
+}
+
+void RenderWindow::resetView()
+{
+    sf::View view = _window->getDefaultView();
+    _window->setView(view);
 }
