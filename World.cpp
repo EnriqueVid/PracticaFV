@@ -59,7 +59,7 @@ World::World()
     _nextLevel = false;
     _nextLevelCount = 0;
     _levelDone = false;
-    //cout <<"World created."<<endl;
+    cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
@@ -81,6 +81,7 @@ void World::buildWorld(int lvlNumber)
     _clock = new Clock();
     _input = Input::Instance();
     
+    _textureNumber = 4;
     _texture = new Texture*[4];
     _texture[0] = _levelFactory->getPlayerTexture();
     _texture[1] = _levelFactory->getTileSetTexture();
@@ -254,27 +255,7 @@ if(_player!=NULL)_player->input();
         if(_input->inputCheck(1));
         if(_input->inputCheck(2));
         if(_input->inputCheck(3));
-        if(_input->inputCheck(10))
-        {
-            if(_destroytheworld == false){
-                _destroytheworld = true;
-                _levelFactory->levelFactoryClear();
-                _levelFactory->setLevelFactoryStates(0);
-                
-                _collisionMap = _levelFactory->getLevelFactoryCollisionMap();
-                _map = _levelFactory->getLevelFactoryTileMapSprite();
-                
-                _box = _levelFactory->getLevelFactoryBox();
-                _switch = _levelFactory->getLevelFactorySwitch();
-                _door = _levelFactory->getLevelFactoryDoor();
-                _powerUp = _levelFactory->getLevelFactoryPowerUp();
-                _enemyStand = _levelFactory->getLevelFactoryEnemyStand();
-                _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
-                _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
-                _stairs = _levelFactory->getLevelFactoryStairs();
-                _destroytheworld = false;
-            }
-        }
+        
         if(_player!=NULL){
             _player->update(_collisionMap);
         }
@@ -1172,10 +1153,10 @@ sf::Vector2f World::calculateMaxPosition(Sprite* obj1, Situation* previousSituat
 
 
 
-void World::render(RenderWindow* _renderWindow)
+void World::render(RenderWindow* renderWindow)
 {
     //RENDER DE TODOS LOS OBJETOS
-        
+    RenderWindow* _renderWindow = RenderWindow::Instance();
  
     _renderWindow->updatePercentTick(_percentTick);
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition())
@@ -1335,6 +1316,7 @@ void World::render(RenderWindow* _renderWindow)
     
     
     if(_HUD!=NULL){
+        _renderWindow->windowDraw(_HUD->getHUDBOX());
         _renderWindow->windowDraw(_HUD->getLife());
         _renderWindow->windowDraw(_HUD->getRectangle());
         _renderWindow->windowDraw(_HUD->getStamina());
@@ -1518,7 +1500,7 @@ World::~World()
     }
     
     if(_pinstance!=NULL){
-        delete _pinstance; //??????
+        //delete _pinstance; //??????
         _pinstance=NULL;
     }
     
@@ -1530,4 +1512,120 @@ World::~World()
 bool World::getLevelDone()
 {
     return _levelDone;
+}
+
+bool World::getDestroyTheWorld()
+{
+    return _destroytheworld;
+}
+
+void World::resetWorld()
+{
+    if(_levelFactory != NULL){
+        _levelFactory->levelFactoryClear();
+        _levelFactory = NULL;
+    }
+    
+    if(_texture != NULL)
+    {
+        delete[] _texture;
+        _texture = NULL;
+    }
+    
+    if(_player != NULL)
+    {
+        _player = NULL;
+    }
+    
+    if(_message != NULL)
+    {
+        _message = NULL;
+    }
+    
+    if(_box != NULL)
+    {
+        _box = NULL;
+    }
+    
+    if(_door != NULL)
+    {
+        _door = NULL;
+    }
+    
+    if(_powerUp != NULL)
+    {
+        _powerUp = NULL;
+    }
+    
+    if(_switch != NULL)
+    {
+        _switch = NULL;
+    }
+    
+    if(_map != NULL)
+    {
+        _map = NULL;
+    }
+    
+    if(_collisionMap != NULL)
+    {
+        _collisionMap = NULL;
+    }
+    
+    if(_advancedCollisionMap != NULL)
+    {
+        for(int y=0; y<_mapHeight; y++)
+        {
+            delete[] _advancedCollisionMap[y];
+            _advancedCollisionMap[y] = NULL;
+        }
+        delete[] _advancedCollisionMap;
+        _advancedCollisionMap = NULL;
+    }
+        
+    if(_enemyBounce != NULL)
+    {
+        _enemyBounce = NULL;
+    }
+    
+    if(_enemyChase != NULL)
+    {
+        _enemyChase = NULL;
+    }
+    
+    if(_enemyStand != NULL)
+    {
+        _enemyStand = NULL;
+    }
+    
+    if(_bullet != NULL)
+    {
+        delete _bullet;
+        _bullet = NULL;
+    }
+    
+    if(_HUD != NULL)
+    {
+        _HUD = NULL;
+    }
+    
+    if(_stairs != NULL)
+    {
+        _stairs = NULL;
+    }
+    
+    if(_clock != NULL)
+    {
+        delete _clock;
+        _clock = NULL;
+    }
+    
+    _pinstance = 0;
+    
+    
+}
+
+int World::getNextLevel()
+{
+    return _stairs->getNextLevel();
 }

@@ -1234,4 +1234,79 @@ sf::Vector2i Player::getAxis()
     return _axis;
 }
 
+void Player::resetPlayer()
+{
+    if(_sprite != NULL)
+    {
+        delete _sprite;
+        _sprite = NULL;
+    }
+    
+    if(_previousSituation != NULL)
+    {
+        delete _previousSituation;
+        _previousSituation = NULL;
+    }
+    
+    if(_actualSituation != NULL)
+    {
+        delete _actualSituation;
+        _actualSituation = NULL;
+    }
+    
+    if(_clockDamage != NULL)
+    {
+        delete _clockDamage;
+        _clockDamage = NULL;
+    }
+    
+    if(_clockDamageAnimation != NULL)
+    {
+        delete _clockDamageAnimation;
+        _clockDamageAnimation = NULL;
+    }
+    
+    if(_clockHability != NULL)
+    {
+        delete _clockHability;
+        _clockHability = NULL;
+    }
+    
+    if(_clockChangeColor != NULL)
+    {
+        delete _clockChangeColor;
+        _clockChangeColor = NULL;
+    }
+    
+    _maxHealth=256;
+    _health=256;
+    _maxStamina=200;
+    _stamina=200;
+    _speed=8;
+    _defaultSpeed=8;
+    _color=sf::Color::White;
+    _hability=false;
+    _animationNumFrames=-1;
+    _animationTime=-1;
+    _idleAnimationStart=true;
+    _movingAnimationStart=false;
+    _damage=false;
+    _actualAnimation=0;
+    _fireBullet=false;
+    _collisionWithMap=false;
+    _redUnlocked=false;
+    _blueUnlocked=false;
+    _greenUnlocked=false;
+    _collisionCone=false;
+    _collisionConeDamage=0;
+    _clockDamageLag=1.0f;
+    _forceDamageAnimation=false;
+    _collisionEnemy=false; //danyo al chocar fisicamente con un enemigo.
+    _collisionEnemyDamage=0;
+    _hidden=false;
+    _pushedBack=false;
+    _pushedBackDistance = sf::Vector2f(0.0f,0.0f);
+    
+    _pinstance=0;
+}
 

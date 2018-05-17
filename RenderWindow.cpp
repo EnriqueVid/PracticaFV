@@ -121,7 +121,7 @@ void RenderWindow::windowInterpolateDrawView(Sprite* sprite, Situation* prev, Si
 void RenderWindow::windowDraw(Message* message)
 {
     _window->draw(message->getSpriteMessage()->getSpriteSprite());
-    _window->draw(message->getTextMessage()->getText());
+    _window->draw(*message->getTextMessage());
 }
 
 bool RenderWindow::windowIsOpen()

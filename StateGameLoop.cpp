@@ -41,8 +41,10 @@ StateGameLoop::StateGameLoop()
     _window = RenderWindow::Instance();
     _world = World::Instance();
 
-    _world->buildWorld(1);
+    _world->buildWorld(0);
     _window = RenderWindow::Instance();
+    _nextLevel = 0;
+    _actualLevel = 0;
     
 }
 
@@ -84,19 +86,32 @@ int  StateGameLoop::update(RenderWindow* window)
     //std::cout<<"GAME LOOP"<<endl;
     Input* input = Input::Instance();
     input->inputInput();
+    if(_world == NULL)
+    {
+        _world = World::Instance();
+        _world->buildWorld(_actualLevel);
+        
+    }
     _world->update();
+    
     
     if(World::Instance()->getLevelDone() == true)
     {
 
-        RenderWindow::Instance()->resetView();
-        return 1;
+        _window->resetView();
+        RenderWindow::Instance()->setViewZoom(0.45);
+        RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
+        _actualLevel = _world->getNextLevel();
+        _world->resetWorld();
+        _world = NULL;
     }
     
     if(Player::Instance()->getHealth() <= 0 || input->inputCheck(10))
     {   
         if(_aux == 3){
             _window->resetView();
+            _world->resetWorld();
+            _world = NULL;
             _pinstance->GetNextState(3);
             return 3;    
         }else
@@ -128,5 +143,9 @@ StateGameLoop::~StateGameLoop()
 
 void StateGameLoop::render(RenderWindow* window)
 {
-    _world->render(window);
+    if(_world!=NULL)
+    {
+        _world->render(window);
+    }
+    
 }

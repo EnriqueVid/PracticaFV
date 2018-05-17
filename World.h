@@ -53,8 +53,11 @@ public:
         Sprite* obj2); //devuelve la posicion maxima donde no se colisiona
         
     void render(RenderWindow* _renderWindow); //ejecuta el render de todos los objetos
+    void resetWorld();
     
     bool getLevelDone();
+    bool getDestroyTheWorld();
+    int getNextLevel();
     
 protected:
     World();

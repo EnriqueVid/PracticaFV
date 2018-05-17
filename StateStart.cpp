@@ -29,6 +29,11 @@ StateStart* StateStart::Instance()
 StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
+    
+    sf::Font fmes;
+    fmes.loadFromFile("./textures/Pixeled.ttf");
+    
+    
     _sview = new View();
     _tstartbg = new Texture();
     _tstartbutton = new Texture();
@@ -36,6 +41,9 @@ StateStart::StateStart()
     _tpj2 = new Texture();
     _tpj3 = new Texture();
     _tpj4 = new Texture();
+    _texit = new Texture();
+    _thelp = new Texture();
+    _tmes = new Texture();
     
     
     _tpj1->textureLoadFromFile("./textures/pjWhite.png");
@@ -44,8 +52,13 @@ StateStart::StateStart()
     _tpj4->textureLoadFromFile("./textures/pjBlue.png");
     _tstartbg->textureLoadFromFile("./textures/startbg.png");
     _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
+    _texit->textureLoadFromFile("./textures/pjWhite.png");
+    _thelp->textureLoadFromFile("./textures/pjWhite.png");
+    _tmes->textureLoadFromFile("./textures/fondotexto.png");
+    
     
     //INTRECTS
+    
     sf::IntRect irbg(0,0, 800, 800);
     sf::IntRect irbutton(0, 0 , 343, 147);
     sf::IntRect irpj(0, 0 , 32, 32);
@@ -57,8 +70,12 @@ StateStart::StateStart()
     _spj2 = new Sprite(_tpj2, irpj);
     _spj3 = new Sprite(_tpj3, irpj);
     _spj4 = new Sprite(_tpj4, irpj);
+    _shelp  = new Sprite(_thelp, irpj);
+    _sexit = new Sprite(_texit, irpj);
     
-
+    _shelp->setSpriteOrigin(sf::Vector2f(_shelp->getGlobalBounds().width/2.f, _shelp->getGlobalBounds().height/2.f));
+    _sexit->setSpriteOrigin(sf::Vector2f(_sexit->getGlobalBounds().width/2.f, _sexit->getGlobalBounds().height/2.f));
+    
   
     _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
 
@@ -79,7 +96,9 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
+    _mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
     
+    _snmes = 0;
     
 }
 
@@ -129,7 +148,9 @@ int  StateStart::update(RenderWindow* window)
         _spj2->setSpritePosition(sf::Vector2f(window->getViewCenter().x-200.f,window->getViewCenter().y+300.f));
         _spj3->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+300.f));
         _spj4->setSpritePosition(sf::Vector2f(window->getViewCenter().x+200.f,window->getViewCenter().y+300.f));
-        
+        _shelp->setSpritePosition(sf::Vector2f(window->getViewCenter().x + 50.f, window->getViewCenter().y+200.f));
+        _sexit->setSpritePosition(sf::Vector2f(window->getViewCenter().x - 50.f, window->getViewCenter().y+200.f));
+              
      //PROSEGUIR
     
     //std::cout<<"START"<<endl;
@@ -164,6 +185,18 @@ int  StateStart::update(RenderWindow* window)
       {
           _spj4->setSpriteRotation(_spj4->getSpriteRotation()+5.f);
       }
+      if(input->inputCheck(13) && _sexit->getGlobalBounds().contains(p2c))
+      {
+          window->windowClose();
+      }
+      if(input->inputCheck(13) && _shelp->getGlobalBounds().contains(p2c))
+      {        
+          _snmes = 1;
+      }
+      if(input->inputCheck(13) && !_shelp->getGlobalBounds().contains(p2c))
+      {        
+          _snmes = 0;
+      }
       
       window->windowClear();
       
@@ -173,6 +206,16 @@ int  StateStart::update(RenderWindow* window)
       window->windowDraw(_spj2);
       window->windowDraw(_spj3);
       window->windowDraw(_spj4);
+      window->windowDraw(_shelp);
+      window->windowDraw(_sexit);
+      
+      if(_snmes == 1)
+      {
+      window->windowDraw(_mehelp);
+      }
+
+      
+      
       
       window->windowDisplay();
       

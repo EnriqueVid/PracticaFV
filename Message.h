@@ -8,15 +8,13 @@
 
 class Message {
 public:
-    Message(int number, Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition);
+    Message(int number, sf::Font font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition);
     Sprite* getSpriteMessage();
-    Text* getTextMessage();
-    Font* getFontMessage();
+    sf::Text* getTextMessage();
     virtual ~Message();
 
 private:
-    
-    Text* _text;
+    sf::Text* _text;
     Sprite* _sbox;
 };
 
