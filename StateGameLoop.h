@@ -49,6 +49,8 @@ public:
     int _aux;
     World* _world;
     RenderWindow* _window;
+    int _nextLevel;
+    int _actualLevel;
     
 };
 
