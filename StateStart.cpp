@@ -159,7 +159,7 @@ int  StateStart::update(RenderWindow* window)
   
     sf::Vector2f p2c = window->windowMapPixelToCoords(sf::Vector2i(sf::Mouse::getPosition().x - window->getWindowPosition().x - 10,sf::Mouse::getPosition().y - window->getWindowPosition().y - 38));
     
-    std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
+    //std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     
     if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) || input->inputCheck(11))
     {

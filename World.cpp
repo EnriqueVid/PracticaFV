@@ -1160,7 +1160,7 @@ void World::render(RenderWindow* renderWindow)
  
     _renderWindow->updatePercentTick(_percentTick);
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition())
-    _renderWindow->windowClear();
+    //_renderWindow->windowClear();
 
     
 
@@ -1322,7 +1322,7 @@ void World::render(RenderWindow* renderWindow)
         _renderWindow->windowDraw(_HUD->getStamina());
     }
     
-    _renderWindow->windowDisplay();
+    //_renderWindow->windowDisplay();
     
 }
 
