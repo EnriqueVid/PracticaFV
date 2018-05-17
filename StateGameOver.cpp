@@ -79,6 +79,12 @@ int StateGameOver::update(RenderWindow* window)
       window->windowClose();
       return 1;
   }
+  if(input->inputCheck(11))
+  {
+      RenderWindow::Instance()->setViewZoom(0.45);
+      RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
+      return 2;
+  }
   
   if(input->inputCheck(12) || input->inputCheck(14))
   {

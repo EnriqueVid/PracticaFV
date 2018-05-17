@@ -88,7 +88,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/libsfml-window.so /usr/lib/x86_64-linux-gnu/libsfml-graphics.so /usr/lib/x86_64-linux-gnu/libsfml-system.so
+LDLIBSOPTIONS=-L/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/libsfml-window.so /usr/lib/x86_64-linux-gnu/libsfml-graphics.so /usr/lib/x86_64-linux-gnu/libsfml-system.so /usr/lib/x86_64-linux-gnu/libsfml-audio.so
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -99,6 +99,8 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-system.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-audio.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
@@ -295,7 +297,7 @@ ${OBJECTDIR}/tinyxml2.o: tinyxml2.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} -r ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-window.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-graphics.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-system.so
+	${RM} -r ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-window.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-audio.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-graphics.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-system.so
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv
 
 # Subprojects

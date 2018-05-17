@@ -552,6 +552,7 @@ void LevelFactory::levelFactoryMapCreator()
 
 void LevelFactory::levelFactoryClear()
 {
+    
     if(_tilesetSprite != NULL)
     {
         delete _tilesetSprite;
@@ -560,64 +561,81 @@ void LevelFactory::levelFactoryClear()
     
     if(_player != NULL)
     {
+        _player->resetPlayer();
         _player = NULL;
     }
     
-    for(int i=0; i<_numenemybounce; i++)
-    {
-        if(_eBounce[i] != NULL)
+    if(_eBounce != NULL){
+        for(int i=0; i<_numenemybounce; i++)
         {
-            delete _eBounce[i];
-            _eBounce[i] = NULL;
+            if(_eBounce[i] != NULL)
+            {
+                delete _eBounce[i];
+                _eBounce[i] = NULL;
+            }
         }
+        delete[] _eBounce;
+        _eBounce = NULL;
     }
-    delete[] _eBounce;
-    _eBounce = NULL;
     
-    for(int i=0; i<_numenemystand; i++)
+    if(_eStand != NULL)
     {
-        if(_eStand[i] != NULL)
+        for(int i=0; i<_numenemystand; i++)
         {
-            delete _eStand[i];
-            _eStand[i] = NULL;
+            if(_eStand[i] != NULL)
+            {
+               delete _eStand[i];
+                _eStand[i] = NULL;
+            }
         }
+        delete[] _eStand;
+        _eStand = NULL;
     }
-    delete[] _eStand;
-    _eStand = NULL;
     
-    for(int i=0; i<_numenemychase; i++)
+    if(_eChase != NULL)
     {
-        if(_eChase[i] != NULL)
+        for(int i=0; i<_numenemychase; i++)
         {
-            delete _eChase[i];
-            _eChase[i] = NULL;
+            if(_eChase[i] != NULL)
+            {
+                delete _eChase[i];
+                _eChase[i] = NULL;
+            }
         }
+        delete[] _eChase;
+        _eChase = NULL;
     }
-    delete[] _eChase;
-    _eChase = NULL;
     
-    for(int i=0; i<_numbox; i++)
+    if(_oBox != NULL)
     {
-        if(_oBox[i] != NULL)
+        for(int i=0; i<_numbox; i++)
         {
-            delete _oBox[i];
-            _oBox[i] = NULL;
+            if(_oBox[i] != NULL)
+            {
+                delete _oBox[i];
+                _oBox[i] = NULL;
+            }
         }
+        delete[] _oBox;
+        _oBox = NULL;
     }
-    delete[] _oBox;
-    _oBox = NULL;
     
-    for(int i=0; i<_numbutton; i++)
+    if(_oSwitch != NULL)
     {
-        if(_oSwitch[i] != NULL)
+        for(int i=0; i<_numbutton; i++)
         {
-            delete _oSwitch[i];
-            _oSwitch[i] = NULL;
+            if(_oSwitch[i] != NULL)
+            {
+                delete _oSwitch[i];
+                _oSwitch[i] = NULL;
+            }
         }
+        delete[] _oSwitch;
+        _oSwitch = NULL;
     }
-    delete[] _oSwitch;
-    _oSwitch = NULL;
     
+    if(_oPowerUp != NULL)
+    {
     for(int i=0; i<_numpowerup; i++)
     {
         if(_oPowerUp[i] != NULL)
@@ -628,7 +646,10 @@ void LevelFactory::levelFactoryClear()
     }
     delete[] _oPowerUp;
     _oPowerUp = NULL;
+    }
     
+    if(_oStairs != NULL)
+    {
     for(int i=0; i<_numstairs; i++)
     {
         if(_oStairs[i] != NULL)
@@ -639,59 +660,97 @@ void LevelFactory::levelFactoryClear()
     }
     delete[] _oStairs;
     _oStairs = NULL;
-    
-    for(int l=0; l<_numlayers; l++)
-    {
-        for(int y=0; y<_height; y++)
-        {
-            for(int x=0; x<_width; x++)
-            {
-                if(_tileMapSprite[l][y][x] != NULL)
-                {
-                    delete _tileMapSprite[l][y][x];
-                    _tileMapSprite[l][y][x] = NULL;
-                }
-            }
-            if(_tileMapSprite[l][y] != NULL)
-                {
-                    delete[] _tileMapSprite[l][y];
-                    _tileMapSprite[l][y] = NULL;
-                }
-        }
-        if(_tileMapSprite[l] != NULL)
-        {
-            delete[] _tileMapSprite[l];
-            _tileMapSprite[l] = NULL;
-        }
     }
+    
+    if(_oDoor != NULL)
+    {
+        delete[] _oDoor;
+        _oDoor = NULL;
+    }
+    
     if(_tileMapSprite != NULL)
     {
-        delete[] _tileMapSprite;
-        _tileMapSprite = NULL;
-    }
-    
-    
-    for(int l=0; l<_numlayers; l++)
-    {
-        for(int y=0; y<_height; y++)
+        for(int l=0; l<_numlayers; l++)
         {
-            if(_tileMap[l][y] != NULL)
+            for(int y=0; y<_height; y++)
+            {
+                for(int x=0; x<_width; x++)
                 {
-                    delete[] _tileMap[l][y];
-                    _tileMap[l][y] = NULL;
+                    if(_tileMapSprite[l][y][x] != NULL)
+                    {
+                       delete _tileMapSprite[l][y][x];
+                        _tileMapSprite[l][y][x] = NULL;
+                    }
                 }
+                if(_tileMapSprite[l][y] != NULL)
+                    {
+                        delete[] _tileMapSprite[l][y];
+                        _tileMapSprite[l][y] = NULL;
+                    }
+            }
+            if(_tileMapSprite[l] != NULL)
+            {
+                delete[] _tileMapSprite[l];
+                _tileMapSprite[l] = NULL;
+            }
         }
-        if(_tileMap[l] != NULL)
+        if(_tileMapSprite != NULL)
         {
-            delete[] _tileMap[l];
-            _tileMap[l] = NULL;
+            delete[] _tileMapSprite;
+            _tileMapSprite = NULL;
         }
     }
+    
     if(_tileMap != NULL)
     {
-        delete[] _tileMap;
-        _tileMap = NULL;
+        for(int l=0; l<_numlayers; l++)
+        {
+            for(int y=0; y<_height; y++)
+            {
+                if(_tileMap[l][y] != NULL)
+                    {
+                        delete[] _tileMap[l][y];
+                        _tileMap[l][y] = NULL;
+                    }
+            }
+            if(_tileMap[l] != NULL)
+            {
+                delete[] _tileMap[l];
+                _tileMap[l] = NULL;
+            }
+        }
+
+        if(_tileMap != NULL)
+        {
+            delete[] _tileMap;
+            _tileMap = NULL;
+        }
     }
+    
+    if(_tilesetTexture != NULL)
+    {
+        delete _tilesetTexture;
+        _tilesetTexture = NULL;
+    }
+    
+    if(_playerTexture != NULL)
+    {
+        delete _playerTexture;
+        _playerTexture = NULL;
+    }
+    
+    if(_enemyTexture != NULL)
+    {
+        delete _enemyTexture;
+        _enemyTexture = NULL;
+    }
+    
+    if(_objectTexture != NULL)
+    {
+        delete _objectTexture;
+        _objectTexture = NULL;
+    }
+    
     
     _numMap = 0;
     _mapName = "";
@@ -720,6 +779,8 @@ void LevelFactory::levelFactoryClear()
     _tileheight = 0;
     _tilewidth = 0;
     _numtiles = 0;
+    
+    _pinstance = 0;
     
 }
 
