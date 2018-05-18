@@ -120,8 +120,22 @@ void RenderWindow::windowInterpolateDrawView(Sprite* sprite, Situation* prev, Si
 
 void RenderWindow::windowDraw(Message* message)
 {
-    _window->draw(message->getSpriteMessage()->getSpriteSprite());
-    _window->draw(*message->getTextMessage());
+    //_window->draw(message->getSpriteMessage()->getSpriteSprite());
+    sf::Text t = *message->getTextMessage();
+    t.setColor(sf::Color::Yellow);
+    t.setCharacterSize(12);
+    
+    cout<<"Ancho del texto: "<<t.getGlobalBounds().width<<endl;
+    cout<<"Size texto: "<<t.getCharacterSize()<<endl;
+    cout<<"Fuente texto: "<<t.getFont()->getInfo().family<<endl;
+    cout<<"String texto: "<<message->getStringMessage()<<endl;
+    
+    sf::RectangleShape rect(sf::Vector2f(t.getGlobalBounds().width, t.getGlobalBounds().height));
+    rect.setFillColor(sf::Color::Red);
+    rect.setPosition(sf::Vector2f(t.getGlobalBounds().left, t.getGlobalBounds().top));
+    
+    _window->draw(rect);
+    _window->draw(t);
 }
 
 bool RenderWindow::windowIsOpen()

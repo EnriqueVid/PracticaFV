@@ -96,7 +96,7 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    _mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
+    //_mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
     
     _snmes = 0;
     
@@ -164,8 +164,8 @@ int  StateStart::update(RenderWindow* window)
     if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) || input->inputCheck(11))
     {
         
-        RenderWindow::Instance()->setViewZoom(0.45);
-        RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
+        //RenderWindow::Instance()->setViewZoom(0.45);
+        //RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
         return 2;
     }else{
       
@@ -211,7 +211,7 @@ int  StateStart::update(RenderWindow* window)
       
       if(_snmes == 1)
       {
-      window->windowDraw(_mehelp);
+      //window->windowDraw(_mehelp);
       }
 
       

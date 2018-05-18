@@ -5,6 +5,7 @@
 #include "Text.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include <iostream>
 
 class Message {
 public:
