@@ -55,14 +55,14 @@ void Box::interact(){
 }
     
 void Box::breakBox(){
-            std::cout << "Rompiendo la caja" <<std::endl;
+            //std::cout << "Rompiendo la caja" <<std::endl;
     if(_breakAnimation==false){
-             std::cout << "Se rompe. Ponieno a true breakanimation." <<std::endl;
+             //std::cout << "Se rompe. Ponieno a true breakanimation." <<std::endl;
         _breakAnimation=true;
         _clock->clockRestart();        
     }
     else{
-                std::cout << "No puedo romper la caja porque ya se esta rompiendo." <<std::endl;
+                //std::cout << "No puedo romper la caja porque ya se esta rompiendo." <<std::endl;
     }
 }
     
@@ -97,12 +97,12 @@ void Box::collision(){
 
 void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
 {
-    cout <<"MAP COLLISIONS"<<endl;
-    cout <<"AxisX: "<<axisX << "AxisY: " << axisY<<endl;
+    //cout <<"MAP COLLISIONS"<<endl;
+    //cout <<"AxisX: "<<axisX << "AxisY: " << axisY<<endl;
     
     if(axisX>0)
     {
-        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        //cout <<"ENTRO AQUI A HACER COSAS"<<endl;
         if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()+31)/32] == 2)
         {
             _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
@@ -116,7 +116,7 @@ void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
     }
     else if(axisX<0)
     {
-        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        //cout <<"ENTRO AQUI A HACER COSAS"<<endl;
         if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()-31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
         {
             _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
@@ -133,7 +133,7 @@ void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
     
     if(axisY>0)
     {
-        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        //cout <<"ENTRO AQUI A HACER COSAS"<<endl;
         if(_collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
         {
             _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
@@ -150,7 +150,7 @@ void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
     }
     else if(axisY<0)
     {
-        cout <<"ENTRO AQUI A HACER COSAS"<<endl;
+        //cout <<"ENTRO AQUI A HACER COSAS"<<endl;
         if(_collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()+31)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-31)/32][int(_actualSituation->getPositionX()-31)/32] == 2)
         {
             _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());

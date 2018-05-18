@@ -322,7 +322,7 @@ if(_player!=NULL)_player->input();
                 if(_door[x]!=NULL)
                 {
                     _door[x]->update();
-                    cout<<"puerta-------"<<endl;
+                    //cout<<"puerta-------"<<endl;
                 }
             }
         }
@@ -586,7 +586,10 @@ void World::checkCollisions()
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_door[x]->getSprite()->getSpriteSprite(),0))
                     {        
-                        if(_door[x]->getOpening()==false || _door[x]->getJustClosed()==true){
+                        
+                        if(_door[x]->getClosing()==true){
+                            
+                            //Colision con una puerta que se esta cerrando. --> Hacer danyo y abrirse.
 
                             sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                     _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
@@ -600,12 +603,49 @@ void World::checkCollisions()
 
 
                             if(_door[x]->getClosing()){
-                                _player->setHealth(_player->getHealth()-10);                            
+                                _player->setHealth(_player->getHealth()-40);                            
+                            }
+                            
+                            if(_door[x]->getJustClosed()==true){
+                                std::cout << "RETRACTANDO" << std::endl;
                             }
                         
                         }
-                        else{
+                        else if(_door[x]->getJustClosed()==true)
+                        {
                             
+                            //Colision con una puerta que acaba de cerrarse. --> Hacer danyo y abrirse.
+                            
+                            std::cout<<"This is happening."<<std::endl;
+                            
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                            _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
+
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                            _door[x]->getPreviousSituation()->getPositionY(),
+                            _door[x]->getPreviousSituation()->getAngle());  
+                            
+                            _player->setHealth(_player->getHealth()-40);                            
+
+                            _door[x]->open();
+                            
+                        }
+                        else if(_door[x]->getClose()==true){   
+                            
+                            //Colision con una puerta cerrada --> impedir el paso.
+                            
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                            _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
+
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                            _door[x]->getPreviousSituation()->getPositionY(),
+                            _door[x]->getPreviousSituation()->getAngle());                              
                         }
                         
                         
@@ -666,7 +706,7 @@ void World::checkCollisions()
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getEnemySprite()->getSpriteSprite(),0))
                     {         
-                        cout <<"Colision con el enemigo directamente"<<endl;
+                        //cout <<"Colision con el enemigo directamente"<<endl;
                         
                         sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                 _player->getActualSituation(), _player->getSpeed(), _enemyStand[x]->getEnemySprite());
@@ -684,7 +724,7 @@ void World::checkCollisions()
                     if(!_player->getHidden()){
                         if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getConeSprite()->getSpriteSprite(),0))
                         {                   
-                            cout <<"Colision con el CONO directamente"<<endl;
+                            //cout <<"Colision con el CONO directamente"<<endl;
                             _enemyStand[x]->setCollisionPlayerCone(true);
 
                             _player->setCollisionCone(true, _enemyStand[x]->getEnemyDamage(), 0.1f);
@@ -708,7 +748,7 @@ void World::checkCollisions()
                     if(_player->getPlayer()->spriteIntersectsPixel(_enemyBounce[x]->getEnemySprite()->getSpriteSprite(),0))
                     {                       
                         
-                        cout <<"Colision con el enemigo directamente"<<endl;
+                        //cout <<"Colision con el enemigo directamente"<<endl;
                         
 
                         sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[x]->getEnemySprite(),_enemyBounce[x]->getEnemyPreviousSituation(),
@@ -744,7 +784,7 @@ void World::checkCollisions()
             if(_player->getPlayer()->spriteIntersectsPixel(_stairs->getSprite()->getSpriteSprite(),0))
             {            
                 //PASAMOS AL SIGUIENTE NIVEL
-                cout<<"Hola"<<endl;
+                //cout<<"Hola"<<endl;
                 _nextLevel = true;
             }
         }
@@ -972,10 +1012,6 @@ void World::checkCollisions()
             }
         }
     }  
-        
-    
-    
-    
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
@@ -1012,6 +1048,10 @@ void World::checkCollisions()
                                 _box[x]->setCollisionObject(true);
                                 
                                 _door[y]->setCollisionObject(true);
+                                
+                                if(_door[y]->getClosing() || _door[y]->getJustClosed()){
+                                    _door[y]->open(); //forzamos la apertura;                                
+                                }
                                 
                                 _box[x]->setCollisionPlayerDirection(false, 0.0f,0.0f);                            
 

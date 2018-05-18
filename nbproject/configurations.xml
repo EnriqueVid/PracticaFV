@@ -22,12 +22,16 @@
       <itemPath>Input.h</itemPath>
       <itemPath>LevelFactory.h</itemPath>
       <itemPath>Message.h</itemPath>
+      <itemPath>Music.h</itemPath>
       <itemPath>Node.h</itemPath>
       <itemPath>Object.h</itemPath>
       <itemPath>Player.h</itemPath>
       <itemPath>PowerUp.h</itemPath>
       <itemPath>RenderWindow.h</itemPath>
       <itemPath>Situation.h</itemPath>
+      <itemPath>Sound.h</itemPath>
+      <itemPath>SoundBuffer.h</itemPath>
+      <itemPath>SoundManager.h</itemPath>
       <itemPath>Sprite.h</itemPath>
       <itemPath>Stairs.h</itemPath>
       <itemPath>State.h</itemPath>
@@ -66,12 +70,16 @@
       <itemPath>Input.cpp</itemPath>
       <itemPath>LevelFactory.cpp</itemPath>
       <itemPath>Message.cpp</itemPath>
+      <itemPath>Music.cpp</itemPath>
       <itemPath>Node.cpp</itemPath>
       <itemPath>Object.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
       <itemPath>PowerUp.cpp</itemPath>
       <itemPath>RenderWindow.cpp</itemPath>
       <itemPath>Situation.cpp</itemPath>
+      <itemPath>Sound.cpp</itemPath>
+      <itemPath>SoundBuffer.cpp</itemPath>
+      <itemPath>SoundManager.cpp</itemPath>
       <itemPath>Sprite.cpp</itemPath>
       <itemPath>Stairs.cpp</itemPath>
       <itemPath>State.cpp</itemPath>
@@ -131,6 +139,7 @@
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libsfml-window.so</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libsfml-graphics.so</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libsfml-system.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libsfml-audio.so</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -206,6 +215,10 @@
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Music.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Music.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Node.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
@@ -229,6 +242,18 @@
       <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Situation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Sound.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Sound.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SoundBuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SoundBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SoundManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SoundManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -373,6 +398,10 @@
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Music.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Music.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Node.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
@@ -396,6 +425,18 @@
       <item path="Situation.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Situation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Sound.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Sound.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SoundBuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SoundBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SoundManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SoundManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>

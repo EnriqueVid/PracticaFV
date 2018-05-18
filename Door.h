@@ -36,6 +36,7 @@ public:
     void move();
         
     bool getOpen();
+    bool getClose();
     int getDoorType();
     float getMaxTimeOpen();
     Clock* getClock();

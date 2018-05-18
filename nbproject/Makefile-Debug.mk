@@ -53,12 +53,16 @@ OBJECTFILES= \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/LevelFactory.o \
 	${OBJECTDIR}/Message.o \
+	${OBJECTDIR}/Music.o \
 	${OBJECTDIR}/Node.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/PowerUp.o \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Situation.o \
+	${OBJECTDIR}/Sound.o \
+	${OBJECTDIR}/SoundBuffer.o \
+	${OBJECTDIR}/SoundManager.o \
 	${OBJECTDIR}/Sprite.o \
 	${OBJECTDIR}/Stairs.o \
 	${OBJECTDIR}/State.o \
@@ -88,7 +92,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/libsfml-window.so /usr/lib/x86_64-linux-gnu/libsfml-graphics.so /usr/lib/x86_64-linux-gnu/libsfml-system.so
+LDLIBSOPTIONS=-L/usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/libsfml-window.so /usr/lib/x86_64-linux-gnu/libsfml-graphics.so /usr/lib/x86_64-linux-gnu/libsfml-system.so /usr/lib/x86_64-linux-gnu/libsfml-audio.so
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -99,6 +103,8 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-graphics.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-system.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: /usr/lib/x86_64-linux-gnu/libsfml-audio.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
@@ -194,6 +200,11 @@ ${OBJECTDIR}/Message.o: Message.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
 
+${OBJECTDIR}/Music.o: Music.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Music.o Music.cpp
+
 ${OBJECTDIR}/Node.o: Node.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -223,6 +234,21 @@ ${OBJECTDIR}/Situation.o: Situation.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Situation.o Situation.cpp
+
+${OBJECTDIR}/Sound.o: Sound.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sound.o Sound.cpp
+
+${OBJECTDIR}/SoundBuffer.o: SoundBuffer.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SoundBuffer.o SoundBuffer.cpp
+
+${OBJECTDIR}/SoundManager.o: SoundManager.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/SFML -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SoundManager.o SoundManager.cpp
 
 ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -295,7 +321,7 @@ ${OBJECTDIR}/tinyxml2.o: tinyxml2.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} -r ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-window.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-graphics.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-system.so
+	${RM} -r ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-window.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-graphics.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-system.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsfml-audio.so
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/practicafv
 
 # Subprojects

@@ -53,12 +53,16 @@ OBJECTFILES= \
 	${OBJECTDIR}/Input.o \
 	${OBJECTDIR}/LevelFactory.o \
 	${OBJECTDIR}/Message.o \
+	${OBJECTDIR}/Music.o \
 	${OBJECTDIR}/Node.o \
 	${OBJECTDIR}/Object.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/PowerUp.o \
 	${OBJECTDIR}/RenderWindow.o \
 	${OBJECTDIR}/Situation.o \
+	${OBJECTDIR}/Sound.o \
+	${OBJECTDIR}/SoundBuffer.o \
+	${OBJECTDIR}/SoundManager.o \
 	${OBJECTDIR}/Sprite.o \
 	${OBJECTDIR}/Stairs.o \
 	${OBJECTDIR}/State.o \
@@ -188,6 +192,11 @@ ${OBJECTDIR}/Message.o: Message.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Message.o Message.cpp
 
+${OBJECTDIR}/Music.o: Music.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Music.o Music.cpp
+
 ${OBJECTDIR}/Node.o: Node.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -217,6 +226,21 @@ ${OBJECTDIR}/Situation.o: Situation.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Situation.o Situation.cpp
+
+${OBJECTDIR}/Sound.o: Sound.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Sound.o Sound.cpp
+
+${OBJECTDIR}/SoundBuffer.o: SoundBuffer.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SoundBuffer.o SoundBuffer.cpp
+
+${OBJECTDIR}/SoundManager.o: SoundManager.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SoundManager.o SoundManager.cpp
 
 ${OBJECTDIR}/Sprite.o: Sprite.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -114,7 +114,6 @@ void Door::update()
 {
     //CONTROL PARA COMPROBAR SI LA PUERTA SE ACABA DE CERRAR EN LA ITERACION ANTERIOR (AYUDA PARA COLISIONES)
     if(_justClosed)_justClosed=false;
-    if(_close)_justClosed=true;
     
         
     
@@ -167,6 +166,7 @@ void Door::update()
 
                     fixPositionClosing();
                     _close=true;
+                    _justClosed=true;
                     _closing=false;
 
                     _opening=false;
@@ -306,6 +306,11 @@ bool Door::getClosing(){
 
 Clock* Door::getClock(){
     return _clock;
+}
+
+bool Door::getClose()
+{
+    return _close;
 }
 
 bool Door::getJustClosed()
