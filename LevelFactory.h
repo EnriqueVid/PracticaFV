@@ -82,7 +82,7 @@ protected:
     
 private:
     static LevelFactory* _pinstance;
-    int _numMap;
+    
     Texture* _tilesetTexture;
     Texture* _playerTexture;
     Texture* _enemyTexture;
@@ -103,7 +103,7 @@ private:
     Stairs** _oStairs;
     
     
-    
+    int _numMap;
     int _numlayers;
     int _numobjects;
     

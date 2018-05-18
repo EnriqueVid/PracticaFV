@@ -26,9 +26,17 @@ Hud* Hud::Instance()
 
 Hud::Hud()
 {
+    
+    
+    _thudbox = new Texture("./textures/HUDBOX.png");
     _life = new Sprite();
     _rectangle = new Sprite();
     _stamina = new Sprite();
+    _shudbox = new Sprite();
+    _shudbox->setSpriteTexture(_thudbox);
+    _shudbox->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(0, 0)));
+    _shudbox->setSpriteColor(255,255,255,210);
+
 }
 
 Hud::Hud(const Hud& orig)
@@ -43,16 +51,22 @@ Hud::~Hud()
     _rectangle = NULL;
     delete _stamina;
     _stamina = NULL;
+    delete _shudbox;
+    delete _thudbox;
+    _shudbox = NULL;
+    _thudbox = NULL;
 }
 
 void Hud::update(float life, float stamina, int r, int g, int b, int a)
 {
+    _life->setSpriteScale(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.23, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.05));
+    _rectangle->setSpriteScale(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.02, RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.02));
+    _stamina->setSpriteScale(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.18, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.05));
+    _shudbox->setSpriteScale(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.0018, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.0025));
     _life->setSpriteScale(sf::Vector2f(float((life*100)/256),10));
-    
     _rectangle->setSpriteColor(r, g, b, a);
-    
     _stamina->setSpriteColor(r, g, b, a);
-    _stamina->setSpriteScale(sf::Vector2f(float((stamina*80)/200),10));
+    _stamina->setSpriteScale(sf::Vector2f(float((stamina*80)/240),10));    
 }
 
 void Hud::setSprites(Texture* texture)
@@ -62,27 +76,33 @@ void Hud::setSprites(Texture* texture)
     _life->setSpriteColor(255,255,255,255);
     _life->setSpriteScale(sf::Vector2f(1,1));
     _life->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(0, -20)));
-    
+
     _rectangle->setSpriteTexture(texture);
     _rectangle->setSpriteTextureRect(sf::IntRect(16,16,1,1));
     _rectangle->setSpriteColor(255,255,255,255);
     _rectangle->setSpriteScale(sf::Vector2f(15,15));
     _rectangle->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(20, 100)));
+
     
     _stamina->setSpriteTexture(texture);
     _stamina->setSpriteTextureRect(sf::IntRect(16,16,1,1));
     _stamina->setSpriteColor(255,255,255,255);
     _stamina->setSpriteScale(sf::Vector2f(100,5));
     _stamina->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(55, 200)));
+  
 }
 
 void Hud::setPosition()
-{
+{ 
+    _shudbox->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(0.f,0.f)));
+    _life->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.05, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.10)));
+    _rectangle->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.05, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.23)));
+    _stamina->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.18, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.25)));
     
-    
-    _life->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(5, 5)));
-    _rectangle->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(5, 40)));
-    _stamina->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(55, 40)));
+   //_life->setSpritePosition(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.20, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.125));
+    //_rectangle->setSpritePosition(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.085, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.21));
+    //_stamina->setSpritePosition(sf::Vector2f(RenderWindow::Instance()->getWindowWindow()->getView().getSize().x * 0.26, RenderWindow::Instance()->getWindowWindow()->getView().getSize().y * 0.21));
+  
 }
 
 
@@ -99,5 +119,10 @@ Sprite* Hud::getRectangle()
 Sprite* Hud::getStamina()
 {
     return _stamina;
+}
+
+Sprite* Hud::getHUDBOX()
+{
+    return _shudbox;
 }
 

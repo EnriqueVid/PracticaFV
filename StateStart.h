@@ -44,16 +44,24 @@ public:
     static StateStart* _pinstance;        
     Texture* _tstartbg;
     Texture* _tstartbutton;
+    Texture* _texit;
+    Texture* _thelp;
     Texture* _tpj1;
     Texture* _tpj2;
     Texture* _tpj3;
     Texture* _tpj4;
     Sprite* _sstartbg;
     Sprite* _sstartbutton;
+    Sprite* _sexit;
+    Sprite* _shelp;
     Sprite* _spj1;
     Sprite* _spj2;
     Sprite* _spj3;
     Sprite* _spj4;
     View* _sview;
+    Texture* _tmes;
+    Font* _fmes;
+    Message* _mehelp;
+    int _snmes;
 };
 #endif /* STATESTART_H */
