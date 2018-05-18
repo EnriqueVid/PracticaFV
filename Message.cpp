@@ -13,13 +13,14 @@
 
 
 #include "Message.h"
+#include "RenderWindow.h"
 
 
 using namespace std;
 
 Message::Message(int number,sf::Font font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        sf::FloatRect box = pjbounds; 
+        sf::FloatRect box = pjbounds;
         sf::IntRect box1;
         box1.top = (int) (box.top + box.height);
         box1.left = (int) (box.left - box.width);
@@ -34,6 +35,7 @@ Message::Message(int number,sf::Font font, Texture* texturebg, sf::FloatRect pjb
         _sbox->setSpriteScale(sf::Vector2f(1.f, 1.f));
 
         _text->setColor(sf::Color::White);
+        _text->setCharacterSize(20);
         _text->setPosition(_sbox->getSpritePosition().x + 20, _sbox->getSpritePosition().y);
         
         std::string message1 = "";
@@ -134,6 +136,10 @@ Sprite* Message::getSpriteMessage()
     return _sbox;
 }
 
+std::string Message::getStringMessage()
+{
+    return _text->getString();
+}
 
 Message::~Message()
 {   
