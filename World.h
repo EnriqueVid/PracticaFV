@@ -54,6 +54,7 @@ public:
         
     void render(RenderWindow* _renderWindow); //ejecuta el render de todos los objetos
     void resetWorld();
+    void calculateAdvancedCollisionMap();
     
     bool getLevelDone();
     bool getDestroyTheWorld();

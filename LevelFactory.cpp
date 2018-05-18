@@ -77,9 +77,14 @@ void LevelFactory::levelFactoryMapSelector()
 {
     switch(_numMap)
     {
+        case -2:
+            _mapName = "./Maps/LevelC.tmx";
+            break;
+        
         case -1:
             _mapName = "./Maps/Level-P.tmx";
             break;
+            
         case 0:
             _mapName = "./Maps/Level-0.tmx";
             break;

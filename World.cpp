@@ -114,6 +114,10 @@ void World::buildWorld(int lvlNumber)
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
     
+    //if(_enemyChaseNumber > 0)
+    //{
+        calculateAdvancedCollisionMap();
+    //}
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
@@ -384,6 +388,10 @@ if(_player!=NULL)_player->input();
         _clock->clockRestart();    
     }
     _percentTick=_clock->getClockAsSeconds()/float(UPS);        
+    //if(_enemyChaseNumber > 0)
+    //{
+    //    calculateAdvancedCollisionMap();
+    //}
 }
 
 //Metodo usado para corregir la posicion de los objetos tras todos sus updates, para comprobar que nadie se mete
@@ -1627,4 +1635,48 @@ void World::resetWorld()
 int World::getNextLevel()
 {
     return _stairs->getNextLevel();
+}
+
+void World::calculateAdvancedCollisionMap()
+{
+    _advancedCollisionMap = new int*[_mapHeight];
+    for(int y=0; y<_mapHeight; y++)
+    {
+        _advancedCollisionMap[y] = new int[_mapWidth];
+    }
+     
+    for(int y=0; y<_mapHeight; y++)
+    {
+        for(int x=0; x<_mapWidth; x++)
+        {
+            _advancedCollisionMap[y][x] = _collisionMap[y][x];
+        }
+    }
+        
+    for(int i=0; i<_doorNumber; i++)
+    {
+        _advancedCollisionMap[int((_door[i]->getActualSituation()->getPositionY()-16)/32)][int((_door[i]->getActualSituation()->getPositionX()-16)/32)] = 2;
+    }
+        
+    for(int i=0; i<_boxNumber; i++)
+    {
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+    }
+    
+    for(int y=0; y<_mapHeight; y++)
+    {
+        for(int x=0; x<_mapWidth; x++)
+        {
+            cout<<_advancedCollisionMap[y][x]-1;
+        }
+        cout<<endl;
+    }
 }
