@@ -34,10 +34,37 @@ using namespace std;
 int main()
 {
     RenderWindow* window = RenderWindow::Instance();
-    
+
     StateStart::Instance();
     
     int which = StateStart::Instance()->getStateNumber();
+
+    
+            //Quitar
+            Texture* _texture = new Texture("./textures/fondotexto.png");
+            
+            int _number = 1;
+            
+            sf::Font _font;
+            _font.loadFromFile("./textures/Pixeled.ttf");
+            
+            sf::FloatRect _box;
+            _box.height = 100;
+            _box.width = 100;
+            _box.left = 300;
+            _box.top = 300;
+            
+            sf::Vector2f _pos;
+            _pos.x = 50;
+            _pos.y = 50;
+            
+            Message* _message = new Message(_number, _font, _texture, _box, _pos);
+            
+            cout<<_message->getSpriteMessage()->getSpritePosition().x<<endl;
+            cout<<_message->getTextMessage()->getPosition().x<<endl;
+            cout<<_message->getTextMessage()->getPosition().y<<endl;
+        
+    
     Event* ev = new Event();
     while(window->windowIsOpen())
     {
@@ -56,13 +83,20 @@ int main()
         }else if(which == 2)
         {   
             which = StateGameLoop::Instance()->update(window);
+            
+            window->windowClear();
             StateGameLoop::Instance()->render(window);
+            
+            //Quitar
+            window->windowDraw(_message);
+            window->windowDisplay();
         }
         else
         {
             which = StateGameOver::Instance()->update(window);
             
         }
+        
     }
     return 0;
 }

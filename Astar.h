@@ -16,6 +16,7 @@
 
 #include <queue>
 #include "Node.h"
+#include <iostream>
 
 class Astar {
 public:
@@ -25,6 +26,7 @@ public:
     virtual ~Astar();
     std::string pathfind(sf::Vector2i start, sf::Vector2i end);
     void reordenar(std::vector<Node*> &list);
+    sf::Vector2i* getAbsoluto(std::string path);
     
 private:
     int _height;
@@ -35,6 +37,12 @@ private:
     int** _directions;
     int _dir;
     
+    
+    sf::Vector2i _start;
+    sf::Vector2i _end;
+    std::string _meh;
+    
+    sf::Vector2i* _path;
     int* _dirX;
     int* _dirY;
 };

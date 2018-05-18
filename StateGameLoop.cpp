@@ -41,7 +41,7 @@ StateGameLoop::StateGameLoop()
     _window = RenderWindow::Instance();
     _world = World::Instance();
 
-    _world->buildWorld(-2);
+    _world->buildWorld(-1);
     _window = RenderWindow::Instance();
     _nextLevel = 0;
     _actualLevel = 0;
@@ -97,6 +97,7 @@ int  StateGameLoop::update(RenderWindow* window)
     
     if(World::Instance()->getLevelDone() == true)
     {
+
         _window->resetView();
         RenderWindow::Instance()->setViewZoom(0.45);
         RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
