@@ -19,7 +19,7 @@ Object::Object()
 }
 Object::Object(int objectType, float initialPosX, float initialPosY, float initialAngle, bool canBeMoved, Texture* texture)
 {
-    cout <<"Ejecutando constructor de padre"<<endl;
+    //cout <<"Ejecutando constructor de padre"<<endl;
     _objectType=objectType;
     _canBeMoved = canBeMoved;
     //formacion del sprite adecuado segun el tipo.ende
@@ -47,7 +47,7 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
 //estos metodo se heredara y hara algo distinto para cada uno de los hijos
 void Object::interact()
 {
-    std::cout <<"This should not happen. ERROR: IS Calling the father object interact." <<endl;
+    //std::cout <<"This should not happen. ERROR: IS Calling the father object interact." <<endl;
 }
 
 void Object::update()
@@ -167,7 +167,7 @@ Object::Object(const Object& orig)
 //Ojo: Este metodo tambien se sobreescribe en los hijos. Puede haber problemas de gestion de memoria si no se tiene cuidado.
 Object::~Object() 
 {
-    std::cout <<"Deleting object" << std::endl;
+    //std::cout <<"Deleting object" << std::endl;
     /*
     delete _actualSituation;
     _actualSituation=NULL;

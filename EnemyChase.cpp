@@ -252,7 +252,7 @@ void EnemyChase::updateStateChase(int** map, int width, int height)
         if(_counter >9)
         {
             _counter = 0;
-            Astar* astar = new Astar(map, height, width, 8);
+            Astar* astar = new Astar(map, width, height, 8);
 
             std::string way = astar->pathfind(sf::Vector2i((int)getEnemyActualSituation()->getPositionX()/32, (int)getEnemyActualSituation()->getPositionY()/32),sf::Vector2i((int)p->getActualSituation()->getPositionX()/32, (int)p->getActualSituation()->getPositionY()/32));
             _path = astar->getAbsoluto(way);
