@@ -50,6 +50,13 @@ public:
     Texture* _tpj2;
     Texture* _tpj3;
     Texture* _tpj4;
+    Texture* _tcar;
+    Texture* _tini1;
+    Texture* _tini2;
+    Sprite* _car;
+    Sprite* _scar;
+    Sprite* _sini1;
+    Sprite* _sini2;
     Sprite* _sstartbg;
     Sprite* _sstartbutton;
     Sprite* _sexit;
@@ -63,5 +70,8 @@ public:
     Font* _fmes;
     Message* _mehelp;
     int _snmes;
+    int _cual;
+    int _contador;
+    
 };
 #endif /* STATESTART_H */
