@@ -18,7 +18,7 @@
 
 using namespace std;
 
-Message::Message(int number,sf::Font font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
+Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
         sf::FloatRect box = pjbounds;
         sf::IntRect box1;
@@ -118,10 +118,9 @@ Message::Message(int number,sf::Font font, Texture* texturebg, sf::FloatRect pjb
                 break;
         }
         
-    _text = new sf::Text(message1, font, 12);
-    std::cout<<"Ancho del texto: "<<_text->getGlobalBounds().width<<std::endl;
-    std::cout<<"Meh: "<<_text->getCharacterSize()<<std::endl;
-    std::cout<<"Ancho del texto: "<<_text->getGlobalBounds().width<<std::endl;
+    _text = new sf::Text(message1, *font, 12);
+    _text->setColor(sf::Color::White);
+    _text->setPosition(sf::Vector2f(box1.left,box1.top));
      
 }
 

@@ -35,7 +35,7 @@ Hud::Hud()
     _shudbox = new Sprite();
     _shudbox->setSpriteTexture(_thudbox);
     _shudbox->setSpritePosition(RenderWindow::Instance()->windowMapPixelToCoords(sf::Vector2i(0, 0)));
-    _shudbox->setSpriteColor(255,255,255,150);
+    _shudbox->setSpriteColor(255,255,255,210);
 
 }
 

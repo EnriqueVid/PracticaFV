@@ -80,18 +80,18 @@ Astar::Astar(int** map, int height, int width, int dir)
         _dirY[3] = -1;
     }
     
-    _map = new int*[_width];
-    _closedNodes = new int*[_width];
-    _openNodes = new int*[_width];
-    _directions = new int*[_width];
+    _map = new int*[_height];
+    _closedNodes = new int*[_height];
+    _openNodes = new int*[_height];
+    _directions = new int*[_height];
     
-    for(int i=0;i<_width;i++)
+    for(int i=0;i<_height;i++)
     {
-        _map[i] = new int[_height];
-        _closedNodes[i] = new int[_height];
-        _openNodes[i] = new int[_height];
-        _directions[i] = new int[_height];
-        for(int j=0;j<_height;j++)
+        _map[i] = new int[_width];
+        _closedNodes[i] = new int[_width];
+        _openNodes[i] = new int[_width];
+        _directions[i] = new int[_width];
+        for(int j=0;j<_width;j++)
         {
             _map[i][j] = map[i][j];
         }
@@ -104,28 +104,28 @@ Astar::Astar(const Astar& orig)
 
 Astar::~Astar()
 {
-    for(int i = 0;i<_width;i++)
+    for(int i = 0;i<_height;i++)
     {
         delete [] _map[i];
     }
     delete[] _map;
     _map = NULL;
     
-    for(int i = 0;i<_width;i++)
+    for(int i = 0;i<_height;i++)
     {
         delete [] _openNodes[i];
     }
     delete[] _openNodes;
     _openNodes = NULL;
     
-    for(int i = 0;i<_width;i++)
+    for(int i = 0;i<_height;i++)
     {
         delete [] _closedNodes[i];
     }
     delete[] _closedNodes;
     _closedNodes = NULL;
     
-    for(int i = 0;i<_width;i++)
+    for(int i = 0;i<_height;i++)
     {
         delete [] _directions[i];
     }
@@ -176,7 +176,7 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
     n0=new Node(start, 0, 0);
     n0->updatePriority(end);
     pq[pqi].push_back(n0);
-    _openNodes[start.x][start.y]=n0->getPriority(); // Marcamos el nodo en el mapa de nodos que podemos visitar pero no hemos pasado aún
+    _openNodes[start.y][start.x]=n0->getPriority(); // Marcamos el nodo en el mapa de nodos que podemos visitar pero no hemos pasado aún
     
     // A* search
     while(!pq[pqi].empty())
@@ -190,9 +190,9 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
         pq[pqi].pop_back(); 
         
         // Quitarlo de los nodos aún por visitar
-        _openNodes[x][y]=0;
+        _openNodes[y][x]=0;
         // Marcarlo como ya visitado
-        _closedNodes[x][y]=1;
+        _closedNodes[y][x]=1;
         
         
         // quit searching when the goal state is reached
@@ -204,7 +204,7 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
             _meh="";
             while(!(x==start.x && y==start.y))
             {
-                j=_directions[x][y];
+                j=_directions[y][x];
                 c='0'+(j+_dir/2)%_dir;
                 _meh=c+_meh;
                 x+=_dirX[j];
@@ -228,7 +228,7 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
             xdx = x + _dirX[i];
             ydy = y + _dirY[i];
             
-            if(!(xdx<0 || xdx>_width-1 || ydy<0 || ydy>_height-1 || _map[xdx][ydy]==2 || _closedNodes[xdx][ydy]==1))
+            if(!(xdx<0 || xdx>_width-1 || ydy<0 || ydy>_height-1 || _map[ydy][xdx]==2 || _closedNodes[ydy][xdx]==1))
             {
                 // generate a child node
                 m0=new Node(sf::Vector2i(xdx, ydy), n0->getLevel(), n0->getPriority());
@@ -238,20 +238,20 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                 
                 
                 // if it is not in the open list then add into that
-                if(_openNodes[xdx][ydy]==0)
+                if(_openNodes[ydy][xdx]==0)
                 {
-                    _openNodes[xdx][ydy]=m0->getPriority();
+                    _openNodes[ydy][xdx]=m0->getPriority();
                     pq[pqi].push_back(m0);
                     
                     // mark its parent node direction
-                    _directions[xdx][ydy]=(i + (_dir/2))%_dir;
+                    _directions[ydy][xdx]=(i + (_dir/2))%_dir;
                 }
-                else if(_openNodes[xdx][ydy]>m0->getPriority())
+                else if(_openNodes[ydy][xdx]>m0->getPriority())
                 {
                     // update the priority info
-                    _openNodes[xdx][ydy]=m0->getPriority();
+                    _openNodes[ydy][xdx]=m0->getPriority();
                     // update the parent direction info
-                    _directions[xdx][ydy]=(i + (_dir/2))%_dir;
+                    _directions[ydy][xdx]=(i + (_dir/2))%_dir;
 
                     // replace the node
                     // by emptying one pq to the other one

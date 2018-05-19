@@ -21,6 +21,7 @@
 #include <math.h>
 #include "Clock.h"
 #include "RenderWindow.h"
+#include "SoundManager.h"
 
 
 class Player {

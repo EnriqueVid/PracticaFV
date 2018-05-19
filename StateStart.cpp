@@ -52,16 +52,17 @@ StateStart::StateStart()
     _tpj4->textureLoadFromFile("./textures/pjBlue.png");
     _tstartbg->textureLoadFromFile("./textures/startbg.png");
     _tstartbutton->textureLoadFromFile("./textures/startbutton.png");
-    _texit->textureLoadFromFile("./textures/pjWhite.png");
-    _thelp->textureLoadFromFile("./textures/pjWhite.png");
+    _texit->textureLoadFromFile("./textures/exitbutton.png");
+    _thelp->textureLoadFromFile("./textures/help.png");
     _tmes->textureLoadFromFile("./textures/fondotexto.png");
     
     
     //INTRECTS
     
-    sf::IntRect irbg(0,0, 800, 800);
+    sf::IntRect irbg(0,0, 1280, 720);
     sf::IntRect irbutton(0, 0 , 343, 147);
     sf::IntRect irpj(0, 0 , 32, 32);
+    sf::IntRect iexit(0, 0 , 330, 130);
     
     
     _sstartbg = new Sprite(_tstartbg, irbg);
@@ -71,12 +72,13 @@ StateStart::StateStart()
     _spj3 = new Sprite(_tpj3, irpj);
     _spj4 = new Sprite(_tpj4, irpj);
     _shelp  = new Sprite(_thelp, irpj);
-    _sexit = new Sprite(_texit, irpj);
+    _sexit = new Sprite(_texit, iexit);
     
     _shelp->setSpriteOrigin(sf::Vector2f(_shelp->getGlobalBounds().width/2.f, _shelp->getGlobalBounds().height/2.f));
     _sexit->setSpriteOrigin(sf::Vector2f(_sexit->getGlobalBounds().width/2.f, _sexit->getGlobalBounds().height/2.f));
+    _sexit->setSpriteScale(sf::Vector2f(0.3, 0.3));
+    _shelp->setSpriteScale(sf::Vector2f(1.3, 1.3));
     
-  
     _sstartbg->setSpriteOrigin(sf::Vector2f(_sstartbg->getGlobalBounds().width/2.f, _sstartbg->getGlobalBounds().height/2.f));
 
 

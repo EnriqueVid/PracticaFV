@@ -81,6 +81,8 @@ void World::buildWorld(int lvlNumber)
     _clock = new Clock();
     _input = Input::Instance();
     
+    _player = Player::Instance();
+    
     _textureNumber = 4;
     _texture = new Texture*[4];
     _texture[0] = _levelFactory->getPlayerTexture();
@@ -108,12 +110,16 @@ void World::buildWorld(int lvlNumber)
     _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
     _stairs = _levelFactory->getLevelFactoryStairs();
     
-    _player = Player::Instance();
-    //_player->unlockAllPowerUps();
+    
+    _player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
     
+    //if(_enemyChaseNumber > 0)
+    //{
+        calculateAdvancedCollisionMap();
+    //}
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
@@ -303,7 +309,7 @@ if(_player!=NULL)_player->input();
                 if(_door[x]!=NULL)
                 {
                     _door[x]->update();
-                    cout<<"puerta-------"<<endl;
+                    //cout<<"puerta-------"<<endl;
                 }
             }
         }
@@ -359,7 +365,7 @@ if(_player!=NULL)_player->input();
             {
                 if(_enemyChase[x]!=NULL)
                 {
-                    _enemyChase[x]->update(_collisionMap);
+                    _enemyChase[x]->update(_advancedCollisionMap, _mapHeight, _mapWidth);
                 }
             }
         }
@@ -384,6 +390,10 @@ if(_player!=NULL)_player->input();
         _clock->clockRestart();    
     }
     _percentTick=_clock->getClockAsSeconds()/float(UPS);        
+    //if(_enemyChaseNumber > 0)
+    //{
+    //    calculateAdvancedCollisionMap();
+    //}
 }
 
 //Metodo usado para corregir la posicion de los objetos tras todos sus updates, para comprobar que nadie se mete
@@ -566,16 +576,70 @@ void World::checkCollisions()
                 if(_player->getPlayer()->spriteIntersectsBounds(_door[x]->getSprite()))
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_door[x]->getSprite()->getSpriteSprite(),0))
-                    {                        
+                    {        
                         
+                        if(_door[x]->getClosing()==true){
+                            
+                            //Colision con una puerta que se esta cerrando. --> Hacer danyo y abrirse.
 
-                        sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
-                                _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
-                        
-                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
-                        
-                        _door[x]->setCollisionPlayer(true);
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                    _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
 
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                                    _door[x]->getPreviousSituation()->getPositionY(),
+                                    _door[x]->getPreviousSituation()->getAngle());
+
+
+                            if(_door[x]->getClosing()){
+                                _player->setHealth(_player->getHealth()-40);                            
+                            }
+                            
+                            if(_door[x]->getJustClosed()==true){
+                                std::cout << "RETRACTANDO" << std::endl;
+                            }
+                        
+                        }
+                        else if(_door[x]->getJustClosed()==true)
+                        {
+                            
+                            //Colision con una puerta que acaba de cerrarse. --> Hacer danyo y abrirse.
+                            
+                            std::cout<<"This is happening."<<std::endl;
+                            
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                            _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
+
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                            _door[x]->getPreviousSituation()->getPositionY(),
+                            _door[x]->getPreviousSituation()->getAngle());  
+                            
+                            _player->setHealth(_player->getHealth()-40);                            
+
+                            _door[x]->open();
+                            
+                        }
+                        else if(_door[x]->getClose()==true){   
+                            
+                            //Colision con una puerta cerrada --> impedir el paso.
+                            
+                            sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                            _player->getActualSituation(), _player->getSpeed(), _door[x]->getSprite());
+
+                            _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);     
+
+                            _door[x]->setCollisionPlayer(true);
+                            _door[x]->setActualSituation(_door[x]->getPreviousSituation()->getPositionX(), 
+                            _door[x]->getPreviousSituation()->getPositionY(),
+                            _door[x]->getPreviousSituation()->getAngle());                              
+                        }
+                        
+                        
                     }
                 }
             }
@@ -633,7 +697,7 @@ void World::checkCollisions()
                 {
                     if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getEnemySprite()->getSpriteSprite(),0))
                     {         
-                        cout <<"Colision con el enemigo directamente"<<endl;
+                        //cout <<"Colision con el enemigo directamente"<<endl;
                         
                         sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
                                 _player->getActualSituation(), _player->getSpeed(), _enemyStand[x]->getEnemySprite());
@@ -651,7 +715,7 @@ void World::checkCollisions()
                     if(!_player->getHidden()){
                         if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getConeSprite()->getSpriteSprite(),0))
                         {                   
-                            cout <<"Colision con el CONO directamente"<<endl;
+                            //cout <<"Colision con el CONO directamente"<<endl;
                             _enemyStand[x]->setCollisionPlayerCone(true);
 
                             _player->setCollisionCone(true, _enemyStand[x]->getEnemyDamage(), 0.1f);
@@ -661,7 +725,49 @@ void World::checkCollisions()
                 }
             }
         }
-    }    
+    }
+    
+    //Colision Jugador - Enemigos Chase
+    if(_player!=NULL&&_enemyChase!=NULL)
+    {
+        for(x=0;x<_enemyChaseNumber;x++)
+        {
+            if(_enemyChase[x]!=NULL)
+            {
+                //choque con el enemigostand
+                if(_player->getPlayer()->spriteIntersectsBounds(_enemyChase[x]->getEnemySprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_enemyChase[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {         
+                        cout <<"Colision con el enemigo directamente"<<endl;
+                        
+                        sf::Vector2f maxDespl = calculateMaxPosition(_player->getPlayer(),_player->getPreviousSituation(),
+                                _player->getActualSituation(), _player->getSpeed(), _enemyChase[x]->getEnemySprite());
+                        
+                        _player->getActualSituation()->setPosition(maxDespl.x,maxDespl.y);
+                        
+                        _player->setCollisionEnemy(true, _enemyChase[x]->getEnemyDamage(),0.1f);
+                        
+                        _enemyChase[x]->setCollisionPlayer(true);
+                    }
+                }
+                //choque con su cono de vision
+                if(_player->getPlayer()->spriteIntersectsBounds(_enemyChase[x]->getConeSprite()))
+                {
+                    if(!_player->getHidden()){
+                        if(_player->getPlayer()->spriteIntersectsPixel(_enemyChase[x]->getConeSprite()->getSpriteSprite(),0))
+                        {                   
+                            cout <<"Colision con el CONO directamente"<<endl;
+                            _enemyChase[x]->setCollisionPlayer(true);
+
+                            _player->setCollisionCone(true, _enemyChase[x]->getEnemyDamage(), 0.1f);
+
+                        }                        
+                    }
+                }
+            }
+        }
+    } 
     
      //Colision Jugador - EnemyBounce
     if(_player!=NULL&&_enemyBounce!=NULL)
@@ -675,7 +781,7 @@ void World::checkCollisions()
                     if(_player->getPlayer()->spriteIntersectsPixel(_enemyBounce[x]->getEnemySprite()->getSpriteSprite(),0))
                     {                       
                         
-                        cout <<"Colision con el enemigo directamente"<<endl;
+                        //cout <<"Colision con el enemigo directamente"<<endl;
                         
 
                         sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[x]->getEnemySprite(),_enemyBounce[x]->getEnemyPreviousSituation(),
@@ -711,7 +817,7 @@ void World::checkCollisions()
             if(_player->getPlayer()->spriteIntersectsPixel(_stairs->getSprite()->getSpriteSprite(),0))
             {            
                 //PASAMOS AL SIGUIENTE NIVEL
-                cout<<"Hola"<<endl;
+                //cout<<"Hola"<<endl;
                 _nextLevel = true;
             }
         }
@@ -939,10 +1045,6 @@ void World::checkCollisions()
             }
         }
     }  
-        
-    
-    
-    
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
@@ -979,6 +1081,10 @@ void World::checkCollisions()
                                 _box[x]->setCollisionObject(true);
                                 
                                 _door[y]->setCollisionObject(true);
+                                
+                                if(_door[y]->getClosing() || _door[y]->getJustClosed()){
+                                    _door[y]->open(); //forzamos la apertura;                                
+                                }
                                 
                                 _box[x]->setCollisionPlayerDirection(false, 0.0f,0.0f);                            
 
@@ -1278,7 +1384,7 @@ void World::render(RenderWindow* renderWindow)
         {
             if(_enemyChase[x]!=NULL)
             {
-                
+                if(_enemyChase[x]->getConeSprite() != NULL)_renderWindow->windowInterpolateDraw(_enemyChase[x]->getConeSprite(),_enemyChase[x]->getEnemyPreviousSituation(),_enemyChase[x]->getEnemyActualSituation());
                 _renderWindow->windowInterpolateDraw(_enemyChase[x]->getEnemySprite(),_enemyChase[x]->getEnemyPreviousSituation(),_enemyChase[x]->getEnemyActualSituation());
             }
         }
@@ -1628,4 +1734,48 @@ void World::resetWorld()
 int World::getNextLevel()
 {
     return _stairs->getNextLevel();
+}
+
+void World::calculateAdvancedCollisionMap()
+{
+    _advancedCollisionMap = new int*[_mapHeight];
+    for(int y=0; y<_mapHeight; y++)
+    {
+        _advancedCollisionMap[y] = new int[_mapWidth];
+    }
+     
+    for(int y=0; y<_mapHeight; y++)
+    {
+        for(int x=0; x<_mapWidth; x++)
+        {
+            _advancedCollisionMap[y][x] = _collisionMap[y][x];
+        }
+    }
+        
+    for(int i=0; i<_doorNumber; i++)
+    {
+        _advancedCollisionMap[int((_door[i]->getActualSituation()->getPositionY()-16)/32)][int((_door[i]->getActualSituation()->getPositionX()-16)/32)] = 2;
+    }
+        
+    for(int i=0; i<_boxNumber; i++)
+    {
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()-31)/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY()+31)/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX()-31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX()+31)/32)] = 2;
+        _advancedCollisionMap[int((_box[i]->getActualSituation()->getPositionY())/32)][int((_box[i]->getActualSituation()->getPositionX())/32)] = 2;
+    }
+    
+    for(int y=0; y<_mapHeight; y++)
+    {
+        for(int x=0; x<_mapWidth; x++)
+        {
+            cout<<_advancedCollisionMap[y][x]-1;
+        }
+        cout<<endl;
+    }
 }

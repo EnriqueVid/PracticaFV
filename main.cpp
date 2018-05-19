@@ -34,7 +34,9 @@ using namespace std;
 int main()
 {
     RenderWindow* window = RenderWindow::Instance();
-
+    
+    window->setWindowFramerateLimit(760);
+    
     StateStart::Instance();
     
     Astar* astar;
@@ -133,8 +135,8 @@ int main()
             
             int _number = 1;
             
-            sf::Font _font;
-            _font.loadFromFile("./textures/Pixeled.ttf");
+            sf::Font* _font = new sf::Font();
+            _font->loadFromFile("./textures/Pixeled.ttf");
             
             sf::FloatRect _box;
             _box.height = 100;

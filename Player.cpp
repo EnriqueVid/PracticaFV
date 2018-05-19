@@ -213,7 +213,6 @@ void Player::input()
         _axis.y = 0;
         //cout<<"RIGHT"<<endl;
     }
-    
     if(input->inputCheck(4) && input->inputCheck(7))
     {
         _axis.x = 1;
@@ -264,6 +263,13 @@ void Player::shoot()
         _hability=false;
         _stamina=0;
         _fireBullet=true;
+        
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(0);
+        
+        //soundmanager->playMusic(0);
+        
+        
     }
     
     if(_clockHability!=NULL)
@@ -295,34 +301,63 @@ void Player::keyReleased()
 void Player::checkMapCollisions(int** _collisionMap)
 {
     
+    //std::cout <<"Axis- X:" << _axis.x <<". Y: " << _axis.y << std::endl;
+    
+    //float posXDefinitiva = _actualSituation->getPositionX();
+    //necesitamos guardar la posicion que ajustemos en X por lo siguiente: este metodo reposiciona hasta que no nos choquemos.
+    //si vamos en diagonal y primero ajustamos una direccion (X), entonces por defecto la segunda (Y) no se ajustaria porque
+    //al ajustar la X ya no nos chocamos, pero queremos crear un efecto mejor, por ello la utilidad de esta variable para volver
+    //a poner en la posicion de calculo inicial y calcular cuando deja de chocarse en X.
+    
+    bool posInicioX=_actualSituation->getPositionX();
+    bool correccionX=false;
+    float x = _actualSituation->getPositionX();
+    float y = _actualSituation->getPositionY();
+
     if(!_pushedBack){
     if(_axis.x>0)
     {
         if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
         {
+            
+            
             _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
             
             while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
             {
+                correccionX=true;
+                std::cout <<"AJUSTANDO EN X > 0"<<endl;
                 _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
             }
             _collisionWithMap=true;
-
+            
         }
     }
     else if(_axis.x<0)
-    {
+     {
         if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
         {
+            
+            
             _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
             
             while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
             {
+                correccionX=true;
+                std::cout <<"AJUSTANDO EN X < 0"<<endl;
                 _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
             }
             _collisionWithMap=true;
+            
+            
         }
+    
     }
+    
+    //if(_collisionWithMap && _axis.y!=0  && correcionX==false){
+    //    if(_axis.x!=0)_actualSituation->setPosition(posInicioX + _axis.x*_speed, _actualSituation->getPositionY());        
+    //}
+
     
     if(_axis.y>0)
     {
@@ -332,6 +367,7 @@ void Player::checkMapCollisions(int** _collisionMap)
             
             while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
             {
+                std::cout <<"AJUSTANDO EN Y > 0"<<endl;
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
             }
             _collisionWithMap=true;
@@ -345,15 +381,59 @@ void Player::checkMapCollisions(int** _collisionMap)
             
             while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
             {
+                std::cout <<"AJUSTANDO EN Y < 0"<<endl;
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
             }
             _collisionWithMap=true;
         }
     }
     
+    /*
+    if(correccionX&&_actualSituation->getPositionX()==posInicioX)
+    {
+        _actualSituation->setPosition(posInicioX, _actualSituation->getPositionY());
+            if(_axis.x>0)
+            {
+                if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+                {
+                    _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+
+                    while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
+                    {
+                        correccionX=true;
+                        std::cout <<"AJUSTANDO EN X > 0"<<endl;
+                        _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+                    }
+                    _collisionWithMap=true;
+
+                }
+            }
+            else if(_axis.x<0)
+             {
+                if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+                {
+                    _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+
+                    while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
+                    {
+                        correccionX=true;
+                        std::cout <<"AJUSTANDO EN X < 0"<<endl;
+                        _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+                    }
+                    _collisionWithMap=true;
+
+                }
+
+            }
+    }
+    */
+
+    
     }
     //Comprobacion si nos estan empujando.
     else{
+        
+        
     if(_pushedBackDistance.x>0)
     {
         if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
@@ -492,7 +572,7 @@ void Player::update(int** _collisionMap)
         _actualSituation->setAngle(_sprite->getSpriteRotation());
     }
     else{
-        _actualSituation->setPosition(_previousSituation->getPositionX()+_pushedBackDistance.x, _sprite->getSpritePosition().y+_pushedBackDistance.y);
+        _actualSituation->setPosition(_previousSituation->getPositionX()+_pushedBackDistance.x, _previousSituation->getPositionY()+_pushedBackDistance.y);
         _actualSituation->setAngle(_sprite->getSpriteRotation());        
     }
     
@@ -1118,8 +1198,8 @@ void Player::checkDamage()
     
     if(_clockDamage==NULL&&_collisionWithSomethingDangerous)
     {
-        cout <<"ENTRO EN ESTE MOMENTO";
-        cout <<"tengo:" <<_health<<" vida. Me quita" << totalDamage <<endl;
+        //cout <<"ENTRO EN ESTE MOMENTO";
+        //cout <<"tengo:" <<_health<<" vida. Me quita" << totalDamage <<endl;
                 
         _clockDamage = new Clock();
         setHealth(_health-totalDamage);
