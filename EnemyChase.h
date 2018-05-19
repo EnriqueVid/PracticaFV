@@ -24,9 +24,9 @@ public:
     EnemyChase(const EnemyChase& orig);
     virtual ~EnemyChase();
     
-    void update(int** map);
+    void update(int** map, int width, int height);
     void updateStateIdle(int** map);
-    void updateStateChase();
+    void updateStateChase(int** map, int width, int height);
     void updateStateStop();
     
     void setEnemyChasePattern(string pattern);
@@ -42,10 +42,15 @@ private:
     string _pattern;
     int _actualStep;
     int _state;
+    int _counter;
+    int _actualAstar;
     float _loop;
     Clock* _chaseClock;
     Clock* _loopClock;
     Clock* _stopClock;
+    sf::Vector2i* _path;
+    int _pathDim;
+    int _pathPos;
     
 
 };

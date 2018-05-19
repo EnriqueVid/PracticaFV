@@ -73,7 +73,7 @@ Enemy::~Enemy()
 
 void Enemy::enemyMove(sf::Vector2f dir, float g)
 {
-    _actualSituation->setPosition(_actualSituation->getPositionX()+dir.x*_speed, _actualSituation->getPositionY()+dir.y*_speed);
+    _actualSituation->setPosition(_actualSituation->getPositionX()+(dir.x*_speed), _actualSituation->getPositionY()+(dir.y*_speed));
     _actualSituation->setAngle(g);
     
     

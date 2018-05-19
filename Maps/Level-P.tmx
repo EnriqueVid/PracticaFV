@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="49">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="32" tileheight="32" nextobjectid="50">
  <tileset firstgid="1" source="TileSet.tsx"/>
- <layer name="Collisions" width="25" height="25" visible="0">
+ <layer name="Collisions" width="25" height="25">
   <data>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -368,8 +368,8 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -630,7 +630,7 @@
    <tile gid="2"/>
   </data>
  </layer>
- <layer name="Tiles-1" width="25" height="25">
+ <layer name="Tiles-1" width="25" height="25" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1259,7 +1259,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Tiles-2" width="25" height="25">
+ <layer name="Tiles-2" width="25" height="25" visible="0">
   <data>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -1926,6 +1926,12 @@
   <object id="47" gid="182" x="272" y="494" width="32" height="32">
    <properties>
     <property name="pattern" value="uldr"/>
+   </properties>
+  </object>
+  <object id="49" gid="214" x="96" y="413" width="32" height="32">
+   <properties>
+    <property name="pattern" value="ud"/>
+    <property name="timmer" type="float" value="5"/>
    </properties>
   </object>
  </objectgroup>
