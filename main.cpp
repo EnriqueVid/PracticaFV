@@ -35,7 +35,7 @@ int main()
 {
     RenderWindow* window = RenderWindow::Instance();
     
-    window->setWindowFramerateLimit(760);
+    //window->setWindowFramerateLimit(760);
     
     StateStart::Instance();
     

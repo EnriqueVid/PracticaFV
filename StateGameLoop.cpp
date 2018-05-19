@@ -41,7 +41,7 @@ StateGameLoop::StateGameLoop()
     _window = RenderWindow::Instance();
     _world = World::Instance();
 
-    _world->buildWorld(-1);
+    _world->buildWorld(0);
     _window = RenderWindow::Instance();
     _nextLevel = 0;
     _actualLevel = 0;

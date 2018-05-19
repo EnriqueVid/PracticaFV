@@ -300,108 +300,82 @@ void Player::keyReleased()
 
 void Player::checkMapCollisions(int** _collisionMap)
 {
-    
-    //std::cout <<"Axis- X:" << _axis.x <<". Y: " << _axis.y << std::endl;
-    
-    //float posXDefinitiva = _actualSituation->getPositionX();
-    //necesitamos guardar la posicion que ajustemos en X por lo siguiente: este metodo reposiciona hasta que no nos choquemos.
-    //si vamos en diagonal y primero ajustamos una direccion (X), entonces por defecto la segunda (Y) no se ajustaria porque
-    //al ajustar la X ya no nos chocamos, pero queremos crear un efecto mejor, por ello la utilidad de esta variable para volver
-    //a poner en la posicion de calculo inicial y calcular cuando deja de chocarse en X.
-    
-    bool posInicioX=_actualSituation->getPositionX();
-    bool correccionX=false;
-    float x = _actualSituation->getPositionX();
-    float y = _actualSituation->getPositionY();
 
-    if(!_pushedBack){
-    if(_axis.x>0)
-    {
-        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
-        {
-            
-            
-            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
-            
-            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
-            {
-                correccionX=true;
-                std::cout <<"AJUSTANDO EN X > 0"<<endl;
-                _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
-            }
-            _collisionWithMap=true;
-            
-        }
-    }
-    else if(_axis.x<0)
-     {
-        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
-        {
-            
-            
-            _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
-            
-            while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
-            {
-                correccionX=true;
-                std::cout <<"AJUSTANDO EN X < 0"<<endl;
-                _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
-            }
-            _collisionWithMap=true;
-            
-            
-        }
-    
-    }
-    
-    //if(_collisionWithMap && _axis.y!=0  && correcionX==false){
-    //    if(_axis.x!=0)_actualSituation->setPosition(posInicioX + _axis.x*_speed, _actualSituation->getPositionY());        
-    //}
+    float auxX = _actualSituation->getPositionX();
 
-    
-    if(_axis.y>0)
+    if(!_pushedBack)
     {
-        if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+        if(_axis.x>0)
         {
-            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
-            
-            while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+
             {
-                std::cout <<"AJUSTANDO EN Y > 0"<<endl;
-                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+                _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+
+                while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
+                {
+                    _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
+                }
+                _collisionWithMap=true;
+
             }
-            _collisionWithMap=true;
         }
-    }
-    else if(_axis.y<0)
-    {
-        if(_collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+
+        else if(_axis.x<0)
+         {
+            if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+
+            {
+                _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
+
+                while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
+                {
+                    _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
+                }
+                _collisionWithMap=true;
+
+            }
+
+        }
+        if(_axis.y>0)
         {
-            _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
-            
-            while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+            if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
             {
-                std::cout <<"AJUSTANDO EN Y < 0"<<endl;
-                _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+
+                while(_collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()+17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+                {
+                    _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()+1);
+                }
+                _collisionWithMap=true;
             }
-            _collisionWithMap=true;
         }
-    }
-    
-    /*
-    if(correccionX&&_actualSituation->getPositionX()==posInicioX)
-    {
-        _actualSituation->setPosition(posInicioX, _actualSituation->getPositionY());
+        else if(_axis.y<0)
+        {
+            if(_collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+            {
+                _actualSituation->setPosition(_actualSituation->getPositionX(),_previousSituation->getPositionY());
+
+                while(_collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()+16)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-17)/32][int(_actualSituation->getPositionX()-16)/32] != 2)
+                {
+                    _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
+                }
+                _collisionWithMap=true;
+            }
+        }
+
+        if((_previousSituation->getPositionX() == _actualSituation->getPositionX() && auxX != _actualSituation->getPositionX()))
+        {
+            _actualSituation->setPosition(auxX, _actualSituation->getPositionY());
             if(_axis.x>0)
             {
                 if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
                 {
+                    auxX = _actualSituation->getPositionX()+16;
                     _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
 
                     while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+17)/32] != 2)
                     {
-                        correccionX=true;
-                        std::cout <<"AJUSTANDO EN X > 0"<<endl;
                         _actualSituation->setPosition(_actualSituation->getPositionX()+1,_actualSituation->getPositionY());
                     }
                     _collisionWithMap=true;
@@ -412,23 +386,17 @@ void Player::checkMapCollisions(int** _collisionMap)
              {
                 if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
                 {
+                    auxX = _actualSituation->getPositionX()-16;
                     _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
 
                     while(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-17)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-17)/32] != 2)
                     {
-                        correccionX=true;
-                        std::cout <<"AJUSTANDO EN X < 0"<<endl;
                         _actualSituation->setPosition(_actualSituation->getPositionX()-1,_actualSituation->getPositionY());
                     }
                     _collisionWithMap=true;
-
                 }
-
             }
-    }
-    */
-
-    
+        }
     }
     //Comprobacion si nos estan empujando.
     else{
