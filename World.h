@@ -31,6 +31,7 @@
 #include "Bullet.h"
 #include "Hud.h"
 #include "Stairs.h"
+#include "Help.h"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -75,7 +76,8 @@ private:
     PowerUp** _powerUp;
     Switch** _switch;
     Sprite**** _map;
-    Message** _message;
+    Help** _help;
+    
     
     EnemyBounce** _enemyBounce;
     EnemyChase** _enemyChase;
@@ -101,6 +103,7 @@ private:
     int _powerUpNumber;
     int _switchNumber;
     int _messageNumber;
+    int _helpNumber;
     
     
     int _enemyBounceNumber;

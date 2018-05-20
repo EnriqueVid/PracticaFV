@@ -4,7 +4,7 @@ build/Debug/GNU-Linux/StateGameOver.o: StateGameOver.cpp StateGameOver.h \
  StateGameLoop.h Player.h SoundManager.h Sound.h SoundBuffer.h Music.h \
  World.h Box.h Object.h Door.h PowerUp.h Switch.h LevelFactory.h \
  tinyxml2.h EnemyBounce.h Enemy.h EnemyChase.h EnemyStand.h Stairs.h \
- Bullet.h Hud.h
+ Bullet.h Hud.h Help.h
 
 StateGameOver.h:
 
@@ -77,3 +77,5 @@ Stairs.h:
 Bullet.h:
 
 Hud.h:
+
+Help.h:

@@ -14,6 +14,9 @@ public:
     sf::Text* getTextMessage();
     std::string getStringMessage();
     void renderMessage();
+    
+    void update();
+    
     virtual ~Message();
 
 private:

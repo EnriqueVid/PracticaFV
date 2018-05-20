@@ -41,7 +41,7 @@ World::World()
     _switch=NULL;
     //_renderWindow=NULL;
     _map=NULL;
-    _message=NULL;
+    _help=NULL;
     _enemyBounce=NULL;
     _enemyChase=NULL;
     _enemyStand=NULL;
@@ -109,9 +109,10 @@ void World::buildWorld(int lvlNumber)
     _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
     _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
     _stairs = _levelFactory->getLevelFactoryStairs();
+    //_help= _levelFactory->getLevelFactoryHelp();
     
     
-    _player->unlockAllPowerUps();
+    //_player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
@@ -123,6 +124,32 @@ void World::buildWorld(int lvlNumber)
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    
+    
+    
+    //PRUEBA DE BOTON DE AYUDA
+    _helpNumber=1;
+                Texture* _texturePipes = new Texture("./textures/fondotexto.png");
+            
+            int _number = 1;
+            
+            sf::Font* _font = new sf::Font();
+            _font->loadFromFile("./textures/Pixeled.ttf");
+            
+            sf::FloatRect _box;
+            _box.height = 100;
+            _box.width = 100;
+            _box.left = 300;
+            _box.top = 300;
+            
+            sf::Vector2f _pos;
+            _pos.x = 300;
+            _pos.y = 300;
+                
+    _help = new Help*[1];
+    _help[0] = new Help(1, _player->getActualSituation()->getPositionX()+30, _player->getActualSituation()->getPositionY(), 0.0, 
+            false, _texture[2], _number, _font, _texturePipes, _box, _pos);
+    //----------------------------------------
 }
 
 void World::buildTestObjects()
@@ -321,8 +348,17 @@ if(_player!=NULL)_player->input();
                 if(_switch[x]!=NULL)
                 {
                     _switch[x]->update();
-                    
+                }
+            }
+        }
 
+        if(_help!=NULL)
+        {
+            for(x=0;x<_helpNumber;x++)
+            {
+                if(_help[x]!=NULL)
+                {
+                    _help[x]->update();
                 }
             }
         }
@@ -722,6 +758,27 @@ void World::checkCollisions()
         }
     }
 
+    //Colision Jugador - Botones de ayuda (help)
+    if(_player!=NULL&&_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                if(_player->getPlayer()->spriteIntersectsBounds(_help[x]->getSprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_help[x]->getSprite()->getSpriteSprite(),0))
+                    {                        
+                                                
+                        _help[x]->setCollisionPlayer(true);
+                        _help[x]->setShowMessage(true);
+
+                    }
+                }
+            }
+        }
+    }    
+    
      //Colision Jugador - PowerUps
    if(_player!=NULL&&_powerUp!=NULL)
     {
@@ -1341,6 +1398,17 @@ void World::render(RenderWindow* renderWindow)
     }
     
 
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                _renderWindow->windowDraw(_help[x]->getSprite());
+            }
+        }
+    }
+    
     if(_switch!=NULL)
     {
         for(x=0;x<_switchNumber;x++)
@@ -1395,16 +1463,6 @@ void World::render(RenderWindow* renderWindow)
         }
     }
 
-    if(_message!=NULL)
-    {
-        for(x=0;x<_messageNumber;x++)
-        {
-            if(_message[x]!=NULL)
-            {
-                _renderWindow->windowDraw(_message[x]);
-            }
-        }
-    }
 
     if(_enemyBounce!=NULL)
     {
@@ -1459,6 +1517,19 @@ void World::render(RenderWindow* renderWindow)
         }
     }
     
+    
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                if(_help[x]->getShowMessage()){
+                    _renderWindow->windowDraw(_help[x]->getMessage());                
+                }
+            }
+        }
+    }
     
     if(_HUD!=NULL){
         _renderWindow->windowDraw(_HUD->getHUDBOX());
@@ -1551,6 +1622,19 @@ World::~World()
         }
         delete[] _switch;
         _switch=NULL;
+    }
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                delete _help[x];
+                _help[x]=NULL;
+            }
+        }
+        delete[] _help;
+        _help=NULL;
     }
 
     if(_enemyBounce!=NULL)
@@ -1682,9 +1766,9 @@ void World::resetWorld()
         _player = NULL;
     }
     
-    if(_message != NULL)
+    if(_help != NULL)
     {
-        _message = NULL;
+        _help = NULL;
     }
     
     if(_box != NULL)
