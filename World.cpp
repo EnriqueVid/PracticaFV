@@ -394,6 +394,61 @@ void World::checkCollisions()
     int x;
     int y;
     
+    //Colision EnemyBounce - Cajas
+    if(_box!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_boxNumber;x++)
+        {
+            
+            if(_box[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(_enemyBounce[y]!=NULL)
+                    {
+                        
+                        _box[x]->getSprite()->setSpritePosition(sf::Vector2f(_box[x]->getActualSituation()->getPositionX(),
+                                _box[x]->getActualSituation()->getPositionY()));
+                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+                        
+                        if(_box[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                        {
+                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _box[x]->getSprite());
+                                
+                                
+                                if(maxDespl.x!=_enemyBounce[y]->getEnemyActualSituation()->getPositionX() && 
+                                        maxDespl.y!=_enemyBounce[y]->getEnemyActualSituation()->getPositionY())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x-2*_enemyBounce[y]->getEnemyAxis().x,
+                                            maxDespl.y-2*_enemyBounce[y]->getEnemyAxis().y);                                    
+                                }
+                                else if(maxDespl.x!=_enemyBounce[y]->getEnemyActualSituation()->getPositionX())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x-2*_enemyBounce[y]->getEnemyAxis().x,
+                                        maxDespl.y);   
+                                }
+                                else if(maxDespl.y!=_enemyBounce[y]->getEnemyActualSituation()->getPositionY())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,
+                                            maxDespl.y-2*_enemyBounce[y]->getEnemyAxis().y);                                       
+                                }
+                                else{
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);                                    
+                                }
+                                
+                                _box[x]->setCollisionEnemy(true);
+                                _enemyBounce[y]->setCollisionObject(true);
+                        }
+                    }
+                }
+            }
+        }
+    }    
+        
+    
+    
     //Colision Jugador con el entorno
     
     //Colision Jugador - Cajas
@@ -418,7 +473,8 @@ void World::checkCollisions()
                         if(_box[x]->getCollisionWithMap()==false){
                         
                             //Si el jugador puede mover la caja
-                            if(_player->getColor()==sf::Color::Red)
+                            if(_player->getColor()==sf::Color::Red&&_box[x]->getCollisionEnemyLastUpdate()==false
+                                    &&_box[x]->getCollisionEnemy()==false)
                             {
                                 
                                 if(_player->getPreviousSituation()->getPositionY()>=(_box[x]->getActualSituation()->getPositionY()+32+15))
@@ -771,41 +827,7 @@ void World::checkCollisions()
         }
     }
     
-    //Colision EnemyBounce - Cajas
-    if(_box!=NULL&&_enemyBounce!=NULL)
-    {
-        for(x=0;x<_boxNumber;x++)
-        {
-            
-            if(_box[x]!=NULL)
-            {
-                for(y=0;y<_enemyBounceNumber;y++)
-                {
-                    if(_enemyBounce[y]!=NULL)
-                    {
-                        
-                        _box[x]->getSprite()->setSpritePosition(sf::Vector2f(_box[x]->getActualSituation()->getPositionX(),
-                                _box[x]->getActualSituation()->getPositionY()));
-                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
-                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
-                        
-                        if(_box[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
-                        {
-                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
-                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _box[x]->getSprite());
-                                
-                                _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
-                        
-                                _box[x]->setCollisionEnemy(true);
-                        
-                                _enemyBounce[y]->setCollisionObject(true);
-                        }
-                    }
-                }
-            }
-        }
-    }    
-    
+
     /*
     //Colision Enemy Bounce con otros Enemy bounce
     if(_enemyBounce!=NULL)
@@ -1141,6 +1163,23 @@ void World::checkCollisions()
                         _box[x]->getPreviousSituation()->getPositionX(),
                         _box[x]->getPreviousSituation()->getPositionY());                    
                 }
+                
+                  if(_box[x]->getCollisionLastUpdate()&&_box[x]->getCollisionEnemy())
+                {
+                    //cout <<"REAJUSTE"<<endl;
+
+                        _player->setActualSituation(
+                        _player->getPreviousSituation()->getPositionX(),
+                        _player->getPreviousSituation()->getPositionY(),
+                        _player->getPreviousSituation()->getAngle()
+                        );
+
+                        _box[x]->getActualSituation()->setPosition(
+                        _box[x]->getPreviousSituation()->getPositionX(),
+                        _box[x]->getPreviousSituation()->getPositionY());                    
+                }              
+                
+                
             }
         }
     }
