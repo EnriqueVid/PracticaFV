@@ -1123,7 +1123,26 @@ void World::checkCollisions()
                 }
             }
         }
-    }  
+    } 
+    
+    //Colision Balas - EnemyChase
+    if(_enemyChase!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyChaseNumber;x++)
+        {
+            if(_enemyChase[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyChase[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyChase[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyChase[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)

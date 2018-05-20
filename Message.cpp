@@ -21,7 +21,6 @@ using namespace std;
 
 Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        sf::FloatRect box = pjbounds;
         sf::IntRect box1;
         box1.top = (int) (0);
         box1.left = (int) (0);
