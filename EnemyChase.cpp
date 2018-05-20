@@ -63,6 +63,19 @@ EnemyChase::~EnemyChase()
         _stopClock=NULL;
     }
     
+    if(_astar != NULL)
+    {
+        delete _astar;
+        _astar = NULL;
+    }
+    
+    if(_path != NULL)
+    {
+        delete _path;
+        _path = NULL;
+    }
+    
+    
 }
 
 void EnemyChase::update(int** map, int height, int width)

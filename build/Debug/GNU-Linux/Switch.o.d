@@ -1,6 +1,6 @@
 build/Debug/GNU-Linux/Switch.o: Switch.cpp Switch.h Door.h Object.h \
  Sprite.h Texture.h Clock.h Bitmasks.h Situation.h RenderWindow.h View.h \
- Event.h Message.h Text.h Font.h
+ Event.h Message.h
 
 Switch.h:
 
@@ -25,7 +25,3 @@ View.h:
 Event.h:
 
 Message.h:
-
-Text.h:
-
-Font.h:

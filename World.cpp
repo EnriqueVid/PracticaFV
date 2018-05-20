@@ -95,6 +95,7 @@ void World::buildWorld(int lvlNumber)
     _doorNumber = _levelFactory->getDoorNumber();
     _powerUpNumber = _levelFactory->getPowerUpNumber();
     _switchNumber = _levelFactory->getSwitchNumber();
+    _helpNumber = _levelFactory->getHelpNumber();
     _messageNumber = 0;
     
     _enemyBounceNumber = _levelFactory->getEnemyBounceNumber();
@@ -109,7 +110,7 @@ void World::buildWorld(int lvlNumber)
     _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
     _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
     _stairs = _levelFactory->getLevelFactoryStairs();
-    //_help= _levelFactory->getLevelFactoryHelp();
+    _help= _levelFactory->getLevelFactoryHelp();
     
     
     //_player->unlockAllPowerUps();
@@ -126,7 +127,7 @@ void World::buildWorld(int lvlNumber)
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     
-    
+    /*
     //PRUEBA DE BOTON DE AYUDA
     _helpNumber=1;
                 Texture* _texturePipes = new Texture("./textures/fondotexto.png");
@@ -149,6 +150,7 @@ void World::buildWorld(int lvlNumber)
     _help = new Help*[1];
     _help[0] = new Help(1, _player->getActualSituation()->getPositionX()+30, _player->getActualSituation()->getPositionY(), 0.0, 
             false, _texture[2], _number, _font, _texturePipes, _box, _pos);
+    */
     //----------------------------------------
 }
 
