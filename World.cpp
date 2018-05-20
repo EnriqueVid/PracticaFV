@@ -111,7 +111,7 @@ void World::buildWorld(int lvlNumber)
     _stairs = _levelFactory->getLevelFactoryStairs();
     
     
-    //_player->unlockAllPowerUps();
+    _player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
@@ -365,7 +365,7 @@ if(_player!=NULL)_player->input();
             {
                 if(_enemyChase[x]!=NULL)
                 {
-                    _enemyChase[x]->update(_advancedCollisionMap, _mapWidth, _mapHeight);
+                    _enemyChase[x]->update(_advancedCollisionMap, _mapHeight, _mapWidth);
                 }
             }
         }
@@ -1044,7 +1044,26 @@ void World::checkCollisions()
                 }
             }
         }
-    }  
+    } 
+    
+    //Colision Balas - EnemyChase
+    if(_enemyChase!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyChaseNumber;x++)
+        {
+            if(_enemyChase[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyChase[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyChase[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyChase[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)

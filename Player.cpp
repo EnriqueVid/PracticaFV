@@ -300,6 +300,7 @@ void Player::keyReleased()
 
 void Player::checkMapCollisions(int** _collisionMap)
 {
+
     float auxX = _actualSituation->getPositionX();
 
     if(!_pushedBack)
@@ -307,6 +308,7 @@ void Player::checkMapCollisions(int** _collisionMap)
         if(_axis.x>0)
         {
             if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()+16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()+16)/32] == 2)
+
             {
                 _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
 
@@ -318,9 +320,11 @@ void Player::checkMapCollisions(int** _collisionMap)
 
             }
         }
+
         else if(_axis.x<0)
          {
             if(_collisionMap[int(_actualSituation->getPositionY()+16)/32][int(_actualSituation->getPositionX()-16)/32] == 2 || _collisionMap[int(_actualSituation->getPositionY()-16)/32][int(_actualSituation->getPositionX()-16)/32] == 2)
+
             {
                 _actualSituation->setPosition(_previousSituation->getPositionX(),_actualSituation->getPositionY());
 
@@ -392,7 +396,7 @@ void Player::checkMapCollisions(int** _collisionMap)
                     _collisionWithMap=true;
                 }
             }
-        }  
+        }
     }
     //Comprobacion si nos estan empujando.
     else{

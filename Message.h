@@ -5,10 +5,11 @@
 #include "Text.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include <iostream>
 
 class Message {
 public:
-    Message(int number, sf::Font font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition);
+    Message(int number, sf::Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition);
     Sprite* getSpriteMessage();
     sf::Text* getTextMessage();
     std::string getStringMessage();

@@ -114,7 +114,7 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    _mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
+    //_mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
     
     _snmes = 0;
     
@@ -264,6 +264,7 @@ int  StateStart::update(RenderWindow* window)
           }
       }else if(_cual == 2)
       {
+
           window->windowDraw(_sini1);
           if(_contador == 600){
               _contador = 0;
