@@ -74,6 +74,8 @@ Player::Player()
     _pushedBack=false;
     _pushedBackDistance = sf::Vector2f(0.0f,0.0f);
     
+    _recoverStamina=false;
+    
 }
 
 Player::Player(const Player& orig) 
@@ -672,9 +674,14 @@ void Player::update(int** _collisionMap)
     _forceDamageAnimation=false;
     _pushedBack=false;
     _pushedBackDistance = sf::Vector2f(0.0f,0.0f);
-    if(_stamina<_maxStamina) _stamina = _stamina + 3;
-    if(_stamina>_maxStamina)_stamina=_maxStamina;
     
+    if(_recoverStamina)
+    {
+        if(_stamina<_maxStamina) _stamina = _stamina + 7;
+        if(_stamina>_maxStamina)_stamina=_maxStamina;        
+        
+        _recoverStamina=false;
+    }
 }
 
 void Player::render(RenderWindow* window, Clock* clock, float ups)
@@ -1260,6 +1267,12 @@ void Player::checkHidden(int** _collisionMap)
    else{
        _hidden=false;
    }
+   
+   //Si estamos escondidos, recuperamos stamina.
+   if(_hidden)
+   {
+       _recoverStamina=true;
+   }
                     
 }
 
@@ -1280,6 +1293,15 @@ void Player::setPushedBack(bool b, sf::Vector2f pushedBackDistance)
 sf::Vector2i Player::getAxis()
 {
     return _axis;
+}
+
+void Player::setRecoverStamina(bool b)
+{
+    _recoverStamina=b;
+}
+bool Player::getRecoverStamina()
+{
+    return _recoverStamina;
 }
 
 void Player::resetPlayer()

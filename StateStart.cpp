@@ -158,14 +158,14 @@ int  StateStart::getStateNumber()
 
 int  StateStart::update(RenderWindow* window)
 {   
-    if(_cual != 0)
+    if(_cual < 2)
     {
-        if(_cual == 1){
             _contador = _contador + 2;
-        }else{
+    }else if(_cual == 3)
+    {
             _contador = _contador +1; 
-        }
-       
+    }else{
+        _contador = 0;
     }
     
     //COLOCAR LOS SPRITES
@@ -198,13 +198,13 @@ int  StateStart::update(RenderWindow* window)
     
     //std::cout << p2c.x << ", " << p2c.y << " / " << _spj1->getGlobalBounds().left << ", " << _spj1->getGlobalBounds().top<< endl;
     
-    if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) && _cual == 0 || input->inputCheck(11) && _cual == 0)
+    if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) && _cual == 2 || input->inputCheck(11) && _cual == 2)
     {
-        _cual = 1;
+        _cual = 3;
         return 1;
     }else{
       
-        if(_cual == 0)
+        if(_cual == 2)
         {
                 if(input->inputCheck(13) && _spj1->getGlobalBounds().contains(p2c))
                 {
@@ -237,7 +237,7 @@ int  StateStart::update(RenderWindow* window)
         }
       window->windowClear();
       
-      if(_cual == 0)
+      if(_cual == 2)
       {
         window->windowDraw(_sstartbg);
         window->windowDraw(_sstartbutton);
@@ -249,38 +249,38 @@ int  StateStart::update(RenderWindow* window)
         window->windowDraw(_sexit);
         if(_snmes == 1)
         {
-        window->windowDraw(_mehelp);
+            window->windowDraw(_mehelp);
         }
         _contador = 0;
       
-      }else if(_cual == 1)
+      }else if(_cual == 3)
       {
              
           window->windowDraw(_scar);
           window->windowDraw(_car);
           if(_contador == 400){
               _contador = 0;
+              _cual = 0;
+              RenderWindow::Instance()->setViewZoom(0.45);
+              RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
               _cual = 2;
+              return 2;
           }
-      }else if(_cual == 2)
+      }else if(_cual == 0)
       {
 
           window->windowDraw(_sini1);
           if(_contador == 600){
               _contador = 0;
-              _cual = 3;
+              _cual = 1;
           }
           
-      }else if(_cual == 3)
+      }else if(_cual == 1)
       {
           window->windowDraw(_sini2);
           if(_contador == 600){
               _contador = 0;
-              RenderWindow::Instance()->setViewZoom(0.45);
-              RenderWindow::Instance()->setViewCenter(Player::Instance()->getPlayer()->getSpritePosition());
-              _cual = 0;
-              return 2;
-             
+              _cual = 2;
           }
       }
       

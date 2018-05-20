@@ -36,6 +36,7 @@ Object::Object(int objectType, float initialPosX, float initialPosY, float initi
     _collisionBox=false;
     _collisionObject=false;
     
+    _collisionEnemyLastUpdate=false;
     _erase=false;
     
     /*
@@ -131,6 +132,12 @@ Situation* Object::getPreviousSituation()
 bool Object::getIgnoreCollisions(){
     return _ignoreCollisions;
 }
+
+bool Object::getCollisionEnemyLastUpdate()
+{
+    return _collisionEnemyLastUpdate;
+}
+
 bool Object::getErase(){
     return _erase;
 }

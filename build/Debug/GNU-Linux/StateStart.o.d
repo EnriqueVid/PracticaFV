@@ -4,7 +4,7 @@ build/Debug/GNU-Linux/StateStart.o: StateStart.cpp StateStart.h State.h \
  StateGameLoop.h Player.h SoundManager.h Sound.h SoundBuffer.h Music.h \
  World.h Box.h Object.h Door.h PowerUp.h Switch.h LevelFactory.h \
  tinyxml2.h EnemyBounce.h Enemy.h EnemyChase.h Astar.h Node.h \
- EnemyStand.h Stairs.h Bullet.h Hud.h
+ EnemyStand.h Stairs.h Bullet.h Hud.h Help.h
 
 StateStart.h:
 
@@ -81,3 +81,5 @@ Stairs.h:
 Bullet.h:
 
 Hud.h:
+
+Help.h:

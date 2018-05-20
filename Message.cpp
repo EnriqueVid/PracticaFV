@@ -14,6 +14,7 @@
 
 #include "Message.h"
 #include "RenderWindow.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -122,6 +123,22 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
     _text->setColor(sf::Color::White);
     _text->setPosition(sf::Vector2f(box1.left,box1.top));
      
+}
+
+
+void Message::update()
+{
+    Player* player = Player::Instance();
+
+    sf::FloatRect box = player->getPlayer()->getGlobalBounds();
+    sf::IntRect box1;
+    box1.top = (int) (box.top + box.height);
+    box1.left = (int) (box.left - box.width);
+        
+    _sbox->setSpritePosition(player->getPlayer()->getSpritePosition());
+    _text->setPosition(sf::Vector2f(box1.left,box1.top));    
+    
+    player=NULL;
 }
 
 
