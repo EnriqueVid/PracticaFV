@@ -32,6 +32,7 @@
 #include "Hud.h"
 #include "Stairs.h"
 #include "Help.h"
+#include "SoundManager.h"
 
 #include <SFML/System/Vector2.hpp>
 

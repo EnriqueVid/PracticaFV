@@ -21,6 +21,8 @@ Switch::Switch(int objectType, float initialPosX, float initialPosY, float initi
     _door2=NULL;
     _sprite = new Sprite(texture,sf::IntRect(96,0,32,32),sf::Vector2f(16.0f,16.0f),sf::Vector2f(400.0f,400.0f),sf::Vector2f(1.0f,1.0f));  
     _sprite->setSpritePosition(sf::Vector2f(initialPosX,initialPosY));
+    _pressedLastUpdate=false;
+    _pressed=false;
 }
 
 void Switch::activate()
@@ -47,6 +49,17 @@ void Switch::deactivate(){
 void Switch::update(){
     //update (animations?)
     //cout << _sprite->getSpritePosition().x << ","<<_sprite->getSpritePosition().y<<endl;
+    
+    
+    if(_pressed&&!_pressedLastUpdate){
+            //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(9);
+        //end sound effect   
+    }
+    if(_pressed){
+        _pressedLastUpdate=_pressed;
+    }
 }
 
 

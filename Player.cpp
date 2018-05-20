@@ -266,11 +266,10 @@ void Player::shoot()
         _stamina=0;
         _fireBullet=true;
         
+        //Playing sound effect
         SoundManager* soundmanager = SoundManager::Instance();
-        soundmanager->playSound(0);
-        
-        //soundmanager->playMusic(0);
-        
+        soundmanager->playSound(12);
+        //end sound effect
         
     }
     
@@ -677,7 +676,16 @@ void Player::update(int** _collisionMap)
     
     if(_recoverStamina)
     {
-        if(_stamina<_maxStamina) _stamina = _stamina + 7;
+        if(_stamina<_maxStamina)
+        { 
+            _stamina = _stamina + 7;
+            
+            //Playing sound effect
+            SoundManager* soundmanager = SoundManager::Instance();
+            soundmanager->playSound(13);
+            soundmanager->getSound(13)->getSound()->setVolume(55);
+            //end sound effect   
+        }
         if(_stamina>_maxStamina)_stamina=_maxStamina;        
         
         _recoverStamina=false;
@@ -714,6 +722,11 @@ void Player::superSpeed()
         _hability=false;
         _stamina=0;
         _speed = _defaultSpeed*4;
+                    
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(16);
+        //end sound effect   
     }
     
     if(_clockHability!=NULL)
@@ -1015,6 +1028,12 @@ sf::Vector2i Player::getDirection()
 
 void Player::unlockPowerUp(int powerUpType)
 {
+    //Playing sound effect
+    SoundManager* soundmanager = SoundManager::Instance();
+    soundmanager->playSound(14);
+    soundmanager->getSound(14)->getSound()->setVolume(90);
+    //end sound effect   
+    
     if(powerUpType==1){
         _redUnlocked=true;
     }
@@ -1067,6 +1086,14 @@ void Player::changePowerUp()
         _clockHability = NULL;
         _speed = _defaultSpeed;
         _fireBullet=false;
+    }
+    
+    if(_blueUnlocked||_redUnlocked||_greenUnlocked)
+    {
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(0);
+        //end sound effect        
     }
 
     
@@ -1178,6 +1205,12 @@ void Player::checkDamage()
                 
         _clockDamage = new Clock();
         setHealth(_health-totalDamage);
+        
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(3);
+        soundmanager->getSound(3)->getSound()->setVolume(50);
+        //end sound effect   
     }
     else{
         if(_clockDamage!=NULL){

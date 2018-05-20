@@ -32,6 +32,9 @@ LevelFactory::LevelFactory()
     _playerTexture = new Texture("./textures/PlayerTiles.png");
     _enemyTexture = new Texture("./textures/EnemyTiles.png");
     _objectTexture = new Texture("./textures/ObjectTiles.png");
+    _fontTexture = new Texture("./textures/fondotexto.png");
+    _textFont = new sf::Font();
+    _textFont->loadFromFile("./textures/Pixeled.ttf");
     
     _mapName = "";
     
@@ -44,6 +47,7 @@ LevelFactory::LevelFactory()
     _oDoor = NULL;
     _oPowerUp = NULL;
     _oStairs = NULL;
+    _oHelp=NULL;
     
     _countenemystand = 0;
     _countenemybounce = 0;
@@ -53,6 +57,7 @@ LevelFactory::LevelFactory()
     _countpowerup = 0;
     _countdoor = 0;
     _countstairs = 0;
+    _counthelp = 0;
     
 }
 
@@ -283,6 +288,7 @@ void LevelFactory::levelFactoryMapCreator()
     _numbox = 0;
     _numbutton = 0;
     _numstairs = 0;
+    _numhelp = 0;
     
     XMLElement *obj = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     while(obj)
@@ -324,6 +330,7 @@ void LevelFactory::levelFactoryMapCreator()
                 
             case 238:// Help
                 cout<<"Help"<<endl;
+                _numhelp++;
                 break;
                 
             case 239:// TextScript
@@ -364,6 +371,17 @@ void LevelFactory::levelFactoryMapCreator()
     cout<<"numbutton: "<<_numbutton<<endl;
     cout<<"numstairs: "<<_numstairs<<endl;
     cout<<"numpowerup: "<<_numpowerup<<endl;
+    cout<<"numhelp: "<<_numhelp<<endl;
+    
+    _eBounce=NULL;
+    _eStand=NULL;
+    _eChase=NULL;
+    _oBox=NULL;
+    _oSwitch=NULL;
+    _oDoor=NULL;
+    _oPowerUp=NULL;
+    _oStairs=NULL;
+    _oHelp=NULL;
     
     _player = Player::Instance();
     if(_numenemybounce > 0)_eBounce = new EnemyBounce*[_numenemybounce];
@@ -374,6 +392,7 @@ void LevelFactory::levelFactoryMapCreator()
     if(_numbutton > 0)_oDoor = new Door*[_numbutton*2];
     if(_numpowerup > 0)_oPowerUp = new PowerUp*[_numpowerup];
     if(_numstairs > 0)_oStairs = new Stairs*[_numstairs];
+    if(_numhelp > 0)_oHelp = new Help*[_numhelp];
     
     XMLElement *object = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     for(int i=0; i<_numobjects; i++)
@@ -500,6 +519,13 @@ void LevelFactory::levelFactoryMapCreator()
                 
             case 238:// Help
                 cout<<"Help"<<endl;
+                object->QueryFloatAttribute("x", &oX);
+                object->QueryFloatAttribute("y", &oY);
+                oX += 16;
+                oY -= 16;
+                doorPos = object->FirstChildElement("properties")->FirstChildElement("property")->IntAttribute("value");
+                _oHelp[_counthelp] = new Help(6, oX, oY, 0, false, _objectTexture, doorPos, _textFont, _fontTexture, sf::FloatRect(0,0,0,0), sf::Vector2f(0,0));
+                _counthelp++;
                 break;
                 
             case 239:// TextScript
@@ -673,6 +699,18 @@ void LevelFactory::levelFactoryClear()
         _oDoor = NULL;
     }
     
+    if(_oHelp != NULL)
+    {
+        for(int i=0; i<_numhelp;i++){
+            delete _oHelp[i];
+            _oHelp[i]=NULL;
+        }
+        
+        delete[] _oHelp;
+        _oHelp = NULL;
+        
+    }
+    
     if(_tileMapSprite != NULL)
     {
         for(int l=0; l<_numlayers; l++)
@@ -754,6 +792,18 @@ void LevelFactory::levelFactoryClear()
     {
         delete _objectTexture;
         _objectTexture = NULL;
+    }
+    
+    if(_fontTexture != NULL)
+    {
+        delete _fontTexture;
+        _fontTexture = NULL;
+    }
+    
+    if(_textFont != NULL)
+    {
+        delete _textFont;
+        _textFont = NULL;
     }
     
     
@@ -847,6 +897,11 @@ Door** LevelFactory::getLevelFactoryDoor()
     return _oDoor;
 }
 
+Help** LevelFactory::getLevelFactoryHelp()
+{
+    return _oHelp;
+}
+
 Stairs*  LevelFactory::getLevelFactoryStairs()
 {
     return _oStairs[0];
@@ -910,4 +965,9 @@ int LevelFactory::getPowerUpNumber()
 int LevelFactory::getStairsNumber()
 {
     return _numstairs;
+}
+
+int LevelFactory::getHelpNumber()
+{
+    return _numhelp;
 }

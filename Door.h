@@ -15,6 +15,7 @@
 #define DOOR_H
 #include "Object.h"
 #include "Clock.h"
+#include "SoundManager.h"
 
 class Door : public Object {
 public:
@@ -60,6 +61,9 @@ private:
     
     float _initialPosition;
     float _maxPosition;
+    
+    bool _playSoundEffectCondition2;
+    bool _playSoundEffectCondition1;
 };
 
 #endif /* DOOR_H */

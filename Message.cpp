@@ -21,10 +21,9 @@ using namespace std;
 
 Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        sf::FloatRect box = pjbounds;
         sf::IntRect box1;
-        box1.top = (int) (box.top + box.height);
-        box1.left = (int) (box.left - box.width);
+        box1.top = (int) (0);
+        box1.left = (int) (0);
         box1.height = (int)(texturebg->getTextureSize().y);
         cout<<"Altura: "<<box1.height<<endl;
         box1.width = (int) (texturebg->getTextureSize().x);
@@ -32,7 +31,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
         sf::String message1 = "";
 
         _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
-        _sbox->setSpriteScale(sf::Vector2f(1.0f, 1.0f));
+        _sbox->setSpriteScale(sf::Vector2f(0.5, 0.3));
 
         
         
@@ -45,7 +44,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 1:
-                message1 = "Hola, bienvenide a Color of Fate En este juego se va a poner a prueba tus habilidades asi que esperamos grandes cosas de ti.";
+                message1 = "Hola, bienvenide a Color of Fate \n En este juego se va a poner a prueba tus habilidades \n asi que esperamos grandes cosas de ti.";
                 
                 break;
                 
@@ -56,7 +55,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 3:
-                message1 = "Bienvenido al nivel 0, para llegar a los objetivos necesitarás utilizar las teclas W, A, S, D.";
+                message1 = "Bienvenido al nivel 0. Para llegar a los objetivos necesitarás utilizar las teclas W, A, S, D.";
                 
                 break;
                 
@@ -119,7 +118,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
         }
         
-    _text = new sf::Text(message1, *font, 12);
+    _text = new sf::Text(message1, *font, 6);
     _text->setColor(sf::Color::White);
     _text->setPosition(sf::Vector2f(box1.left,box1.top));
      
@@ -134,9 +133,9 @@ void Message::update()
     sf::IntRect box1;
     box1.top = (int) (box.top + box.height);
     box1.left = (int) (box.left - box.width);
-        
-    _sbox->setSpritePosition(player->getPlayer()->getSpritePosition());
-    _text->setPosition(sf::Vector2f(box1.left,box1.top));    
+    
+    _sbox->setSpritePosition(sf::Vector2f(RenderWindow::Instance()->getViewCenter().x, RenderWindow::Instance()->getViewCenter().y + 100));
+    _text->setPosition(sf::Vector2f(_sbox->getSpritePosition().x - _sbox->getGlobalBounds().width * 0.43, _sbox->getSpritePosition().y - 20));    
     
     player=NULL;
 }
@@ -159,6 +158,12 @@ std::string Message::getStringMessage()
 
 Message::~Message()
 {   
+    if(_sbox!=NULL){
     delete _sbox;
+    }
     _sbox = NULL;
+    if(_text!=NULL){
+        delete _text;
+    }
+    _text=NULL;
 }

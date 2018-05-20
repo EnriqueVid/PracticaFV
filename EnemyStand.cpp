@@ -72,6 +72,10 @@ void EnemyStand::update(sf::Vector2f playerPos)
     if(_collisionBullet)
     {
         _state = 2;      
+                //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(9);
+        //end sound effect   
     }
     
     setEnemyPreviousSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle());

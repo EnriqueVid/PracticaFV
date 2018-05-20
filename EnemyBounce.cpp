@@ -21,7 +21,6 @@ EnemyBounce::EnemyBounce(Texture* tex, sf::Vector2f origin, sf::Vector2f positio
     _state = 0;
     setEnemySpeed(5);
     _stopClock = NULL;
-    
     _collisionBullet=false;
 }
 
@@ -57,6 +56,10 @@ void EnemyBounce::update(int** map)
     if(_collisionBullet)
     {
         _state = 1;
+                //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(9);
+        //end sound effect   
     }
     
     if(_state == 0)

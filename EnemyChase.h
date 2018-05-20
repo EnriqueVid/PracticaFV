@@ -15,6 +15,7 @@
 #define ENEMYCHASE_H
 
 #include "Enemy.h"
+#include "Astar.h"
 
 using namespace std;
 
@@ -27,11 +28,14 @@ public:
     void update(int** map, int height, int width);
     void updateStateIdle(int** map);
     void updateStateChase(int** map, int height, int width);
+    void returnHome(int** map, int height, int width);
     void updateStateStop();
     
     void setEnemyChasePattern(string pattern);
     void setEnemyState(int s);
     void enemyChaseCollision();
+    void mapCollisions(int** map, int axisX, int axisY);
+    void setCollisionBullet(bool b);
     
     string getEnemyChasePattern();
     
@@ -51,8 +55,9 @@ private:
     sf::Vector2i* _path;
     int _pathDim;
     int _pathPos;
-    
-
+    sf::Vector2f _initPos;
+    bool _collisionBullet;
+    Astar* _astar;
 };
 
 #endif /* ENEMYCHASE_H */

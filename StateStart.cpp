@@ -158,9 +158,17 @@ int  StateStart::getStateNumber()
 
 int  StateStart::update(RenderWindow* window)
 {   
+     
+        
     if(_cual < 2)
     {
-            _contador = _contador + 2;
+        _contador = _contador + 2;
+        
+        //Playing music
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playMusic(1);
+        //end music
+        
     }else if(_cual == 3)
     {
             _contador = _contador +1; 
@@ -200,6 +208,12 @@ int  StateStart::update(RenderWindow* window)
     
     if((input->inputCheck(13) && _sstartbutton->getGlobalBounds().contains(p2c)) && _cual == 2 || input->inputCheck(11) && _cual == 2)
     {
+                    
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(17);
+        //end sound effect   
+            
         _cual = 3;
         return 1;
     }else{
@@ -224,6 +238,10 @@ int  StateStart::update(RenderWindow* window)
                 }
                 if(input->inputCheck(13) && _sexit->getGlobalBounds().contains(p2c))
                 {
+                    //Playing sound effect
+                    SoundManager* soundmanager = SoundManager::Instance();
+                    soundmanager->playSound(10);
+                    //end sound effect   
                     window->windowClose();
                 }
                 if(input->inputCheck(13) && _shelp->getGlobalBounds().contains(p2c))

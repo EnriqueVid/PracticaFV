@@ -64,7 +64,11 @@ World::World()
 
 void World::buildWorld(int lvlNumber)
 {
-    
+    //Playing music
+    SoundManager* soundmanager = SoundManager::Instance();
+    soundmanager->playMusic(0);
+    //end music
+        
     //buildTestObjects();
     
     _levelFactory = LevelFactory::Instance();
@@ -95,6 +99,7 @@ void World::buildWorld(int lvlNumber)
     _doorNumber = _levelFactory->getDoorNumber();
     _powerUpNumber = _levelFactory->getPowerUpNumber();
     _switchNumber = _levelFactory->getSwitchNumber();
+    _helpNumber = _levelFactory->getHelpNumber();
     _messageNumber = 0;
     
     _enemyBounceNumber = _levelFactory->getEnemyBounceNumber();
@@ -109,7 +114,7 @@ void World::buildWorld(int lvlNumber)
     _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
     _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
     _stairs = _levelFactory->getLevelFactoryStairs();
-    //_help= _levelFactory->getLevelFactoryHelp();
+    _help= _levelFactory->getLevelFactoryHelp();
     
     
     //_player->unlockAllPowerUps();
@@ -126,7 +131,7 @@ void World::buildWorld(int lvlNumber)
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     
-    
+    /*
     //PRUEBA DE BOTON DE AYUDA
     _helpNumber=1;
                 Texture* _texturePipes = new Texture("./textures/fondotexto.png");
@@ -149,6 +154,7 @@ void World::buildWorld(int lvlNumber)
     _help = new Help*[1];
     _help[0] = new Help(1, _player->getActualSituation()->getPositionX()+30, _player->getActualSituation()->getPositionY(), 0.0, 
             false, _texture[2], _number, _font, _texturePipes, _box, _pos);
+    */
     //----------------------------------------
 }
 
@@ -328,7 +334,22 @@ if(_player!=NULL)_player->input();
                 }
             }
         }
+        
+        /*
+        if(_switch!=NULL)
+        {
+            for(x=0;x<_switchNumber;x++)
+            {
+                if(_switch[x]!=NULL)
+                {
 
+                    _switch[x]->update();
+                    
+                }
+            }
+        }
+        */
+        
         if(_door!=NULL)
         {
             for(x=0;x<_doorNumber;x++)
@@ -522,6 +543,7 @@ void World::checkCollisions()
                             if(_player->getColor()==sf::Color::Red&&_box[x]->getCollisionEnemyLastUpdate()==false
                                     &&_box[x]->getCollisionEnemy()==false)
                             {
+                                
                                 
                                 if(_player->getPreviousSituation()->getPositionY()>=(_box[x]->getActualSituation()->getPositionY()+32+15))
                                 {
@@ -1123,7 +1145,26 @@ void World::checkCollisions()
                 }
             }
         }
-    }  
+    } 
+    
+    //Colision Balas - EnemyChase
+    if(_enemyChase!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyChaseNumber;x++)
+        {
+            if(_enemyChase[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyChase[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyChase[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyChase[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
