@@ -37,7 +37,7 @@ Enemy::Enemy(Texture* tex, sf::Vector2f origin, sf::Vector2f position, sf::Vecto
     _axis.y = 0;
     _direction.x = 0;
     _direction.y = 0;
-    _damage = 20;
+    _damage = 2;
     
     _collisionPlayer=false;
     _collisionObject=false;
@@ -76,7 +76,8 @@ void Enemy::enemyMove(sf::Vector2f dir, float g)
     _actualSituation->setPosition(_actualSituation->getPositionX()+(dir.x*_speed), _actualSituation->getPositionY()+(dir.y*_speed));
     _actualSituation->setAngle(g);
     
-    
+    if(_actualSituation->getAngle() < 0) setEnemyActualSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle() + 360);
+    if(_actualSituation->getAngle() > 360) setEnemyActualSituation(getEnemyActualSituation()->getPosition(), getEnemyActualSituation()->getAngle() - 360);
 }
 
 sf::IntRect* Enemy::getAnimation(int animationNum)

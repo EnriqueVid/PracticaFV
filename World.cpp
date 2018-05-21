@@ -41,7 +41,7 @@ World::World()
     _switch=NULL;
     //_renderWindow=NULL;
     _map=NULL;
-    _message=NULL;
+    _help=NULL;
     _enemyBounce=NULL;
     _enemyChase=NULL;
     _enemyStand=NULL;
@@ -109,9 +109,10 @@ void World::buildWorld(int lvlNumber)
     _enemyBounce = _levelFactory->getLevelFactoryEnemyBounce();
     _enemyChase = _levelFactory->getLevelFactoryEnemyChase();
     _stairs = _levelFactory->getLevelFactoryStairs();
+    //_help= _levelFactory->getLevelFactoryHelp();
     
     
-    _player->unlockAllPowerUps();
+    //_player->unlockAllPowerUps();
     
     _HUD = Hud::Instance();
     _HUD->setSprites(_texture[0]);
@@ -123,6 +124,32 @@ void World::buildWorld(int lvlNumber)
     //RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
     
     RenderWindow::Instance()->setViewCenter(_player->getPlayer()->getSpritePosition());
+    
+    
+    
+    //PRUEBA DE BOTON DE AYUDA
+    _helpNumber=1;
+                Texture* _texturePipes = new Texture("./textures/fondotexto.png");
+            
+            int _number = 1;
+            
+            sf::Font* _font = new sf::Font();
+            _font->loadFromFile("./textures/Pixeled.ttf");
+            
+            sf::FloatRect _box;
+            _box.height = 100;
+            _box.width = 100;
+            _box.left = 300;
+            _box.top = 300;
+            
+            sf::Vector2f _pos;
+            _pos.x = 300;
+            _pos.y = 300;
+                
+    _help = new Help*[1];
+    _help[0] = new Help(1, _player->getActualSituation()->getPositionX()+30, _player->getActualSituation()->getPositionY(), 0.0, 
+            false, _texture[2], _number, _font, _texturePipes, _box, _pos);
+    //----------------------------------------
 }
 
 void World::buildTestObjects()
@@ -321,8 +348,17 @@ if(_player!=NULL)_player->input();
                 if(_switch[x]!=NULL)
                 {
                     _switch[x]->update();
-                    
+                }
+            }
+        }
 
+        if(_help!=NULL)
+        {
+            for(x=0;x<_helpNumber;x++)
+            {
+                if(_help[x]!=NULL)
+                {
+                    _help[x]->update();
                 }
             }
         }
@@ -404,6 +440,61 @@ void World::checkCollisions()
     int x;
     int y;
     
+    //Colision EnemyBounce - Cajas
+    if(_box!=NULL&&_enemyBounce!=NULL)
+    {
+        for(x=0;x<_boxNumber;x++)
+        {
+            
+            if(_box[x]!=NULL)
+            {
+                for(y=0;y<_enemyBounceNumber;y++)
+                {
+                    if(_enemyBounce[y]!=NULL)
+                    {
+                        
+                        _box[x]->getSprite()->setSpritePosition(sf::Vector2f(_box[x]->getActualSituation()->getPositionX(),
+                                _box[x]->getActualSituation()->getPositionY()));
+                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
+                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
+                        
+                        if(_box[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
+                        {
+                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
+                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _box[x]->getSprite());
+                                
+                                
+                                if(maxDespl.x!=_enemyBounce[y]->getEnemyActualSituation()->getPositionX() && 
+                                        maxDespl.y!=_enemyBounce[y]->getEnemyActualSituation()->getPositionY())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x-2*_enemyBounce[y]->getEnemyAxis().x,
+                                            maxDespl.y-2*_enemyBounce[y]->getEnemyAxis().y);                                    
+                                }
+                                else if(maxDespl.x!=_enemyBounce[y]->getEnemyActualSituation()->getPositionX())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x-2*_enemyBounce[y]->getEnemyAxis().x,
+                                        maxDespl.y);   
+                                }
+                                else if(maxDespl.y!=_enemyBounce[y]->getEnemyActualSituation()->getPositionY())
+                                {
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,
+                                            maxDespl.y-2*_enemyBounce[y]->getEnemyAxis().y);                                       
+                                }
+                                else{
+                                    _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);                                    
+                                }
+                                
+                                _box[x]->setCollisionEnemy(true);
+                                _enemyBounce[y]->setCollisionObject(true);
+                        }
+                    }
+                }
+            }
+        }
+    }    
+        
+    
+    
     //Colision Jugador con el entorno
     
     //Colision Jugador - Cajas
@@ -428,7 +519,8 @@ void World::checkCollisions()
                         if(_box[x]->getCollisionWithMap()==false){
                         
                             //Si el jugador puede mover la caja
-                            if(_player->getColor()==sf::Color::Red)
+                            if(_player->getColor()==sf::Color::Red&&_box[x]->getCollisionEnemyLastUpdate()==false
+                                    &&_box[x]->getCollisionEnemy()==false)
                             {
                                 
                                 if(_player->getPreviousSituation()->getPositionY()>=(_box[x]->getActualSituation()->getPositionY()+32+15))
@@ -666,6 +758,27 @@ void World::checkCollisions()
         }
     }
 
+    //Colision Jugador - Botones de ayuda (help)
+    if(_player!=NULL&&_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                if(_player->getPlayer()->spriteIntersectsBounds(_help[x]->getSprite()))
+                {
+                    if(_player->getPlayer()->spriteIntersectsPixel(_help[x]->getSprite()->getSpriteSprite(),0))
+                    {                        
+                                                
+                        _help[x]->setCollisionPlayer(true);
+                        _help[x]->setShowMessage(true);
+
+                    }
+                }
+            }
+        }
+    }    
+    
      //Colision Jugador - PowerUps
    if(_player!=NULL&&_powerUp!=NULL)
     {
@@ -823,41 +936,7 @@ void World::checkCollisions()
         }
     }
     
-    //Colision EnemyBounce - Cajas
-    if(_box!=NULL&&_enemyBounce!=NULL)
-    {
-        for(x=0;x<_boxNumber;x++)
-        {
-            
-            if(_box[x]!=NULL)
-            {
-                for(y=0;y<_enemyBounceNumber;y++)
-                {
-                    if(_enemyBounce[y]!=NULL)
-                    {
-                        
-                        _box[x]->getSprite()->setSpritePosition(sf::Vector2f(_box[x]->getActualSituation()->getPositionX(),
-                                _box[x]->getActualSituation()->getPositionY()));
-                        _enemyBounce[y]->getEnemySprite()->setSpritePosition(sf::Vector2f(_enemyBounce[y]->getEnemyActualSituation()->getPositionX(),
-                                _enemyBounce[y]->getEnemyActualSituation()->getPositionY()));
-                        
-                        if(_box[x]->getSprite()->spriteIntersectsBounds(_enemyBounce[y]->getEnemySprite()))
-                        {
-                                sf::Vector2f  maxDespl = calculateMaxPosition(_enemyBounce[y]->getEnemySprite(),_enemyBounce[y]->getEnemyPreviousSituation(),                                
-                                _enemyBounce[y]->getEnemyActualSituation(), _enemyBounce[y]->getEnemySpeed(), _box[x]->getSprite());
-                                
-                                _enemyBounce[y]->getEnemyActualSituation()->setPosition(maxDespl.x,maxDespl.y);
-                        
-                                _box[x]->setCollisionEnemy(true);
-                        
-                                _enemyBounce[y]->setCollisionObject(true);
-                        }
-                    }
-                }
-            }
-        }
-    }    
-    
+
     /*
     //Colision Enemy Bounce con otros Enemy bounce
     if(_enemyBounce!=NULL)
@@ -1044,7 +1123,26 @@ void World::checkCollisions()
                 }
             }
         }
-    }  
+    } 
+    
+    //Colision Balas - EnemyChase
+    if(_enemyChase!=NULL&&_bullet!=NULL)
+    {
+        for(x=0;x<_enemyChaseNumber;x++)
+        {
+            if(_enemyChase[x]!=NULL)
+            {
+                if(_bullet->getSprite()->spriteIntersectsBounds(_enemyChase[x]->getEnemySprite()))
+                {
+                    if(_bullet->getSprite()->spriteIntersectsPixel(_enemyChase[x]->getEnemySprite()->getSpriteSprite(),0))
+                    {              
+                        _bullet->impact();
+                        _enemyChase[x]->setCollisionBullet(true);
+                    }
+                }
+            }
+        }
+    }
     
     //Colision Cajas - Puertas
     if(_box!=NULL&&_door!=NULL)
@@ -1193,6 +1291,23 @@ void World::checkCollisions()
                         _box[x]->getPreviousSituation()->getPositionX(),
                         _box[x]->getPreviousSituation()->getPositionY());                    
                 }
+                
+                  if(_box[x]->getCollisionLastUpdate()&&_box[x]->getCollisionEnemy())
+                {
+                    //cout <<"REAJUSTE"<<endl;
+
+                        _player->setActualSituation(
+                        _player->getPreviousSituation()->getPositionX(),
+                        _player->getPreviousSituation()->getPositionY(),
+                        _player->getPreviousSituation()->getAngle()
+                        );
+
+                        _box[x]->getActualSituation()->setPosition(
+                        _box[x]->getPreviousSituation()->getPositionX(),
+                        _box[x]->getPreviousSituation()->getPositionY());                    
+                }              
+                
+                
             }
         }
     }
@@ -1302,6 +1417,17 @@ void World::render(RenderWindow* renderWindow)
     }
     
 
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                _renderWindow->windowDraw(_help[x]->getSprite());
+            }
+        }
+    }
+    
     if(_switch!=NULL)
     {
         for(x=0;x<_switchNumber;x++)
@@ -1356,16 +1482,6 @@ void World::render(RenderWindow* renderWindow)
         }
     }
 
-    if(_message!=NULL)
-    {
-        for(x=0;x<_messageNumber;x++)
-        {
-            if(_message[x]!=NULL)
-            {
-                _renderWindow->windowDraw(_message[x]);
-            }
-        }
-    }
 
     if(_enemyBounce!=NULL)
     {
@@ -1420,6 +1536,19 @@ void World::render(RenderWindow* renderWindow)
         }
     }
     
+    
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                if(_help[x]->getShowMessage()){
+                    _renderWindow->windowDraw(_help[x]->getMessage());                
+                }
+            }
+        }
+    }
     
     if(_HUD!=NULL){
         _renderWindow->windowDraw(_HUD->getHUDBOX());
@@ -1512,6 +1641,19 @@ World::~World()
         }
         delete[] _switch;
         _switch=NULL;
+    }
+    if(_help!=NULL)
+    {
+        for(x=0;x<_helpNumber;x++)
+        {
+            if(_help[x]!=NULL)
+            {
+                delete _help[x];
+                _help[x]=NULL;
+            }
+        }
+        delete[] _help;
+        _help=NULL;
     }
 
     if(_enemyBounce!=NULL)
@@ -1643,9 +1785,9 @@ void World::resetWorld()
         _player = NULL;
     }
     
-    if(_message != NULL)
+    if(_help != NULL)
     {
-        _message = NULL;
+        _help = NULL;
     }
     
     if(_box != NULL)

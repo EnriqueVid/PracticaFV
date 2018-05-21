@@ -43,6 +43,9 @@ public:
 
     bool getCollisionBullet();
     void setCollisionBullet(bool b);    
+ 
+    bool getPushedBack();
+    void setPushedBack(bool b, sf::Vector2f pushedBackDistance);    
     
 private:
     string _pattern;
@@ -51,6 +54,9 @@ private:
     Clock* _stopClock;
     
     bool _collisionBullet;
+    
+    bool _pushedBack;
+    sf::Vector2f _pushedBackDistance;
 
 };
 

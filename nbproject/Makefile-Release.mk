@@ -48,6 +48,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/Font.o \
 	${OBJECTDIR}/Game.o \
+	${OBJECTDIR}/Help.o \
 	${OBJECTDIR}/Hud.o \
 	${OBJECTDIR}/Image.o \
 	${OBJECTDIR}/Input.o \
@@ -174,6 +175,11 @@ ${OBJECTDIR}/Game.o: Game.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Game.o Game.cpp
+
+${OBJECTDIR}/Help.o: Help.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Help.o Help.cpp
 
 ${OBJECTDIR}/Hud.o: Hud.cpp
 	${MKDIR} -p ${OBJECTDIR}

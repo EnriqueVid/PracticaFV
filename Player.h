@@ -97,6 +97,9 @@ public:
     sf::Vector2i getAxis();
     void resetPlayer();
     
+    void setRecoverStamina(bool b);
+    bool getRecoverStamina();
+    
 protected:
     Player();
     Player(const Player& orig);
@@ -157,7 +160,7 @@ private:
     bool _pushedBack;
     sf::Vector2f _pushedBackDistance;
     
-    
+    bool _recoverStamina;
 
 };
 

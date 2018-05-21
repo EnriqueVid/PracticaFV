@@ -14,6 +14,7 @@
 
 #include "Message.h"
 #include "RenderWindow.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -22,8 +23,8 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
     {
         sf::FloatRect box = pjbounds;
         sf::IntRect box1;
-        box1.top = (int) (box.top + box.height);
-        box1.left = (int) (box.left - box.width);
+        box1.top = (0);
+        box1.left = (0);
         box1.height = (int)(texturebg->getTextureSize().y);
         cout<<"Altura: "<<box1.height<<endl;
         box1.width = (int) (texturebg->getTextureSize().x);
@@ -31,7 +32,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
         sf::String message1 = "";
 
         _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
-        _sbox->setSpriteScale(sf::Vector2f(1.0f, 1.0f));
+        _sbox->setSpriteScale(sf::Vector2f(0.5f, 0.3f));
 
         
         
@@ -121,6 +122,22 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
     _text->setColor(sf::Color::White);
     _text->setPosition(sf::Vector2f(_sbox->getGlobalBounds().left,_sbox->getGlobalBounds().top));
      
+}
+
+
+void Message::update()
+{
+    Player* player = Player::Instance();
+
+    sf::FloatRect box = player->getPlayer()->getGlobalBounds();
+    sf::IntRect box1;
+    box1.top = (int) (box.top + box.height);
+    box1.left = (int) (box.left - box.width);
+        
+    _sbox->setSpritePosition(player->getPlayer()->getSpritePosition());
+    _text->setPosition(sf::Vector2f(box1.left,box1.top));    
+    
+    player=NULL;
 }
 
 

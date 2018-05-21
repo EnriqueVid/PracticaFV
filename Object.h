@@ -44,6 +44,7 @@ public:
     bool getCollisionEnemy();
     bool getCollisionBox();
     bool getCollisionObject();    
+    bool getCollisionEnemyLastUpdate();
     
     void setCollisionPlayer(bool b);
     void setCollisionEnemy(bool b);
@@ -71,6 +72,8 @@ protected:
     bool _collisionEnemy;
     bool _collisionBox;
     bool _collisionObject;
+    
+    bool _collisionEnemyLastUpdate;
     
     
 };

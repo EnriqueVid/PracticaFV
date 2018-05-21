@@ -174,6 +174,11 @@ bool Box::getCollisionWithMap()
 
 void Box::update(int** _collisionMap){
     
+    if(_collisionEnemyLastUpdate)_collisionEnemyLastUpdate=false;
+    if(_collisionEnemy){
+        _collisionEnemy=false;
+        _collisionEnemyLastUpdate=true;
+    }
     
     _collisionWithMap=false;
     if(_collisionLastUpdate)_collisionLastUpdate=false;

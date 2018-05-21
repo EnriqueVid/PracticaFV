@@ -120,9 +120,13 @@ Switch::~Switch()
     /*
     delete _door;
     */
+    if(_door1!=NULL){
     delete _door1;
+    }
     _door1=NULL;
+    if(_door2!=NULL){
     delete _door2;
+    }
     _door2=NULL;
     
     //el destructor del padre se encarga de destruir el resto de punteros.

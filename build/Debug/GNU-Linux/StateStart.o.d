@@ -3,8 +3,8 @@ build/Debug/GNU-Linux/StateStart.o: StateStart.cpp StateStart.h State.h \
  Event.h Situation.h Message.h Text.h Font.h StateGameOver.h \
  StateGameLoop.h Player.h SoundManager.h Sound.h SoundBuffer.h Music.h \
  World.h Box.h Object.h Door.h PowerUp.h Switch.h LevelFactory.h \
- tinyxml2.h EnemyBounce.h Enemy.h EnemyChase.h EnemyStand.h Stairs.h \
- Bullet.h Hud.h
+ tinyxml2.h EnemyBounce.h Enemy.h EnemyChase.h Astar.h Node.h \
+ EnemyStand.h Stairs.h Bullet.h Hud.h Help.h
 
 StateStart.h:
 
@@ -70,6 +70,10 @@ Enemy.h:
 
 EnemyChase.h:
 
+Astar.h:
+
+Node.h:
+
 EnemyStand.h:
 
 Stairs.h:
@@ -77,3 +81,5 @@ Stairs.h:
 Bullet.h:
 
 Hud.h:
+
+Help.h:
