@@ -42,7 +42,6 @@ int main()
     int which = StateStart::Instance()->getStateNumber();
 
     
-            
     Event* ev = new Event();
     while(window->windowIsOpen())
     {

@@ -31,6 +31,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
         sf::String message1 = "";
 
         _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
+
         _sbox->setSpriteScale(sf::Vector2f(0.5, 0.3));
 
         
@@ -51,7 +52,6 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
             case 2:
                 message1 = "Cada piso tiene varios niveles y para salvar a tu mundo debes ascender a lo más alto para erradicar el mal. ¡Nos vemos en la cima!";
                 
-                //_text->getText().setString(message1);
                 break;
                 
             case 3:
@@ -141,7 +141,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
         
     _text = new sf::Text(message1, *font, 6);
     _text->setColor(sf::Color::White);
-    _text->setPosition(sf::Vector2f(box1.left,box1.top));
+    _text->setPosition(sf::Vector2f(_sbox->getGlobalBounds().left,_sbox->getGlobalBounds().top));
      
 }
 

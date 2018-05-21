@@ -30,8 +30,8 @@ StateStart::StateStart()
 {
     std::cout<<"Creado el estado de START"<<std::endl;
     
-    sf::Font fmes;
-    fmes.loadFromFile("./textures/Pixeled.ttf");
+    sf::Font* fmes = new sf::Font();
+    fmes->loadFromFile("./textures/Pixeled.ttf");
     
     _cual = 0;
     _contador = 0;
@@ -114,7 +114,7 @@ StateStart::StateStart()
     _spj4->setSpriteOrigin(sf::Vector2f(_spj4->getSpriteTexture().getSize().x/2.f, _spj4->getSpriteTexture().getSize().y/2.f));    
     _spj4->setSpriteScale(sf::Vector2f(2.5,2.5));
     
-    //_mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
+    _mehelp = new Message(0, fmes, _tmes, sf::FloatRect(0, 0, 608, 256), sf::Vector2f(400.f, 400.f));
     
     _snmes = 0;
     
@@ -176,8 +176,12 @@ int  StateStart::update(RenderWindow* window)
         _contador = 0;
     }
     
+    
+    
     //COLOCAR LOS SPRITES
         //window->setViewZoom(1);
+    
+    
         
     
         _sstartbg->setSpritePosition(window->getViewCenter());
@@ -187,6 +191,8 @@ int  StateStart::update(RenderWindow* window)
         _spj3->setSpritePosition(sf::Vector2f(window->getViewCenter().x,window->getViewCenter().y+300.f));
         _spj4->setSpritePosition(sf::Vector2f(window->getViewCenter().x+200.f,window->getViewCenter().y+300.f));
         _shelp->setSpritePosition(sf::Vector2f(window->getViewCenter().x + 50.f, window->getViewCenter().y+200.f));
+        _mehelp->getSpriteMessage()->setSpritePosition(window->getViewCenter());
+        _mehelp->getTextMessage()->setPosition(window->getViewCenter().x-70, window->getViewCenter().y);
         _sexit->setSpritePosition(sf::Vector2f(window->getViewCenter().x - 50.f, window->getViewCenter().y+200.f));
         _scar->setSpritePosition(window->getViewCenter());
         _sini1->setSpritePosition(window->getViewCenter());
