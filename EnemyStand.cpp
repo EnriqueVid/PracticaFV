@@ -308,3 +308,8 @@ void EnemyStand::setCollisionBullet(bool b)
 {
     _collisionBullet=b;
 }
+
+int EnemyStand::getEnemyStandState()
+{
+    return _state;
+}

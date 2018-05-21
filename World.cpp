@@ -59,11 +59,13 @@ World::World()
     _nextLevel = false;
     _nextLevelCount = 0;
     _levelDone = false;
+    _level = 0;
     cout <<"World created."<<endl;
 }
 
 void World::buildWorld(int lvlNumber)
 {
+    _level = 0;
     //Playing music
     SoundManager* soundmanager = SoundManager::Instance();
     soundmanager->playMusic(0);
@@ -100,6 +102,7 @@ void World::buildWorld(int lvlNumber)
     _powerUpNumber = _levelFactory->getPowerUpNumber();
     _switchNumber = _levelFactory->getSwitchNumber();
     _helpNumber = _levelFactory->getHelpNumber();
+    _stairNumber = _levelFactory->getStairsNumber();
     _messageNumber = 0;
     
     _enemyBounceNumber = _levelFactory->getEnemyBounceNumber();
@@ -282,175 +285,177 @@ void World::update()
 {
     
     //UPDATE DE TODOS LOS OBJETOS
+    if(_nextLevel == false)
+    {
+        if(_player!=NULL)_player->input();
 
-if(_player!=NULL)_player->input();
 
-    
-    if(_clock->getClockAsSeconds()>=float(UPS)){
-        
-        _input->inputInput();
+        if(_clock->getClockAsSeconds()>=float(UPS)){
 
-        if(_input->inputCheck(0));
-        if(_input->inputCheck(1));
-        if(_input->inputCheck(2));
-        if(_input->inputCheck(3));
-        
-        if(_player!=NULL){
-            _player->update(_collisionMap);
-        }
-        
-        int x;
-        
-        if(_box!=NULL)
-        {
-            for(x=0;x<_boxNumber;x++)
-            {
-                if(_box[x]->getErase())
-                {
-                    
-                    delete _box[x];
-                    _box[x]==NULL;
-                }
-                else{
-                    _box[x]->update(_collisionMap);
-                }
+            _input->inputInput();
+
+            if(_input->inputCheck(0));
+            if(_input->inputCheck(1));
+            if(_input->inputCheck(2));
+            if(_input->inputCheck(3));
+
+            if(_player!=NULL){
+                _player->update(_collisionMap);
             }
-        }
 
-        if(_powerUp!=NULL)
-        {
-            for(x=0;x<_powerUpNumber;x++)
+            int x;
+
+            if(_box!=NULL)
             {
-                if(_powerUp[x]!=NULL)
+                for(x=0;x<_boxNumber;x++)
                 {
-                    if(_powerUp[x]->getErase())
+                    if(_box[x]->getErase())
                     {
-                        delete _powerUp[x];
-                        _powerUp[x]=NULL;
+
+                        delete _box[x];
+                        _box[x]==NULL;
                     }
                     else{
-                        _powerUp[x]->update();
+                        _box[x]->update(_collisionMap);
                     }
                 }
             }
-        }
-        
-        /*
-        if(_switch!=NULL)
-        {
-            for(x=0;x<_switchNumber;x++)
-            {
-                if(_switch[x]!=NULL)
-                {
 
-                    _switch[x]->update();
-                    
-                }
-            }
-        }
-        */
-        
-        if(_door!=NULL)
-        {
-            for(x=0;x<_doorNumber;x++)
+            if(_powerUp!=NULL)
             {
-                if(_door[x]!=NULL)
+                for(x=0;x<_powerUpNumber;x++)
                 {
-                    _door[x]->update();
-                    //cout<<"puerta-------"<<endl;
+                    if(_powerUp[x]!=NULL)
+                    {
+                        if(_powerUp[x]->getErase())
+                        {
+                            delete _powerUp[x];
+                            _powerUp[x]=NULL;
+                        }
+                        else{
+                            _powerUp[x]->update();
+                        }
+                    }
                 }
             }
-        }
 
-        if(_switch!=NULL)
-        {
-            for(x=0;x<_switchNumber;x++)
+            /*
+            if(_switch!=NULL)
             {
-                if(_switch[x]!=NULL)
+                for(x=0;x<_switchNumber;x++)
                 {
-                    _switch[x]->update();
-                }
-            }
-        }
+                    if(_switch[x]!=NULL)
+                    {
 
-        if(_help!=NULL)
-        {
-            for(x=0;x<_helpNumber;x++)
-            {
-                if(_help[x]!=NULL)
-                {
-                    _help[x]->update();
-                }
-            }
-        }
-        
-        if(_bullet!=NULL){
-            if(_bullet->getErase())
-            {
-                delete _bullet;
-                _bullet=NULL;
-            }
-            else{
-                _bullet->update(_collisionMap);
-            }
-        }
-        else
-        {
-            if(_player->getFireBullet())
-            {
-                _bullet = new Bullet(true,false, _player->getPreviousSituation()->getPositionX(),
-                        _player->getPreviousSituation()->getPositionY(),
-                        _player->getPreviousSituation()->getAngle(),
-                        11.0f, 3.5f, 1, _texture[2]);
-            }
-        }        
+                        _switch[x]->update();
 
-        if(_enemyBounce!=NULL)
-        {
-            for(x=0;x<_enemyBounceNumber;x++)
-            {
-                if(_enemyBounce[x]!=NULL)
-                {
-                    _enemyBounce[x]->update(_collisionMap);
+                    }
                 }
             }
-        }
+            */
 
-        if(_enemyChase!=NULL)
-        {
-            for(x=0;x<_enemyChaseNumber;x++)
+            if(_door!=NULL)
             {
-                if(_enemyChase[x]!=NULL)
+                for(x=0;x<_doorNumber;x++)
                 {
-                    _enemyChase[x]->update(_advancedCollisionMap, _mapHeight, _mapWidth);
+                    if(_door[x]!=NULL)
+                    {
+                        _door[x]->update();
+                        //cout<<"puerta-------"<<endl;
+                    }
                 }
             }
-        }
 
-        if(_enemyStand!=NULL)
-        {
-            for(x=0;x<_enemyStandNumber;x++)
+            if(_switch!=NULL)
             {
-                if(_enemyStand[x]!=NULL)
+                for(x=0;x<_switchNumber;x++)
                 {
-                    _enemyStand[x]->update(_player->getActualSituation()->getPosition());
+                    if(_switch[x]!=NULL)
+                    {
+                        _switch[x]->update();
+                    }
                 }
             }
+
+            if(_help!=NULL)
+            {
+                for(x=0;x<_helpNumber;x++)
+                {
+                    if(_help[x]!=NULL)
+                    {
+                        _help[x]->update();
+                    }
+                }
+            }
+
+            if(_bullet!=NULL){
+                if(_bullet->getErase())
+                {
+                    delete _bullet;
+                    _bullet=NULL;
+                }
+                else{
+                    _bullet->update(_collisionMap);
+                }
+            }
+            else
+            {
+                if(_player->getFireBullet())
+                {
+                    _bullet = new Bullet(true,false, _player->getPreviousSituation()->getPositionX(),
+                            _player->getPreviousSituation()->getPositionY(),
+                            _player->getPreviousSituation()->getAngle(),
+                            11.0f, 3.5f, 1, _texture[2]);
+                }
+            }        
+
+            if(_enemyBounce!=NULL)
+            {
+                for(x=0;x<_enemyBounceNumber;x++)
+                {
+                    if(_enemyBounce[x]!=NULL)
+                    {
+                        _enemyBounce[x]->update(_collisionMap);
+                    }
+                }
+            }
+
+            if(_enemyChase!=NULL)
+            {
+                for(x=0;x<_enemyChaseNumber;x++)
+                {
+                    if(_enemyChase[x]!=NULL)
+                    {
+                        _enemyChase[x]->update(_advancedCollisionMap, _mapHeight, _mapWidth);
+                    }
+                }
+            }
+
+            if(_enemyStand!=NULL)
+            {
+                for(x=0;x<_enemyStandNumber;x++)
+                {
+                    if(_enemyStand[x]!=NULL)
+                    {
+                        _enemyStand[x]->update(_player->getActualSituation()->getPosition());
+                    }
+                }
+            }
+
+            if(_HUD!=NULL&&_player!=NULL){
+                _HUD->update(_player->getHealth(),_player->getStamina(),
+                        _player->getColor().r, _player->getColor().g,
+                _player->getColor().b, _player->getColor().a);
+            }
+            checkCollisions();
+            _clock->clockRestart();    
         }
-        
-        if(_HUD!=NULL&&_player!=NULL){
-            _HUD->update(_player->getHealth(),_player->getStamina(),
-                    _player->getColor().r, _player->getColor().g,
-            _player->getColor().b, _player->getColor().a);
-        }
-        checkCollisions();
-        _clock->clockRestart();    
+        _percentTick=_clock->getClockAsSeconds()/float(UPS);        
+        //if(_enemyChaseNumber > 0)
+        //{
+        //    calculateAdvancedCollisionMap();
+        //}
     }
-    _percentTick=_clock->getClockAsSeconds()/float(UPS);        
-    //if(_enemyChaseNumber > 0)
-    //{
-    //    calculateAdvancedCollisionMap();
-    //}
 }
 
 //Metodo usado para corregir la posicion de los objetos tras todos sus updates, para comprobar que nadie se mete
@@ -847,7 +852,7 @@ void World::checkCollisions()
                 //choque con su cono de vision
                 if(_player->getPlayer()->spriteIntersectsBounds(_enemyStand[x]->getConeSprite()))
                 {
-                    if(!_player->getHidden()){
+                    if(!_player->getHidden() && _enemyStand[x]->getEnemyStandState() != 2){
                         if(_player->getPlayer()->spriteIntersectsPixel(_enemyStand[x]->getConeSprite()->getSpriteSprite(),0))
                         {                   
                             //cout <<"Colision con el CONO directamente"<<endl;
@@ -889,7 +894,7 @@ void World::checkCollisions()
                 //choque con su cono de vision
                 if(_player->getPlayer()->spriteIntersectsBounds(_enemyChase[x]->getConeSprite()))
                 {
-                    if(!_player->getHidden()){
+                    if(!_player->getHidden() && _enemyChase[x]->getEnemyChaseState() != 2){
                         if(_player->getPlayer()->spriteIntersectsPixel(_enemyChase[x]->getConeSprite()->getSpriteSprite(),0))
                         {                   
                             cout <<"Colision con el CONO directamente"<<endl;
@@ -947,13 +952,17 @@ void World::checkCollisions()
     //Colision Player y Stairs.
     if(_player!=NULL&&_stairs!=NULL)
     {
-        if(_player->getPlayer()->spriteIntersectsBounds(_stairs->getSprite()))
+        for(int i=0; i<_stairNumber; i++)
         {
-            if(_player->getPlayer()->spriteIntersectsPixel(_stairs->getSprite()->getSpriteSprite(),0))
-            {            
-                //PASAMOS AL SIGUIENTE NIVEL
-                //cout<<"Hola"<<endl;
-                _nextLevel = true;
+            if(_player->getPlayer()->spriteIntersectsBounds(_stairs[i]->getSprite()))
+            {
+                if(_player->getPlayer()->spriteIntersectsPixel(_stairs[i]->getSprite()->getSpriteSprite(),0))
+                {            
+                    //PASAMOS AL SIGUIENTE NIVEL
+                    //cout<<"Hola"<<endl;
+                    _nextLevel = true;
+                    _level = _stairs[i]->getNextLevel();
+                }
             }
         }
     }
@@ -1412,10 +1421,10 @@ void World::render(RenderWindow* renderWindow)
     
     if(_nextLevel == true)
     {
-        if(_nextLevelCount < 1000)
+        if(_nextLevelCount < 700)
         {
-            _renderWindow->setViewZoom(1.005);
-            _renderWindow->setViewRotate(0.3);
+            _renderWindow->setViewZoom(1.007);
+            _renderWindow->setViewRotate(0.4);
             _nextLevelCount++;
         }
         else
@@ -1435,7 +1444,13 @@ void World::render(RenderWindow* renderWindow)
     
     if(_stairs!=NULL)
     {
-        _renderWindow->windowDraw(_stairs->getSprite());
+        for(int i=0; i<_stairNumber; i++)
+        {
+            if(_stairs[i] != NULL)
+            {
+                _renderWindow->windowDraw(_stairs[i]->getSprite());
+            }
+        }
     }
     
 
@@ -1897,7 +1912,7 @@ void World::resetWorld()
 
 int World::getNextLevel()
 {
-    return _stairs->getNextLevel();
+    return _level;
 }
 
 void World::calculateAdvancedCollisionMap()

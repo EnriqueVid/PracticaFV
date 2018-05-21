@@ -66,7 +66,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 5:
-                message1 = "Acabas de descubrir el color Rojo, este color te otorga la habilidad de mover y destruir cajas. Tal vez te pueda ser útil para seguir avanzando.";
+                message1 = "Este es el color Rojo, este color te otorga la habilidad\nde mover y destruir cajas. \nTal vez te pueda ser útil para seguir avanzando.";
                 
                 
                 break;
@@ -80,12 +80,11 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 
             case 7:
                 message1 = "¡Atención! Tienes a un guardia de clase C enfrente tuyo, si te ve te absorberá pigmento. Evita que tu pigmento llegue a cero.";
-                
-                
                 break;
                 
+                
             case 8:
-                message1 = "Eso que ves de rojo es una zona de Tinta Roja. Si posees el poder del rojo te podrás ocultar de la visión de los guardias en las zonas de tu color, además de que recuperas maná.";
+                message1 = "Eso que ves de rojo es una zona de Tinta Roja. \nSi posees el poder del rojo te podrás ocultar de la visión\nde los guardias en las zonas de tu color, además de que recuperas maná.";
                 
                 
                 break;            
@@ -110,9 +109,31 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 
             case 12:
                 message1 = "Atención, solo te camuflas en las zonas del tinte de tu color.";
-                
-                
                 break;
+                
+            case 13:
+                message1 = "Nivel 1";
+                break;
+            case 14:
+                message1 = "Nivel 2";
+                break;
+            case 15:
+                message1 = "Nivel 3";
+                break;
+            case 16:
+                message1 = "Nivel 4";
+                break;
+            case 17:
+                message1 = "Nivel 5";
+                break;
+            case 18:
+                message1 = "Nivel 6";
+                break;
+            case 19:
+                message1 = "Nivel Final";
+                break;
+                
+            
                 
             default:
                 break;

@@ -86,7 +86,7 @@ private:
     
     Bullet* _bullet; //Bala del jugador.
     Hud* _HUD; //HUD del jugador.
-    Stairs* _stairs; //escaleras al siguiente nivel
+    Stairs** _stairs; //escaleras al siguiente nivel
     
     Input* _input;
     
@@ -105,6 +105,7 @@ private:
     int _switchNumber;
     int _messageNumber;
     int _helpNumber;
+    int _stairNumber;
     
     
     int _enemyBounceNumber;
@@ -114,6 +115,7 @@ private:
     int _mapWidth;
     int _mapHeight;
     int _mapLayers;
+    int _level;
     
     
     bool _destroytheworld;

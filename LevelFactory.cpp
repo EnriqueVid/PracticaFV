@@ -98,8 +98,32 @@ void LevelFactory::levelFactoryMapSelector()
             _mapName = "./Maps/Level-1.tmx";
             break;
             
+        case 2:
+            _mapName = "./Maps/Level-2.tmx";
+            break;
+            
+        case 3:
+            _mapName = "./Maps/Level-3.tmx";
+            break;
+            
+        case 4:
+            _mapName = "./Maps/Level-4.tmx";
+            break;
+            
+        case 5:
+            _mapName = "./Maps/Level-5.tmx";
+            break;
+            
+        case 6:
+            _mapName = "./Maps/Level-6.tmx";
+            break;
+            
+        case 7:
+            _mapName = "./Maps/Level-7.tmx";
+            break;
+            
         default:
-            _mapName = "";
+            _mapName = "./Maps/Level-0.tmx";
     }
 }
 
@@ -902,9 +926,9 @@ Help** LevelFactory::getLevelFactoryHelp()
     return _oHelp;
 }
 
-Stairs*  LevelFactory::getLevelFactoryStairs()
+Stairs**  LevelFactory::getLevelFactoryStairs()
 {
-    return _oStairs[0];
+    return _oStairs;
 }
 
 Texture* LevelFactory::getTileSetTexture()

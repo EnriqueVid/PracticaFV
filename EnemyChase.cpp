@@ -286,7 +286,7 @@ void EnemyChase::updateStateChase(int** map, int height, int width)
     
     if(_chaseClock == NULL) _chaseClock = new Clock;
     
-    if(_chaseClock->getClockAsSeconds() <= 10.0f)
+    if(_chaseClock->getClockAsSeconds() <= 3.0f)
     {
         float catC, catO, catCE, catOE, hipo, hipoE, rot, pathX, pathY, eneX, eneY;
         int axisX, axisY;
@@ -635,4 +635,9 @@ void EnemyChase::returnHome(int** map, int height, int width)
             }
         }
     
+}
+
+int EnemyChase::getEnemyChaseState()
+{
+    return _state;
 }

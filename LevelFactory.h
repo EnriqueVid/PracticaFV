@@ -56,7 +56,7 @@ public:
     Switch** getLevelFactorySwitch();
     Door** getLevelFactoryDoor();
     Help** getLevelFactoryHelp();
-    Stairs* getLevelFactoryStairs();
+    Stairs** getLevelFactoryStairs();
     Texture* getTileSetTexture();
     Texture* getPlayerTexture();
     Texture* getEnemyTexture();
