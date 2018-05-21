@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="18">
+ <properties>
+  <property name="nextlevel" type="int" value="6"/>
+ </properties>
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="Collisions" width="50" height="50">
   <data>

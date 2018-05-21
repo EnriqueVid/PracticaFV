@@ -30073,7 +30073,7 @@
   </object>
   <object id="24" gid="237" x="976" y="1712" width="32" height="32">
    <properties>
-    <property name="nextlevel" type="int" value="1"/>
+    <property name="nextlevel" type="int" value="5"/>
    </properties>
   </object>
   <object id="26" gid="161" x="592" y="2416" width="32" height="32">
