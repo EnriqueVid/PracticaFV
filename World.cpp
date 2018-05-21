@@ -69,6 +69,7 @@ void World::buildWorld(int lvlNumber)
     //Playing music
     SoundManager* soundmanager = SoundManager::Instance();
     soundmanager->playMusic(0);
+    soundmanager->setMusicVolume(30);
     //end music
         
     //buildTestObjects();
@@ -1861,8 +1862,11 @@ void World::resetWorld()
     {
         for(int y=0; y<_mapHeight; y++)
         {
-            delete[] _advancedCollisionMap[y];
-            _advancedCollisionMap[y] = NULL;
+            if(_advancedCollisionMap[y])
+            {
+                delete[] _advancedCollisionMap[y];
+                _advancedCollisionMap[y] = NULL;
+            }
         }
         delete[] _advancedCollisionMap;
         _advancedCollisionMap = NULL;

@@ -167,6 +167,7 @@ int  StateStart::update(RenderWindow* window)
         //Playing music
         SoundManager* soundmanager = SoundManager::Instance();
         soundmanager->playMusic(1);
+        soundmanager->setMusicVolume(30);
         //end music
         
     }else if(_cual == 3)
@@ -332,7 +333,7 @@ StateStart::~StateStart()
    _tstartbutton = NULL;
    _sstartbutton = NULL;
    
-       delete _tpj1;
+    delete _tpj1;
     delete _tpj2;
     delete _tpj3;
     delete _tpj4;

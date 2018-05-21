@@ -322,7 +322,18 @@ void EnemyChase::updateStateChase(int** map, int height, int width)
                 _astar = new Astar(map, height, width, 4);
 
                 way = _astar->pathfind(sf::Vector2i((int)getEnemyActualSituation()->getPositionX()/32, (int)getEnemyActualSituation()->getPositionY()/32),sf::Vector2i((int)p->getActualSituation()->getPositionX()/32, (int)p->getActualSituation()->getPositionY()/32));
-                _path = _astar->getAbsoluto(way);
+                
+                _path = new sf::Vector2i[way.size()];
+                
+                
+                
+                for(int i=0;i<way.size();i++)
+                {
+                    _path[i].x = _astar->getAbsoluto(way)[i].x;
+                    _path[i].y = _astar->getAbsoluto(way)[i].y;
+                }
+                
+                
                 cout<<"way: "<<way<<endl;
 
                 _pathDim = way.size();
@@ -407,8 +418,10 @@ void EnemyChase::updateStateChase(int** map, int height, int width)
     }
     else
     {
-        delete _chaseClock;
-        _chaseClock = NULL;
+        if(_chaseClock!=NULL){
+            delete _chaseClock;
+            _chaseClock = NULL;
+        }
         _state = 3;
         setEnemyActualSituation(getEnemyActualSituation()->getPosition(), int(getEnemyActualSituation()->getAngle())/5*5);
         setCollisionPlayer(false);

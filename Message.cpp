@@ -66,7 +66,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 5:
-                message1 = "Este es el color Rojo, este color te otorga la habilidad\nde mover y destruir cajas. \nTal vez te pueda ser útil para seguir avanzando.";
+                message1 = "Este es el color Rojo, este color te otorga la habilidad\nde mover y destruir cajas. \nTal vez te pueda ser util para seguir avanzando.";
                 
                 
                 break;
@@ -79,12 +79,12 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 
                 
             case 7:
-                message1 = "¡Atención! Tienes a un guardia de clase C enfrente tuyo, si te ve te absorberá pigmento. Evita que tu pigmento llegue a cero.";
+                message1 = "¡Atencion! Tienes a un guardia de clase C enfrente tuyo, si te ve te absorberá pigmento. Evita que tu pigmento llegue a cero.";
                 break;
                 
                 
             case 8:
-                message1 = "Eso que ves de rojo es una zona de Tinta Roja. \nSi posees el poder del rojo te podrás ocultar de la visión\nde los guardias en las zonas de tu color, además de que recuperas maná.";
+                message1 = "Eso que ves de rojo es una zona de Tinta Roja. Si posees\nel poder rojo te podras ocultar de la vision de los\nguardias en las zonas de tu color, tambien recuperas mana.";
                 
                 
                 break;            
@@ -96,7 +96,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 10:
-                message1 = "¡Enhorabuena! Acabas de conseguir el color Azul, este color te otorga la habilidad de moverte a grandes velocidades durante un corta fracción de tiempo. Tal vez te pueda ser útil para seguir avanzando.";
+                message1 = "¡Enhorabuena! Acabas de conseguir el color Azul, este color te otorga la habilidad de moverte a grandes velocidades durante un corta fraccion de tiempo. Tal vez te pueda ser util para seguir avanzando.";
                  
                 
                 break;
@@ -108,7 +108,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 12:
-                message1 = "Atención, solo te camuflas en las zonas del tinte de tu color.";
+                message1 = "Atencion, solo te camuflas en las zonas del tinte de tu color.";
                 break;
                 
             case 13:

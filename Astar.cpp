@@ -104,39 +104,73 @@ Astar::Astar(const Astar& orig)
 
 Astar::~Astar()
 {
-    for(int i = 0;i<_height;i++)
+    if(_map != NULL)
     {
-        delete [] _map[i];
+        for(int i = 0;i<_height;i++)
+        {
+            if(_map[i] !=NULL)
+            {
+                delete[] _map[i];
+                _map[i] = NULL;
+            }
+        }
+        delete[] _map;
+        _map = NULL;
     }
-    delete[] _map;
-    _map = NULL;
     
-    for(int i = 0;i<_height;i++)
+    if(_openNodes != NULL)
     {
-        delete [] _openNodes[i];
+        for(int i = 0;i<_height;i++)
+        {
+            if(_openNodes[i] != NULL)
+            {
+                delete [] _openNodes[i];
+                _openNodes[i] = NULL;
+            }
+        }
+        delete[] _openNodes;
+        _openNodes = NULL;
     }
-    delete[] _openNodes;
-    _openNodes = NULL;
     
-    for(int i = 0;i<_height;i++)
+    if(_closedNodes != NULL)
     {
-        delete [] _closedNodes[i];
+        for(int i = 0;i<_height;i++)
+        {
+            if(_closedNodes[i] != NULL)
+            {
+                delete [] _closedNodes[i];
+                _closedNodes[i] = NULL;
+            }
+        }
+        delete[] _closedNodes;
+        _closedNodes = NULL;
     }
-    delete[] _closedNodes;
-    _closedNodes = NULL;
     
-    for(int i = 0;i<_height;i++)
+    if(_directions != NULL)
     {
-        delete [] _directions[i];
+        for(int i = 0;i<_height;i++)
+        {
+            if(_directions[i] != NULL)
+            {
+                delete [] _directions[i];
+                _directions[i] = NULL;
+            }
+        }
+        delete[] _directions;
+        _directions = NULL;
     }
-    delete[] _directions;
-    _directions = NULL;
     
-    delete[] _dirX;
-    _dirX = NULL;
+    if(_dirX != NULL)
+    {
+        delete[] _dirX;
+        _dirX = NULL;
+    }
     
-    delete[] _dirY;
-    _dirY = NULL;
+    if(_dirY!= NULL)
+    {
+        delete[] _dirY;
+        _dirY = NULL;
+    }
     
     if(_path !=NULL){
         delete[] _path;
@@ -212,7 +246,11 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
             }
 
             // garbage collection
-            delete n0;
+            if(n0 != NULL)
+            {
+                delete n0;
+                n0 = NULL;
+            }
             
             // empty the leftover nodes ?¿?¿?¿?¿?
             while(!pq[pqi].empty())
@@ -279,13 +317,21 @@ std::string Astar::pathfind(sf::Vector2i start, sf::Vector2i end)
                 }
                 else
                 {
-                    delete m0;
+                    if(m0!=NULL)
+                    {
+                        delete m0;
+                        m0 = NULL;
+                    }
                 }
             }
         }
         reordenar(pq[0]);
         reordenar(pq[1]);
-        delete n0;
+        if(n0 != NULL)
+        {
+            delete n0;
+            n0 = NULL;
+        }
     }
     _meh = "";
     return _meh;
