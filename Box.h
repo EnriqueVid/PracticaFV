@@ -17,6 +17,7 @@
 #include "Situation.h"
 #include "Object.h"
 #include "Clock.h"
+#include "SoundManager.h"
 
 class Box : public Object{
 public:
@@ -78,6 +79,7 @@ private:
     
     
     bool _collisionWithMap;
+    bool _playSoundEffect;
 
     
 };

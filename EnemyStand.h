@@ -34,6 +34,7 @@ public:
     
     string getEnemyStandPattern();
     Sprite* getConeSprite();
+    int getEnemyStandState();
     
     bool getCollisionPlayerCone();
     void setCollisionPlayerCone(bool b);

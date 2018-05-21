@@ -30,6 +30,7 @@
 #include "Door.h"
 #include "PowerUp.h"
 #include "Stairs.h"
+#include "Help.h"
 
 using namespace tinyxml2;
 
@@ -54,7 +55,8 @@ public:
     EnemyBounce** getLevelFactoryEnemyBounce();
     Switch** getLevelFactorySwitch();
     Door** getLevelFactoryDoor();
-    Stairs* getLevelFactoryStairs();
+    Help** getLevelFactoryHelp();
+    Stairs** getLevelFactoryStairs();
     Texture* getTileSetTexture();
     Texture* getPlayerTexture();
     Texture* getEnemyTexture();
@@ -68,6 +70,7 @@ public:
     int getDoorNumber();
     int getPowerUpNumber();
     int getStairsNumber();
+    int getHelpNumber();
     
     
     
@@ -87,6 +90,8 @@ private:
     Texture* _playerTexture;
     Texture* _enemyTexture;
     Texture* _objectTexture;
+    Texture* _fontTexture;
+    sf::Font* _textFont;
     Sprite ****_tileMapSprite;
     sf::IntRect *_tilesetSprite;
     int ***_tileMap;
@@ -101,7 +106,7 @@ private:
     Door** _oDoor;
     PowerUp** _oPowerUp;
     Stairs** _oStairs;
-    
+    Help** _oHelp;
     
     int _numMap;
     int _numlayers;
@@ -114,6 +119,7 @@ private:
     int _numbutton;
     int _numpowerup;
     int _numstairs;
+    int _numhelp;
     
     int _countenemystand;
     int _countenemybounce;
@@ -123,6 +129,7 @@ private:
     int _countdoor;
     int _countpowerup;
     int _countstairs;
+    int _counthelp;
     
     int _height;
     int _width;

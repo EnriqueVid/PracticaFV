@@ -41,6 +41,7 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     _collisionWithMap=false;
     //_sprite = new Sprite(texture,sf::IntRect(0,0,64,64));
     //cout << _sprite->getSpriteOrigin().x<<endl;
+    _playSoundEffect=false;
 }
 
 void Box::interact(){
@@ -158,7 +159,7 @@ void Box::checkMapCollisions(int** _collisionMap, int axisX, int axisY)
             while(_collisionMap[int(_actualSituation->getPositionY()-32)/32][int(_actualSituation->getPositionX()+31)/32] != 2 && _collisionMap[int(_actualSituation->getPositionY()-32)/32][int(_actualSituation->getPositionX()-31)/32] != 2)
             {
                 _actualSituation->setPosition(_actualSituation->getPositionX(),_actualSituation->getPositionY()-1);
-            }
+           }
             
             _collisionWithMap=true;
         }
@@ -173,6 +174,12 @@ bool Box::getCollisionWithMap()
 
 
 void Box::update(int** _collisionMap){
+    
+    _playSoundEffect=false;
+    
+    if(_collisionPlayer){
+        _playSoundEffect=true;
+    }
     
     if(_collisionEnemyLastUpdate)_collisionEnemyLastUpdate=false;
     if(_collisionEnemy){
@@ -236,7 +243,17 @@ void Box::update(int** _collisionMap){
 
     checkMapCollisions(_collisionMap,_collisionDesplX,_collisionDesplY);
     
-    _collisionEnemy=false;    
+    if(_playSoundEffect&&!_collisionWithMap)
+    {
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(2);
+        //end sound effect   
+    }
+    
+    _collisionEnemy=false;   
+
+    
 
 }
 

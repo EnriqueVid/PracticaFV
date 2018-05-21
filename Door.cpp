@@ -35,6 +35,12 @@ Object(objectType,  initialPosX,  initialPosY,  initialAngle,  canBeMoved, textu
     
     _speed = doorSpeed;
     
+    _playSoundEffectCondition1=false;
+    _playSoundEffectCondition2=false;
+    
+    //Condicion 1: Que la puerta se este abriendo.
+    //Condicion 2: Que no haya sonado antes.
+    
     /*
 DoorType:
 
@@ -114,6 +120,53 @@ void Door::update()
 {
     //CONTROL PARA COMPROBAR SI LA PUERTA SE ACABA DE CERRAR EN LA ITERACION ANTERIOR (AYUDA PARA COLISIONES)
     if(_justClosed)_justClosed=false;
+    
+    
+    //Condiciones efecto de sonido.
+    if(_closing||_opening){
+        _playSoundEffectCondition1=true;
+    }
+    else{
+        _playSoundEffectCondition1=false;
+    }
+    
+    if(_open&&_closing)
+    {
+        _playSoundEffectCondition1=false;        
+    }
+    
+    if(_open&&_closing)
+    {
+        _playSoundEffectCondition1=false;                
+    }
+    
+    if(!_close&&!_closing)
+    {
+        if (_clock->getClockAsSeconds() > _maxTimeOpen)
+        {
+            _playSoundEffectCondition1=false;                            
+        }
+    }
+    
+    if(_close||_open){
+        _playSoundEffectCondition2=true; //se resetea.
+    }
+    
+    if(_collisionPlayer||_collisionObject||_collisionEnemy)
+    {
+        _playSoundEffectCondition2=false; //se resetea.        
+    }
+    
+    
+    if(_playSoundEffectCondition1&&_playSoundEffectCondition2)
+    {
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(6);
+        //end sound effect   
+        _playSoundEffectCondition2=false;
+    }
+    //fin condiciones efecto de sonido.
     
         
     

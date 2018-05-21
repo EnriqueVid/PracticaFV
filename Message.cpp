@@ -21,10 +21,9 @@ using namespace std;
 
 Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pjbounds, sf::Vector2f pjposition)
     {
-        sf::FloatRect box = pjbounds;
         sf::IntRect box1;
-        box1.top = (0);
-        box1.left = (0);
+        box1.top = (int) (0);
+        box1.left = (int) (0);
         box1.height = (int)(texturebg->getTextureSize().y);
         cout<<"Altura: "<<box1.height<<endl;
         box1.width = (int) (texturebg->getTextureSize().x);
@@ -32,7 +31,8 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
         sf::String message1 = "";
 
         _sbox = new Sprite(texturebg, box1, sf::Vector2f(texturebg->getTextureSize().x/2.f, texturebg->getTextureSize().y/2.f), pjposition);
-        _sbox->setSpriteScale(sf::Vector2f(0.5f, 0.3f));
+
+        _sbox->setSpriteScale(sf::Vector2f(0.5, 0.3));
 
         
         
@@ -45,7 +45,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 1:
-                message1 = "Hola, bienvenide a Color of Fate En este juego se va a poner a prueba tus habilidades asi que esperamos grandes cosas de ti.";
+                message1 = "Hola, bienvenide a Color of Fate \n En este juego se va a poner a prueba tus habilidades \n asi que esperamos grandes cosas de ti.";
                 
                 break;
                 
@@ -55,7 +55,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 3:
-                message1 = "Bienvenido al nivel 0, para llegar a los objetivos necesitarás utilizar las teclas W, A, S, D.";
+                message1 = "Bienvenido al nivel 0. Para llegar a los objetivos necesitarás utilizar las teclas W, A, S, D.";
                 
                 break;
                 
@@ -66,7 +66,7 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 break;
                 
             case 5:
-                message1 = "Acabas de descubrir el color Rojo, este color te otorga la habilidad de mover y destruir cajas. Tal vez te pueda ser útil para seguir avanzando.";
+                message1 = "Este es el color Rojo, este color te otorga la habilidad\nde mover y destruir cajas. \nTal vez te pueda ser útil para seguir avanzando.";
                 
                 
                 break;
@@ -80,12 +80,11 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 
             case 7:
                 message1 = "¡Atención! Tienes a un guardia de clase C enfrente tuyo, si te ve te absorberá pigmento. Evita que tu pigmento llegue a cero.";
-                
-                
                 break;
                 
+                
             case 8:
-                message1 = "Eso que ves de rojo es una zona de Tinta Roja. Si posees el poder del rojo te podrás ocultar de la visión de los guardias en las zonas de tu color, además de que recuperas maná.";
+                message1 = "Eso que ves de rojo es una zona de Tinta Roja. \nSi posees el poder del rojo te podrás ocultar de la visión\nde los guardias en las zonas de tu color, además de que recuperas maná.";
                 
                 
                 break;            
@@ -110,15 +109,37 @@ Message::Message(int number,sf::Font* font, Texture* texturebg, sf::FloatRect pj
                 
             case 12:
                 message1 = "Atención, solo te camuflas en las zonas del tinte de tu color.";
-                
-                
                 break;
+                
+            case 13:
+                message1 = "Nivel 1";
+                break;
+            case 14:
+                message1 = "Nivel 2";
+                break;
+            case 15:
+                message1 = "Nivel 3";
+                break;
+            case 16:
+                message1 = "Nivel 4";
+                break;
+            case 17:
+                message1 = "Nivel 5";
+                break;
+            case 18:
+                message1 = "Nivel 6";
+                break;
+            case 19:
+                message1 = "Nivel Final";
+                break;
+                
+            
                 
             default:
                 break;
         }
         
-    _text = new sf::Text(message1, *font, 12);
+    _text = new sf::Text(message1, *font, 6);
     _text->setColor(sf::Color::White);
     _text->setPosition(sf::Vector2f(_sbox->getGlobalBounds().left,_sbox->getGlobalBounds().top));
      
@@ -133,9 +154,9 @@ void Message::update()
     sf::IntRect box1;
     box1.top = (int) (box.top + box.height);
     box1.left = (int) (box.left - box.width);
-        
-    _sbox->setSpritePosition(player->getPlayer()->getSpritePosition());
-    _text->setPosition(sf::Vector2f(box1.left,box1.top));    
+    
+    _sbox->setSpritePosition(sf::Vector2f(RenderWindow::Instance()->getViewCenter().x, RenderWindow::Instance()->getViewCenter().y + 100));
+    _text->setPosition(sf::Vector2f(_sbox->getSpritePosition().x - _sbox->getGlobalBounds().width * 0.43, _sbox->getSpritePosition().y - 20));    
     
     player=NULL;
 }
@@ -158,6 +179,12 @@ std::string Message::getStringMessage()
 
 Message::~Message()
 {   
+    if(_sbox!=NULL){
     delete _sbox;
+    }
     _sbox = NULL;
+    if(_text!=NULL){
+        delete _text;
+    }
+    _text=NULL;
 }

@@ -1,0 +1,35 @@
+0 - ChangeColor X --> Player
+1 - ChangeColor2
+2 - Collision --> Box
+3 - Damage X --> Player
+4 - Damage2
+5 - Damage3
+6 - Door --> Door
+7 - Door2
+8 - EndLevel
+9 - EnemyStop --> EnemyBounce,Stand y Chase.
+10 - Exit --> StateStart
+11 - Jingle
+12 - Laser X --> Player
+13 - ManaCharge X
+14 - PowerUp (pick power up)
+15 - PressButton
+16 - Speed X --> Player
+17 - Start X --> StateStart
+
+
+Clases que tienen sonidos:
+
+Player.cpp
+StateStart.cpp
+World.cpp
+Door.cpp
+Box.cpp
+EnemyStand.cpp
+EnemyChase.cpp
+EnemyBounce.cpps
+
+Clases que tienen musicas:
+
+StateStart.cpp
+World.cpp

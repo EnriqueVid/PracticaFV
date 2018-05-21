@@ -75,10 +75,13 @@ int StateGameOver::update(RenderWindow* window)
   Input* input = Input::Instance();
   input->inputInput();
   
+  /*
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
       window->windowClose();
       return 1;
   }
+  */
+  
   if(input->inputCheck(11))
   {
       RenderWindow::Instance()->setViewZoom(0.45);

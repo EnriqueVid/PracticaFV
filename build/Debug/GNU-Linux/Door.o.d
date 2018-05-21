@@ -1,6 +1,6 @@
 build/Debug/GNU-Linux/Door.o: Door.cpp Door.h Object.h Sprite.h Texture.h \
  Clock.h Bitmasks.h Situation.h RenderWindow.h View.h Event.h Message.h \
- Text.h Font.h
+ SoundManager.h Sound.h SoundBuffer.h Music.h
 
 Door.h:
 
@@ -24,6 +24,10 @@ Event.h:
 
 Message.h:
 
-Text.h:
+SoundManager.h:
 
-Font.h:
+Sound.h:
+
+SoundBuffer.h:
+
+Music.h:

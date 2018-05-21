@@ -36,6 +36,7 @@ public:
     void enemyChaseCollision();
     void mapCollisions(int** map, int axisX, int axisY);
     void setCollisionBullet(bool b);
+    int getEnemyChaseState();
     
     string getEnemyChasePattern();
     

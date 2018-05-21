@@ -2,7 +2,6 @@
 #define MESSAGE_H
 
 #include <SFML/Graphics.hpp>
-#include "Text.h"
 #include "Sprite.h"
 #include "Texture.h"
 #include <iostream>

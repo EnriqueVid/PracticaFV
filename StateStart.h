@@ -21,6 +21,7 @@
 #include "StateGameOver.h"
 #include "StateGameLoop.h"
 #include <SFML/Graphics.hpp>
+#include "SoundManager.h"
 
 class StateStart : public State {
 public:
@@ -67,7 +68,7 @@ public:
     Sprite* _spj4;
     View* _sview;
     Texture* _tmes;
-    Font* _fmes;
+    //Font* _fmes;
     Message* _mehelp;
     int _snmes;
     int _cual;

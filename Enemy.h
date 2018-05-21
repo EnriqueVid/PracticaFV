@@ -19,6 +19,7 @@
 #include "Situation.h"
 #include <string.h>
 #include <math.h>
+#include "SoundManager.h"
 
 
 using namespace std;

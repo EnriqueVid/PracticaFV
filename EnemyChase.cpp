@@ -63,6 +63,19 @@ EnemyChase::~EnemyChase()
         _stopClock=NULL;
     }
     
+    if(_astar != NULL)
+    {
+        delete _astar;
+        _astar = NULL;
+    }
+    
+    if(_path != NULL)
+    {
+        delete _path;
+        _path = NULL;
+    }
+    
+    
 }
 
 void EnemyChase::update(int** map, int height, int width)
@@ -81,6 +94,11 @@ void EnemyChase::update(int** map, int height, int width)
     {
         _state = 2;   
         _collisionBullet = false;
+        
+        //Playing sound effect
+        SoundManager* soundmanager = SoundManager::Instance();
+        soundmanager->playSound(9);
+        //end sound effect   
     }
     
     if(_state == 0)
@@ -268,7 +286,7 @@ void EnemyChase::updateStateChase(int** map, int height, int width)
     
     if(_chaseClock == NULL) _chaseClock = new Clock;
     
-    if(_chaseClock->getClockAsSeconds() <= 10.0f)
+    if(_chaseClock->getClockAsSeconds() <= 3.0f)
     {
         float catC, catO, catCE, catOE, hipo, hipoE, rot, pathX, pathY, eneX, eneY;
         int axisX, axisY;
@@ -617,4 +635,9 @@ void EnemyChase::returnHome(int** map, int height, int width)
             }
         }
     
+}
+
+int EnemyChase::getEnemyChaseState()
+{
+    return _state;
 }

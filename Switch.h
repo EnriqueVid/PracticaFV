@@ -37,6 +37,7 @@ public:
 private:
     int _switchType;
     bool _pressed;
+    bool _pressedLastUpdate;
     Door* _door1; //puerta de arriba / izquierda
     Door* _door2; //puerta de abajo / derecha
     
